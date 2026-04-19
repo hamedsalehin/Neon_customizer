@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Your Custom LED Neon Sign | Premium Sign Maker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <main class="preview-section">
+            <div class="bg-overlay"></div>
+            <div class="bg-switcher-wrapper">
+                <div class="upload-callout">
+                    <span>Try it in your room!</span>
+                    <svg class="upload-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+                </div>
+                <div class="bg-switcher">
+                    <input type="file" id="bg-upload-input" accept="image/*" style="display: none;">
+                    <button class="bg-option bg-btn upload-btn" id="upload-bg-btn" title="Upload Custom Background">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                    </button>
+                    <button class="bg-option bg-btn active" data-bg="black" title="Pure Black" style="background: #000;"></button>
+                    <button class="bg-option bg-btn" data-bg="living" title="Living Room" style="background: url('bg/living_room.png') center/cover;"></button>
+                    <button class="bg-option bg-btn" data-bg="gaming" title="Gaming Setup" style="background: url('bg/gaming_setup.png') center/cover;"></button>
+                    <button class="bg-option bg-btn" data-bg="grass" title="Grass Wall" style="background: url('bg/grass_wall.png') center/cover;"></button>
+                    <button class="bg-option bg-btn" data-bg="brick" title="Brick Wall" style="background: url('bg/brick_wall.png') center/cover;"></button>
+                    <button class="bg-option bg-btn" data-bg="vignette" title="Cinematic Brick" style="background: url('bg/brick_vignette.png') center/cover;"></button>
+                </div>
+            </div>
+            <div class="neon-container" id="neon-container"></div>
+            <div class="liquid-glass-badge" id="strip-length-badge">
+                TOTAL STRIP LENGTH: <strong id="total-strip-length">-- cm</strong>
+            </div>
+            <div id="word-context-menu" class="floating-context-menu hidden">
+                <div class="menu-row">
+                    <div id="ctx-font-gallery" class="ctx-font-gallery"></div>
+                    <div class="ctx-size-tools"><button id="ctx-size-down">-</button><span id="ctx-size-label">1.0x</span><button id="ctx-size-up">+</button></div>
+                </div>
+                <div class="menu-row"><div class="ctx-color-grid" id="ctx-color-grid"></div></div>
+            </div>
+            <div id="est-width" style="display:none"></div>
+            <div id="est-height" style="display:none"></div>
+        </main>
+        <aside class="control-panel">
+            <header class="panel-header"><h1>Design Your Neon</h1><p>Create a custom LED sign in seconds</p></header>
+            <div class="scrollable-controls">
+                <div class="control-block">
+                    <label class="section-title"><span>1. Design Your Sign</span><span id="char-count" class="info-pill">0 letters</span></label>
+                    <textarea id="sign-text" placeholder="Your Text Here..." rows="2">Good Vibes</textarea>
+                    <div class="sub-control"><div class="sub-label"><span>Line Spacing</span> <span id="line-spacing-val">1.2x</span></div><input type="range" id="line-spacing-slider" class="neon-slider" min="0.1" max="2.0" step="0.1" value="1.2"></div>
+                    <div class="sub-control"><div class="sub-label"><span>Select Your Font Style</span></div><div class="font-gallery" id="global-font-gallery"></div></div>
+                    <div class="sub-control"><div class="sub-label"><span>Select Neon Color</span></div><div class="neon-color-button-grid" id="global-color-grid"></div></div>
+                </div>
+                <div class="control-block">
+                    <label class="section-title">2. Choose Acrylic Backboard</label>
+                    <div class="backing-grid">
+                        <div class="bb-card active" data-backing="cut-to-shape"><div class="bb-icon"></div><span>Cut to Shape</span></div>
+                        <div class="bb-card" data-backing="cut-to-letter"><div class="bb-icon"></div><span>Cut to Letter</span></div>
+                        <div class="bb-card" data-backing="rectangle"><div class="bb-icon"></div><span>Rectangle</span></div>
+                    </div>
+                </div>
+                <div class="control-block">
+                    <label class="section-title">3. Backboard Material</label>
+                    <div class="backing-color-grid">
+                        <div class="color-swatch active" data-bcolor="acrylic"><div class="swatch-preview acrylic-preview"></div><span>Clear Glass</span></div>
+                        <div class="color-swatch" data-bcolor="black"><div class="swatch-preview black-preview"></div><span>Black</span></div>
+                        <div class="color-swatch" data-bcolor="white"><div class="swatch-preview white-preview"></div><span>White</span></div>
+                    </div>
+                </div>
+                <div class="control-block">
+                    <label class="section-title">Choose a size</label>
+                    <div class="size-card-grid">
+                        <div class="size-card" data-width="23"><div class="size-name">Mini</div><div class="size-dims">23cm x 8cm / 9in x 3in</div></div>
+                        <div class="size-card" data-width="30"><div class="size-name">Small</div><div class="size-dims">30cm x 10cm / 12in x 4in</div></div>
+                        <div class="size-card active" data-width="40"><div class="size-name">Medium</div><div class="size-dims">40cm x 14cm / 16in x 5in</div></div>
+                        <div class="size-card" data-width="50"><div class="size-name">Large</div><div class="size-dims">50cm x 17cm / 20in x 7in</div></div>
+                        <div class="size-card" data-width="60"><div class="size-name">X-Large</div><div class="size-dims">60cm x 21cm / 23in x 8in</div></div>
+                        <div class="size-card" data-custom="true"><div class="size-name">Custom</div><div class="size-dims">Set your own size</div></div>
+                    </div>
+                    <div class="custom-size-inputs" id="custom-inputs-section" style="display: none; margin-top: 15px;">
+                        <div class="size-input-group"><label>Width (cm)</label><input type="number" id="input-width-cm" value="40" min="10" max="500"></div>
+                        <div class="size-input-group"><label>Height (cm)</label><input type="number" id="input-height-cm" value="14" readonly></div>
+                    </div>
+                </div>
+            </div>
+            <footer class="panel-footer">
+                <div class="price-breakdown"><span class="price-label">Estimated Total:</span><span class="price-value" id="price-total">$150.00</span></div>
+                <button class="checkout-btn" id="add-to-cart-btn">Add to Cart</button>
+                <p class="shipping-notice">Free express shipping worldwide</p>
+            </footer>
+        </aside>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/opentype.js@1.3.4/dist/opentype.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
