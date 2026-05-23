@@ -394,10 +394,12 @@ nav.main-nav a:hover::after {
     text-align: center;
     color: #fff;
     text-shadow: 
-        0 0 5px #fff,
-        0 0 10px #fff,
-        0 0 20px var(--neon-pink),
-        0 0 40px var(--neon-pink);
+        0 0 4px #fff,
+        0 0 8px #fff,
+        0 0 15px var(--neon-pink),
+        0 0 30px var(--neon-pink),
+        0 0 50px var(--neon-pink),
+        0 0 70px var(--neon-pink);
     animation: blinkGlow 4s infinite alternate;
 }
 
@@ -979,17 +981,21 @@ footer.site-footer {
 @keyframes blinkGlow {
     0%, 100% {
         text-shadow: 
-            0 0 5px #fff,
-            0 0 10px #fff,
-            0 0 20px var(--neon-pink),
-            0 0 40px var(--neon-pink);
+            0 0 4px #fff,
+            0 0 8px #fff,
+            0 0 15px var(--neon-pink),
+            0 0 30px var(--neon-pink),
+            0 0 50px var(--neon-pink),
+            0 0 70px var(--neon-pink);
     }
     45% {
         text-shadow: 
-            0 0 5px #fff,
-            0 0 10px #fff,
-            0 0 20px var(--neon-pink),
-            0 0 40px var(--neon-pink);
+            0 0 4px #fff,
+            0 0 8px #fff,
+            0 0 15px var(--neon-pink),
+            0 0 30px var(--neon-pink),
+            0 0 50px var(--neon-pink),
+            0 0 70px var(--neon-pink);
     }
     50% {
         text-shadow: 
@@ -1000,10 +1006,12 @@ footer.site-footer {
     }
     55% {
         text-shadow: 
-            0 0 5px #fff,
-            0 0 10px #fff,
-            0 0 20px var(--neon-pink),
-            0 0 40px var(--neon-pink);
+            0 0 4px #fff,
+            0 0 8px #fff,
+            0 0 15px var(--neon-pink),
+            0 0 30px var(--neon-pink),
+            0 0 50px var(--neon-pink),
+            0 0 70px var(--neon-pink);
     }
 }
 

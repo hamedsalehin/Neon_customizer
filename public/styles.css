@@ -977,3 +977,346 @@ textarea::placeholder { color: rgba(255,255,255,0.25); }
 @media (max-width: 480px) {
     .cart-sidebar { width: 100%; right: -100%; }
 }
+
+/* ==========================================================================
+   LIQUID GLASS & LIGHT THEME OVERRIDES FOR CUSTOMIZER PANEL & CART
+   ========================================================================== */
+
+.control-panel {
+    background: rgba(255, 255, 255, 0.45) !important;
+    backdrop-filter: blur(25px) !important;
+    -webkit-backdrop-filter: blur(25px) !important;
+    border-left: 1px solid rgba(255, 255, 255, 0.55) !important;
+    box-shadow: -10px 0 35px rgba(31, 38, 135, 0.03) !important;
+    color: #1e1b4b !important;
+}
+
+.panel-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
+}
+.panel-header h1 {
+    color: #1e1b4b !important;
+    font-weight: 800 !important;
+    font-family: 'Outfit', sans-serif !important;
+}
+.panel-header p {
+    color: #475569 !important;
+}
+
+.section-title, .control-block label {
+    color: #1e1b4b !important;
+    font-weight: 700 !important;
+    text-shadow: none !important;
+    text-transform: none !important;
+}
+
+textarea#sign-text {
+    background: rgba(255, 255, 255, 0.55) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    color: #1e1b4b !important;
+}
+textarea#sign-text:focus {
+    border-color: #ff007f !important;
+    background: rgba(255, 255, 255, 0.8) !important;
+    box-shadow: 0 0 10px rgba(255, 0, 127, 0.1) !important;
+}
+textarea#sign-text::placeholder {
+    color: #94a3b8 !important;
+}
+
+.sub-label {
+    color: #475569 !important;
+}
+.sub-label span:last-child {
+    color: #ff007f !important;
+}
+
+.info-pill {
+    background: rgba(255, 0, 127, 0.08) !important;
+    color: #ff007f !important;
+    font-weight: 700 !important;
+}
+
+/* Glass Slider */
+.neon-slider {
+    background: rgba(0, 0, 0, 0.06) !important;
+}
+.neon-slider::-webkit-slider-thumb {
+    background: linear-gradient(135deg, #ff007f, #00c6fb) !important;
+    box-shadow: 0 0 8px rgba(255, 0, 127, 0.4) !important;
+}
+
+/* Step Selection Cards (Backing Cards, Size Cards) & Swatches */
+.bb-card, .size-card, .color-swatch {
+    background: rgba(255, 255, 255, 0.35) !important;
+    border: 1px solid rgba(255, 255, 255, 0.6) !important;
+    box-shadow: 0 4px 12px rgba(31, 38, 135, 0.02) !important;
+    color: #475569 !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+/* Gloss sheen top highlight */
+.bb-card::before, .size-card::before, .color-swatch::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 1px !important;
+    left: 2px !important;
+    right: 2px !important;
+    height: 35% !important;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%) !important;
+    border-radius: 12px 12px 0 0 !important;
+    pointer-events: none !important;
+    z-index: 2 !important;
+}
+
+.bb-card:hover, .size-card:hover, .color-swatch:hover {
+    background: rgba(255, 255, 255, 0.55) !important;
+    border-color: rgba(255, 255, 255, 0.85) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 16px rgba(31, 38, 135, 0.04) !important;
+}
+
+.bb-card.active, .size-card.active, .color-swatch.active {
+    border-color: #ff007f !important;
+    background: rgba(255, 0, 127, 0.05) !important;
+    box-shadow: 0 0 15px rgba(255, 0, 127, 0.1) !important;
+}
+
+.bb-card span, .size-name, .size-dims, .color-swatch span {
+    color: #475569 !important;
+    z-index: 3 !important;
+}
+
+.bb-card.active span, .size-card.active .size-name, .size-card.active .size-dims, .color-swatch.active span {
+    color: #1e1b4b !important;
+    font-weight: 700 !important;
+}
+
+.bb-icon {
+    background: rgba(255, 255, 255, 0.5) !important;
+    border: 1px solid rgba(0, 0, 0, 0.05) !important;
+    z-index: 3 !important;
+}
+
+.bb-card.active .bb-icon {
+    border-color: #ff007f !important;
+    background: rgba(255, 0, 127, 0.1) !important;
+}
+
+/* Sidebar lists backgrounds */
+.global-color-grid, .font-gallery {
+    background: rgba(255, 255, 255, 0.3) !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Swatch materials previews */
+.swatch-preview {
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    z-index: 3 !important;
+}
+
+/* Custom dimensions boxes */
+.custom-size-inputs {
+    background: rgba(255, 255, 255, 0.3) !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+}
+.size-input-group label {
+    color: #475569 !important;
+}
+.size-input-group input {
+    background: rgba(255, 255, 255, 0.6) !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    color: #1e1b4b !important;
+}
+.size-input-group input:focus {
+    border-color: #ff007f !important;
+}
+
+/* Panel Footer */
+.panel-footer {
+    background: rgba(255, 255, 255, 0.55) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.6) !important;
+    backdrop-filter: blur(10px) !important;
+}
+.price-label {
+    color: #1e1b4b !important;
+    font-weight: 600 !important;
+}
+
+/* Checkout Button - Liquid Glass */
+.checkout-btn {
+    background: linear-gradient(135deg, rgba(255, 0, 127, 0.8) 0%, rgba(0, 198, 251, 0.8) 100%) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.45) !important;
+    color: #fff !important;
+    border-radius: 100px !important;
+    font-weight: 700 !important;
+    box-shadow: 
+        0 8px 24px rgba(255, 0, 127, 0.2),
+        0 4px 12px rgba(0, 198, 251, 0.15),
+        inset 0 3px 6px rgba(255, 255, 255, 0.65),
+        inset 0 -3px 6px rgba(0, 0, 0, 0.08) !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+    position: relative !important;
+    overflow: hidden !important;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+}
+.checkout-btn::before {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 2px;
+    right: 2px;
+    height: 42%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0) 100%);
+    border-radius: 100px 100px 0 0;
+    pointer-events: none;
+    z-index: 2;
+}
+.checkout-btn:hover {
+    transform: translateY(-2px) scale(1.01) !important;
+    box-shadow: 
+        0 12px 28px rgba(255, 0, 127, 0.3),
+        0 6px 16px rgba(0, 198, 251, 0.2),
+        inset 0 4px 8px rgba(255, 255, 255, 0.8),
+        inset 0 -4px 8px rgba(0, 0, 0, 0.1) !important;
+    background: linear-gradient(135deg, rgba(255, 0, 127, 0.95) 0%, rgba(0, 198, 251, 0.95) 100%) !important;
+}
+
+/* Cart Toggle - Liquid Glass */
+.cart-toggle-btn {
+    background: linear-gradient(135deg, rgba(255, 0, 127, 0.8) 0%, rgba(0, 198, 251, 0.8) 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    box-shadow: 
+        0 8px 24px rgba(255, 0, 127, 0.2),
+        0 4px 12px rgba(0, 198, 251, 0.15),
+        inset 0 2px 4px rgba(255, 255, 255, 0.5) !important;
+    position: fixed !important;
+    top: 20px !important;
+    right: 20px !important;
+    z-index: 500 !important;
+}
+.cart-toggle-btn::before {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 2px;
+    right: 2px;
+    height: 42%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%);
+    border-radius: 50% 50% 0 0;
+    pointer-events: none;
+}
+.cart-toggle-btn:hover {
+    transform: translateY(-2px) scale(1.05) !important;
+    box-shadow: 
+        0 12px 28px rgba(255, 0, 127, 0.3),
+        0 6px 16px rgba(0, 198, 251, 0.25),
+        inset 0 3px 6px rgba(255, 255, 255, 0.6) !important;
+}
+.cart-count {
+    background: #060608 !important;
+    color: #fff !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.3) !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1) !important;
+}
+
+/* Sidebar Cart */
+.cart-sidebar {
+    background: rgba(255, 255, 255, 0.45) !important;
+    backdrop-filter: blur(25px) !important;
+    -webkit-backdrop-filter: blur(25px) !important;
+    border-left: 1px solid rgba(255, 255, 255, 0.5) !important;
+    box-shadow: -15px 0 45px rgba(31, 38, 135, 0.04) !important;
+}
+.cart-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
+}
+.cart-header h2 {
+    color: #1e1b4b !important;
+    font-weight: 800 !important;
+}
+.cart-item-name {
+    color: #1e1b4b !important;
+    font-weight: 700 !important;
+}
+.cart-item-details {
+    color: #475569 !important;
+}
+.empty-cart-msg {
+    color: #64748b !important;
+}
+.close-cart {
+    color: #475569 !important;
+}
+.close-cart:hover {
+    color: #ff007f !important;
+}
+.cart-subtotal span:first-child {
+    color: #475569 !important;
+    font-weight: 600 !important;
+}
+.cart-subtotal span:last-child {
+    color: #1e1b4b !important;
+    font-weight: 800 !important;
+}
+.checkout-now-btn {
+    background: linear-gradient(135deg, rgba(255, 0, 127, 0.8) 0%, rgba(0, 198, 251, 0.8) 100%) !important;
+    backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.45) !important;
+    color: #fff !important;
+    border-radius: 100px !important;
+    font-weight: 700 !important;
+}
+.checkout-now-btn:hover {
+    background: linear-gradient(135deg, rgba(255, 0, 127, 0.95) 0%, rgba(0, 198, 251, 0.95) 100%) !important;
+}
+.continue-shopping-btn {
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    color: #475569 !important;
+    background: rgba(255, 255, 255, 0.3) !important;
+}
+.continue-shopping-btn:hover {
+    background: rgba(255, 255, 255, 0.5) !important;
+    color: #1e1b4b !important;
+}
+
+/* Canvas strip badge */
+.liquid-glass-badge {
+    background: rgba(255, 255, 255, 0.45) !important;
+    border: 1px solid rgba(255, 255, 255, 0.6) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.03) !important;
+    color: #1e1b4b !important;
+    font-weight: 600 !important;
+}
+.liquid-glass-badge strong {
+    color: #ff007f !important;
+}
+
+/* Floating Context Menu */
+.floating-context-menu {
+    background: rgba(255, 255, 255, 0.55) !important;
+    border: 1px solid rgba(255, 255, 255, 0.6) !important;
+    box-shadow: 0 12px 35px rgba(31, 38, 135, 0.05) !important;
+    color: #1e1b4b !important;
+}
+.ctx-size-tools button {
+    background: rgba(255, 255, 255, 0.5) !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    color: #1e1b4b !important;
+    font-family: inherit;
+    font-weight: 700;
+}
+.ctx-size-tools button:hover {
+    background: rgba(255, 255, 255, 0.8) !important;
+    color: #ff007f !important;
+}
+.ctx-size-label {
+    color: #475569 !important;
+    font-weight: 600;
+}
+
