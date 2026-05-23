@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const renderCart = () => {
         if (cart.length === 0) {
-            cartList.innerHTML = '<div class="empty-cart-msg" style="font-size: 1.2rem; padding: 40px;">Your cart is empty. <a href="index.html" style="color: var(--accent-color);">Start designing!</a></div>';
+            cartList.innerHTML = '<div class="empty-cart-msg" style="font-size: 1.2rem; padding: 40px;">Your cart is empty. <a href="customizer.html" style="color: var(--accent-color);">Start designing!</a></div>';
             subtotalEl.textContent = '$0.00';
             totalEl.textContent = '$0.00';
             countTitle.textContent = 'Your cart is currently empty.';

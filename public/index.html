@@ -3,229 +3,522 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Your Custom LED Neon Sign | Premium Sign Maker</title>
-    <!-- UI Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <title>Nano Sign | Premium LED Neon Signs | Custom Design Your Own</title>
+    <!-- Description for SEO -->
+    <meta name="description" content="Design premium, handcrafted custom LED neon signs for home, wedding, office, or business. Use our real-time interactive customizer tool. Ships in 3-7 days. Safe, energy-efficient.">
+    <!-- Google Fonts Outfit & Space Grotesk -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="landing.css">
 </head>
 <body>
-    <div class="app-container">
+
+    <!-- ─── HEADER / NAVIGATION ────────────────────────────────────────────── -->
+    <header class="site-header" id="site-header">
+        <div class="container nav-wrapper">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">⚡</span> Nano<span>Sign</span>
+            </a>
+            
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#hero">Home</a></li>
+                    <li><a href="customizer.html">Customizer <span style="background: var(--neon-pink); color: #fff; font-size: 0.65rem; padding: 2px 6px; border-radius: 10px; font-weight: 700; vertical-align: middle; margin-left: 2px;">NEW</span></a></li>
+                    <li><a href="#categories">Categories</a></li>
+                    <li><a href="#colors">Colors</a></li>
+                    <li><a href="#tech">Technology</a></li>
+                    <li><a href="#faq">FAQs</a></li>
+                </ul>
+            </nav>
+            
+            <div class="nav-actions">
+                <a href="customizer.html" class="glow-btn cyan-glow" style="padding: 10px 24px; font-size: 0.9rem;">
+                    Customize Your Own Sign
+                </a>
+            </div>
+            
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Navigation Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ─── HERO SECTION ───────────────────────────────────────────────────── -->
+    <section class="hero-section" id="hero">
+        <div class="hero-bg-glow hero-glow-1"></div>
+        <div class="hero-bg-glow hero-glow-2"></div>
         
-        <!-- Left Side: Preview Area -->
-        <main class="preview-section">
-            <div class="bg-overlay"></div>
-            <!-- Background Options Switcher -->
-            <!-- Cart Toggle (fixed top-right corner) -->
-            <button class="cart-toggle-btn" id="cart-toggle-btn">
-                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="9" cy="21" r="1"></circle>
-                    <circle cx="20" cy="21" r="1"></circle>
-                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                </svg>
-                <span class="cart-count" id="cart-count">0</span>
-            </button>
-
-            <div class="bg-switcher-wrapper">
-
-                <div class="upload-callout">
-                    <span>Try it in your room!</span>
-                    <svg class="upload-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
-                </div>
-                <div class="bg-switcher">
-                    <input type="file" id="bg-upload-input" accept="image/*" style="display: none;">
-                    <button class="bg-option bg-btn upload-btn" id="upload-bg-btn" title="Upload Custom Background">
-                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                    </button>
-                    <button class="bg-option bg-btn active" data-bg="black" title="Pure Black" style="background: #000;"></button>
-                    <button class="bg-option bg-btn" data-bg="living" title="Living Room" style="background: url('bg/living_room.png') center/cover;"></button>
-                    <button class="bg-option bg-btn" data-bg="gaming" title="Gaming Setup" style="background: url('bg/gaming_setup.png') center/cover;"></button>
-                    <button class="bg-option bg-btn" data-bg="grass" title="Grass Wall" style="background: url('bg/grass_wall.png') center/cover;"></button>
-                    <button class="bg-option bg-btn" data-bg="brick" title="Brick Wall" style="background: url('bg/brick_wall.png') center/cover;"></button>
-                    <button class="bg-option bg-btn" data-bg="vignette" title="Cinematic Brick" style="background: url('bg/brick_vignette.png') center/cover;"></button>
+        <div class="container hero-grid">
+            <div class="hero-content">
+                <span class="section-tag">Handcrafted & Premium</span>
+                <h1>Illuminate Your Vision With <span class="text-gradient-cyan">Nano Sign</span></h1>
+                <p>Create a vibrant, customized atmosphere for your business storefront, wedding backdrop, home décor, or events. Built by hand using energy-efficient, safe-to-touch LED neon flex technology.</p>
+                <div class="hero-cta">
+                    <a href="customizer.html" class="glow-btn pink-glow">
+                        <span>Customize Your Own Sign</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </a>
+                    <a href="#categories" class="glow-btn outline">Explore Gallery</a>
                 </div>
             </div>
             
-            <div class="neon-container" id="neon-container">
-                <!-- Words injected dynamically -->
+            <div class="hero-visual">
+                <div class="neon-mockup-frame">
+                    <div class="neon-preview-sign" id="hero-preview-sign">Glow Up</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── TRUST & BENEFITS BANNER ────────────────────────────────────────── -->
+    <section class="trust-banner">
+        <div class="container benefits-grid">
+            <div class="benefit-item">
+                <div class="benefit-icon">🎨</div>
+                <div class="benefit-text">
+                    <h3>12H Free Proof</h3>
+                    <p>Get a professional digital design proof within 12 hours of request.</p>
+                </div>
+            </div>
+            <div class="benefit-item">
+                <div class="benefit-icon">🚚</div>
+                <div class="benefit-text">
+                    <h3>Fast Delivery</h3>
+                    <p>Express worldwide shipping delivered to your doorstep in 3-7 days.</p>
+                </div>
+            </div>
+            <div class="benefit-item">
+                <div class="benefit-icon">🤝</div>
+                <div class="benefit-text">
+                    <h3>24/7 Support</h3>
+                    <p>Round-the-clock expert customer service whenever you need it.</p>
+                </div>
+            </div>
+            <div class="benefit-item">
+                <div class="benefit-icon">🛡️</div>
+                <div class="benefit-text">
+                    <h3>UL Listed & Safe</h3>
+                    <p>CE & UL certified power options. Low 12V system, cold to the touch.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── SHOP BY CATEGORY SECTION ───────────────────────────────────────── -->
+    <section class="categories-section" id="categories">
+        <div class="container">
+            <div class="section-title-area">
+                <span class="section-tag">Collections</span>
+                <h2 class="section-title">Shop Our Custom Neon Signs</h2>
+                <p class="section-desc">Handmade LED neon creations tailored perfectly for every space and occasion.</p>
             </div>
             
-            <div class="liquid-glass-badge" id="strip-length-badge">
-                TOTAL STRIP LENGTH: <strong id="total-strip-length">-- cm</strong>
+            <div class="categories-grid">
+                <div class="category-card" onclick="window.location.href='customizer.html'">
+                    <div class="category-card-glow"></div>
+                    <div class="category-icon">🏢</div>
+                    <h3>Business Neon Signs</h3>
+                    <p>Attract foot traffic and define your workspace branding.</p>
+                </div>
+                
+                <div class="category-card" onclick="window.location.href='customizer.html'">
+                    <div class="category-card-glow"></div>
+                    <div class="category-icon">✍️</div>
+                    <h3>Personalized Neon Signs</h3>
+                    <p>Turn names, custom quotes, or designs into glowing masterpieces.</p>
+                </div>
+                
+                <div class="category-card" onclick="window.location.href='customizer.html'">
+                    <div class="category-card-glow"></div>
+                    <div class="category-icon">💍</div>
+                    <h3>Wedding Neon Signs</h3>
+                    <p>Make your special day unforgettable with customized backdrops.</p>
+                </div>
+                
+                <div class="category-card" onclick="window.location.href='customizer.html'">
+                    <div class="category-card-glow"></div>
+                    <div class="category-icon">🍹</div>
+                    <h3>Custom Neon Bar Signs</h3>
+                    <p>Set the perfect mood for your home bar, tavern, or club.</p>
+                </div>
+                
+                <div class="category-card" onclick="window.location.href='customizer.html'">
+                    <div class="category-card-glow"></div>
+                    <div class="category-icon">🏠</div>
+                    <h3>Neon Signs For Home</h3>
+                    <p>Warm up your bedrooms, living rooms, and private spaces.</p>
+                </div>
+                
+                <div class="category-card" onclick="window.location.href='customizer.html'">
+                    <div class="category-card-glow"></div>
+                    <div class="category-icon">🌧️</div>
+                    <h3>Outdoor Neon Signs</h3>
+                    <p>Waterproofed (IP67) designs built to withstand external weather.</p>
+                </div>
+                
+                <div class="category-card" onclick="window.location.href='customizer.html'">
+                    <div class="category-card-glow"></div>
+                    <div class="category-icon">✨</div>
+                    <h3>Neon Minis</h3>
+                    <p>Compact designs, ideal for desks, table overlays, and gifts.</p>
+                </div>
+                
+                <div class="category-card" onclick="window.location.href='customizer.html'">
+                    <div class="category-card-glow"></div>
+                    <div class="category-icon">🏷️</div>
+                    <h3>Cheap Neon Signs</h3>
+                    <p>Premium craftsmanship at competitive, budget-friendly rates.</p>
+                </div>
             </div>
+        </div>
+    </section>
 
-            <!-- Context Menu Template (Hidden by default) -->
-            <div id="word-context-menu" class="floating-context-menu hidden">
-                <div class="menu-row">
-                    <div id="ctx-font-gallery" class="ctx-font-gallery"></div>
-                    <div class="ctx-size-tools">
-                        <button id="ctx-size-down">-</button>
-                        <span id="ctx-size-label">1.0x</span>
-                        <button id="ctx-size-up">+</button>
+    <!-- ─── INTERACTIVE COLOR PANEL SECTION ────────────────────────────────── -->
+    <section class="color-panel-section" id="colors">
+        <div class="container">
+            <div class="section-title-area">
+                <span class="section-tag">Interactive Swatches</span>
+                <h2 class="section-title">Explore Our Color Spectrum</h2>
+                <p class="section-desc">Click on any color block below to see it come to life in real-time.</p>
+            </div>
+            
+            <div class="color-panel-layout">
+                <div class="color-demo-display">
+                    <div class="color-demo-glow" id="color-demo-glow"></div>
+                    <div class="color-demo-text" id="color-demo-text">NANO SIGN</div>
+                </div>
+                
+                <div class="color-selector-controls">
+                    <div>
+                        <h3 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 8px;">Pick a color:</h3>
+                        <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px;">We use standard dual jacket flex LED nodes for premium saturation.</p>
+                        
+                        <div class="swatch-group">
+                            <div class="swatch active" style="background-color: #00f2fe;" data-color="#00f2fe" data-shadow="rgba(0, 242, 254, 0.6)" data-name="Ice Blue">
+                                <span class="swatch-name">Ice Blue</span>
+                            </div>
+                            <div class="swatch" style="background-color: #ff007f;" data-color="#ff007f" data-shadow="rgba(255, 0, 127, 0.6)" data-name="Hot Pink">
+                                <span class="swatch-name">Hot Pink</span>
+                            </div>
+                            <div class="swatch" style="background-color: #0070f3;" data-color="#0070f3" data-shadow="rgba(0, 112, 243, 0.6)" data-name="Deep Blue">
+                                <span class="swatch-name">Deep Blue</span>
+                            </div>
+                            <div class="swatch" style="background-color: #00ff00;" data-color="#00ff00" data-shadow="rgba(0, 255, 0, 0.6)" data-name="Lime Green">
+                                <span class="swatch-name">Green</span>
+                            </div>
+                            <div class="swatch" style="background-color: #ffb703;" data-color="#ffb703" data-shadow="rgba(255, 183, 3, 0.6)" data-name="Golden Yellow">
+                                <span class="swatch-name">Yellow</span>
+                            </div>
+                            <div class="swatch" style="background-color: #ff8a00;" data-color="#ff8a00" data-shadow="rgba(255, 138, 0, 0.6)" data-name="Neon Orange">
+                                <span class="swatch-name">Orange</span>
+                            </div>
+                            <div class="swatch" style="background-color: #ff0000;" data-color="#ff0000" data-shadow="rgba(255, 0, 0, 0.6)" data-name="Bright Red">
+                                <span class="swatch-name">Red</span>
+                            </div>
+                            <div class="swatch" style="background-color: #9d4edd;" data-color="#9d4edd" data-shadow="rgba(157, 78, 221, 0.6)" data-name="Acid Purple">
+                                <span class="swatch-name">Purple</span>
+                            </div>
+                            <div class="swatch" style="background-color: #f0f8ff;" data-color="#f0f8ff" data-shadow="rgba(240, 248, 255, 0.6)" data-name="Cool White">
+                                <span class="swatch-name">Cool White</span>
+                            </div>
+                            <div class="swatch" style="background-color: #fff9e6;" data-color="#fff9e6" data-shadow="rgba(255, 249, 230, 0.6)" data-name="Warm White">
+                                <span class="swatch-name">Warm White</span>
+                            </div>
+                            <div class="swatch" style="background-color: #00f5d4;" data-color="#00f5d4" data-shadow="rgba(0, 245, 212, 0.6)" data-name="Turquoise">
+                                <span class="swatch-name">Turquoise</span>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="menu-row">
-                    <div class="ctx-color-grid" id="ctx-color-grid"></div>
-                </div>
-            </div>
-
-            <!-- Hidden Metrics for JS -->
-            <div id="est-width" style="display:none"></div>
-            <div id="est-height" style="display:none"></div>
-        </main>
-
-        <!-- Right Side: Control Panel -->
-        <aside class="control-panel">
-            <header class="panel-header">
-                <h1>Design Your Neon</h1>
-                <p>Create a custom LED sign in seconds</p>
-            </header>
-
-            <div class="scrollable-controls">
-                <!-- STEP 1: DESIGN YOUR SIGN -->
-                <div class="control-block">
-                    <label class="section-title">
-                        <span>1. Design Your Sign</span>
-                        <span id="char-count" class="info-pill">0 letters</span>
-                    </label>
                     
-                    <textarea id="sign-text" placeholder="Your Text Here..." rows="2">Good Vibes</textarea>
-
-                    <!-- Line Spacing moved directly below textarea -->
-                    <div class="sub-control">
-                        <div class="sub-label"><span>Line Spacing</span> <span id="line-spacing-val">1.2x</span></div>
-                        <input type="range" id="line-spacing-slider" class="neon-slider" min="0.1" max="2.0" step="0.1" value="1.2">
-                    </div>
-                    
-                    <div class="sub-control">
-                        <div class="sub-label"><span>Select Your Font Style</span></div>
-                        <div class="font-gallery" id="global-font-gallery"></div>
-                    </div>
-
-                    <div class="sub-control">
-                        <div class="sub-label"><span>Select Neon Color</span></div>
-                        <div class="neon-color-button-grid" id="global-color-grid"></div>
-                    </div>
-                </div>
-
-                <!-- STEP 2: CHOOSE ACRYLIC BACKBOARD -->
-                <div class="control-block">
-                    <label class="section-title">2. Choose Acrylic Backboard</label>
-                    <div class="backing-grid">
-                        <div class="bb-card active" data-backing="cut-to-shape">
-                            <div class="bb-icon"></div>
-                            <span>Cut to Shape</span>
+                    <div class="jacket-info">
+                        <div class="jacket-card">
+                            <h4>White Jacket Option</h4>
+                            <p>Appears clean, matte white when turned off. Shines with full vibrant saturation when illuminated.</p>
                         </div>
-                        <div class="bb-card" data-backing="cut-to-letter">
-                            <div class="bb-icon"></div>
-                            <span>Cut to Letter</span>
-                        </div>
-                        <div class="bb-card" data-backing="rectangle">
-                            <div class="bb-icon"></div>
-                            <span>Rectangle</span>
+                        <div class="jacket-card">
+                            <h4>Colored Jacket Option</h4>
+                            <p>Matches the neon sign color even when powered off. Highly visible in daylight.</p>
                         </div>
                     </div>
                 </div>
-
-                <!-- STEP 3: BACKBOARD MATERIAL -->
-                <div class="control-block">
-                    <label class="section-title">3. Backboard Material</label>
-                    <div class="backing-color-grid">
-                        <div class="color-swatch active" data-bcolor="acrylic">
-                            <div class="swatch-preview acrylic-preview"></div>
-                            <span>Clear Glass</span>
-                        </div>
-                        <div class="color-swatch" data-bcolor="black">
-                            <div class="swatch-preview black-preview"></div>
-                            <span>Black</span>
-                        </div>
-                        <div class="color-swatch" data-bcolor="white">
-                            <div class="swatch-preview white-preview"></div>
-                            <span>White</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- STEP 4: CHOOSE A SIZE -->
-                <div class="control-block">
-                    <label class="section-title">Choose a size</label>
-                    <div class="size-card-grid">
-                        <div class="size-card" data-width="23">
-                            <div class="size-name">Mini</div>
-                            <div class="size-dims">23cm x 8cm / 9in x 3in</div>
-                        </div>
-                        <div class="size-card" data-width="30">
-                            <div class="size-name">Small</div>
-                            <div class="size-dims">30cm x 10cm / 12in x 4in</div>
-                        </div>
-                        <div class="size-card active" data-width="40">
-                            <div class="size-name">Medium</div>
-                            <div class="size-dims">40cm x 14cm / 16in x 5in</div>
-                        </div>
-                        <div class="size-card" data-width="50">
-                            <div class="size-name">Large</div>
-                            <div class="size-dims">50cm x 17cm / 20in x 7in</div>
-                        </div>
-                        <div class="size-card" data-width="60">
-                            <div class="size-name">X-Large</div>
-                            <div class="size-dims">60cm x 21cm / 23in x 8in</div>
-                        </div>
-                        <div class="size-card" data-custom="true">
-                            <div class="size-name">Custom</div>
-                            <div class="size-dims">Set your own size</div>
-                        </div>
-                    </div>
-
-                    <!-- Hidden Custom Inputs (shown only when Custom selected) -->
-                    <div class="custom-size-inputs" id="custom-inputs-section" style="display: none; margin-top: 15px;">
-                        <div class="size-input-group">
-                            <label>Width (cm)</label>
-                            <input type="number" id="input-width-cm" value="40" min="10" max="500">
-                        </div>
-                        <div class="size-input-group">
-                            <label>Height (cm)</label>
-                            <input type="number" id="input-height-cm" value="14" readonly>
-                        </div>
-                    </div>
-                </div>
-            </div> <!-- End of scrollable-controls -->
-
-            <!-- Price and Checkout Footer -->
-            <footer class="panel-footer">
-                <div class="price-breakdown">
-                    <span class="price-label">Estimated Total:</span>
-                    <span class="price-value" id="price-total">$150.00</span>
-                </div>
-                <button class="checkout-btn" id="add-to-cart-btn">Add to Cart</button>
-                <p class="shipping-notice">Free express shipping worldwide ✈️</p>
-            </footer>
-        </aside>
-
-    </div>
-
-    <!-- Cart Side Panel -->
-    <div class="cart-sidebar" id="cart-sidebar">
-        <div class="cart-header">
-            <h2>Your Cart</h2>
-            <button class="close-cart" id="close-cart">
-                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-            </button>
-        </div>
-        <div class="cart-items" id="cart-items-list">
-            <!-- Items injected via JS -->
-            <div class="empty-cart-msg">Your cart is empty</div>
-        </div>
-        <div class="cart-footer">
-            <div class="cart-subtotal">
-                <span>Subtotal</span>
-                <span id="cart-subtotal-val">$0.00</span>
             </div>
-            <button class="checkout-now-btn" id="go-to-cart-btn">View Full Cart & Checkout</button>
-            <button class="continue-shopping-btn" id="continue-shopping">Continue Designing</button>
         </div>
-    </div>
+    </section>
 
-    <!-- opentype.js for TTF path extraction -->
-    <script src="https://cdn.jsdelivr.net/npm/opentype.js@1.3.4/dist/opentype.min.js"></script>
-    <script src="script.js"></script>
+    <!-- ─── TECHNOLOGY HIGHLIGHTS SECTION ──────────────────────────────────── -->
+    <section class="tech-section" id="tech">
+        <div class="container">
+            <div class="section-title-area">
+                <span class="section-tag">Technology & Innovation</span>
+                <h2 class="section-title">Explore Our Latest Neon Enhancements</h2>
+                <p class="section-desc">Go beyond text with our specialized fabrication and customization methods.</p>
+            </div>
+            
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <div class="tech-img" style="background: radial-gradient(circle, rgba(157,78,221,0.2) 0%, rgba(7,7,10,0.9) 100%);">
+                        <div class="tech-neon-glow" style="color: #fff; text-shadow: 0 0 10px var(--neon-purple), 0 0 20px var(--neon-purple);">3D ENGRAVED</div>
+                    </div>
+                    <div class="tech-body">
+                        <span class="tech-tag">Laser Etched</span>
+                        <h3 style="margin-top: 12px;">Engraved Acrylic Backing</h3>
+                        <p>Our lasers carve fine lines directly into the acrylic board. When lit, it creates a gorgeous 3D light-scattering effect.</p>
+                    </div>
+                </div>
+                
+                <div class="tech-card">
+                    <div class="tech-img" style="background: radial-gradient(circle, rgba(0,242,254,0.2) 0%, rgba(7,7,10,0.9) 100%);">
+                        <div class="tech-neon-glow" style="color: #fff; text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan);">UV PRINTED</div>
+                    </div>
+                    <div class="tech-body">
+                        <span class="tech-tag">Logo Specialty</span>
+                        <h3 style="margin-top: 12px;">Full-Color UV Overlays</h3>
+                        <p>Combine high-definition graphic printing on acrylic with glowing neon outlines. Perfect for complex brand logos.</p>
+                    </div>
+                </div>
+                
+                <div class="tech-card">
+                    <div class="tech-img" style="background: radial-gradient(circle, rgba(255,0,127,0.2) 0%, rgba(7,7,10,0.9) 100%);">
+                        <div class="tech-neon-glow" style="color: #fff; text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink);">INFINITY GLOW</div>
+                    </div>
+                    <div class="tech-body">
+                        <span class="tech-tag">Next-Gen</span>
+                        <h3 style="margin-top: 12px;">Infinity Mirror Effects</h3>
+                        <p>Creates a breathtaking illusion of infinite depth. Gives the impression of a deep, glowing neon tunnel.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── FAQ SECTION ────────────────────────────────────────────────────── -->
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <div class="section-title-area">
+                <span class="section-tag">Support Desk</span>
+                <h2 class="section-title">Frequently Asked Questions</h2>
+                <p class="section-desc">Everything you need to know about designing, shipping, and mounting your Nano Sign.</p>
+            </div>
+            
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-header">
+                        Q: How much does a custom sign cost?
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-content">
+                        <div class="faq-content-inner">
+                            Custom sign pricing depends entirely on the size of the board and total length of the neon tubes. You can use our interactive <a href="customizer.html" style="color: var(--neon-cyan); text-decoration: underline;">Neon Customizer tool</a> to view immediate pricing for your specific text, fonts, and sizes.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-header">
+                        Q: What certifications do your neon signs have?
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-content">
+                        <div class="faq-content-inner">
+                            All our signs and power adapters are CE, UL, and RoHS certified. We use low-voltage 12V outputs, ensuring the signs produce no noise, do not heat up, and are completely safe to handle and install.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-header">
+                        Q: How can I install or mount my sign?
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-content">
+                        <div class="faq-content-inner">
+                            Every sign ships with pre-drilled holes in the acrylic backing and a full mounting kit. You can hang it from the ceiling with chains, mount it flush against walls like a picture frame, or display it on a stand.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-header">
+                        Q: Are your neon lights waterproof?
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-content">
+                        <div class="faq-content-inner">
+                            By default, our customizer signs are designed for indoor use. However, we offer waterproof options (rated IP67) for outdoor commercial usage upon request.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-header">
+                        Q: What is included in my shipping box?
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-content">
+                        <div class="faq-content-inner">
+                            Your package will include the custom LED sign, a power supply adapter matching your regional wall socket, a wireless dimmer remote controller to adjust brightness levels, and wall-mounting/hanging hardware.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── PRE-FOOTER / NEWSLETTER BANNER ─────────────────────────────────── -->
+    <section class="cta-banner-section">
+        <div class="container">
+            <div class="cta-banner-card">
+                <h2>Ready to Brighten Your Space?</h2>
+                <p>Join over 2,000+ satisfied clients. Design your custom text or logo sign in less than 2 minutes using our live visual design tool.</p>
+                <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
+                    <a href="customizer.html" class="glow-btn pink-glow" style="padding: 16px 40px; font-size: 1.1rem;">
+                        Customize Your Sign Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── FOOTER ─────────────────────────────────────────────────────────── -->
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <a href="index.html" class="logo" style="font-size: 1.8rem;">
+                    ⚡ Nano<span>Sign</span>
+                </a>
+                <p>Premium handcrafted LED neon signs lighting up businesses, events, and homes worldwide. Designed by you, built to perfection.</p>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Products</h4>
+                <ul>
+                    <li><a href="customizer.html">Custom Text Signs</a></li>
+                    <li><a href="#categories">Business Outfits</a></li>
+                    <li><a href="#categories">Wedding Backdrops</a></li>
+                    <li><a href="#tech">UV Printed Logos</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Information</h4>
+                <ul>
+                    <li><a href="#colors">Color Panel</a></li>
+                    <li><a href="#tech">Our Technology</a></li>
+                    <li><a href="#faq">Frequently Asked Questions</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Contact & Support</h4>
+                <ul>
+                    <li><a href="mailto:info@nanosigns.com">info@nanosigns.com</a></li>
+                    <li><a href="tel:+18665734920">1-866-573-4920</a></li>
+                    <li><p style="font-size:0.85rem; color:var(--text-muted); line-height:1.4;">20812 Carrey Road,<br>Walnut, CA 91789</p></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="container footer-bottom">
+            <p>&copy; 2026 Nano Sign. All rights reserved. Handcrafted with love.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook">📘</a>
+                <a href="#" aria-label="Instagram">📸</a>
+                <a href="#" aria-label="Pinterest">📌</a>
+                <a href="#" aria-label="YouTube">🎥</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ─── INTERACTIVE SCRIPTS ────────────────────────────────────────────── -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Scroll behavior for navbar
+            const header = document.getElementById('site-header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+
+            // Mobile menu toggle
+            const menuToggle = document.getElementById('menu-toggle');
+            const mainNav = document.querySelector('.main-nav');
+            menuToggle.addEventListener('click', () => {
+                mainNav.style.display = mainNav.style.display === 'flex' ? 'none' : 'flex';
+                mainNav.style.flexDirection = 'column';
+                mainNav.style.position = 'absolute';
+                mainNav.style.top = '80px';
+                mainNav.style.left = '0';
+                mainNav.style.width = '100%';
+                mainNav.style.background = 'rgba(7,7,10,0.95)';
+                mainNav.style.padding = '20px';
+                mainNav.style.borderBottom = '1px solid var(--border-color)';
+            });
+
+            // Hero blink animation text swap helper
+            const heroSign = document.getElementById('hero-preview-sign');
+            const phrases = ["Glow Up", "Nano Sign", "Good Vibes", "Open 24/7"];
+            let phraseIndex = 0;
+            setInterval(() => {
+                heroSign.style.opacity = '0.1';
+                setTimeout(() => {
+                    phraseIndex = (phraseIndex + 1) % phrases.length;
+                    heroSign.textContent = phrases[phraseIndex];
+                    heroSign.style.opacity = '1';
+                }, 400);
+            }, 6000);
+
+            // Swatch Color selector functionality
+            const swatches = document.querySelectorAll('.swatch');
+            const demoText = document.getElementById('color-demo-text');
+            const demoGlow = document.getElementById('color-demo-glow');
+            
+            swatches.forEach(swatch => {
+                swatch.addEventListener('click', () => {
+                    // Update active class
+                    swatches.forEach(s => s.classList.remove('active'));
+                    swatch.classList.add('active');
+
+                    // Extract color values
+                    const colorHex = swatch.dataset.color;
+                    const glowShadow = swatch.dataset.shadow;
+                    const colorName = swatch.dataset.name;
+
+                    // Update UI demo displays
+                    demoText.style.color = '#fff';
+                    demoText.style.textShadow = `
+                        0 0 5px #fff,
+                        0 0 10px #fff,
+                        0 0 20px ${colorHex},
+                        0 0 40px ${colorHex},
+                        0 0 60px ${colorHex}
+                    `;
+                    demoGlow.style.backgroundColor = colorHex;
+                    demoGlow.style.boxShadow = `0 0 80px 40px ${colorHex}`;
+                    demoGlow.style.opacity = '0.35';
+                });
+            });
+
+            // Trigger click on first swatch to initialize demo
+            swatches[0].click();
+
+            // FAQ Accordion toggles
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                const header = item.querySelector('.faq-header');
+                header.addEventListener('click', () => {
+                    const isActive = item.classList.contains('active');
+                    faqItems.forEach(i => i.classList.remove('active'));
+                    
+                    if (!isActive) {
+                        item.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
