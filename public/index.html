@@ -4,14 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Your Custom LED Neon Sign | Premium Sign Maker</title>
+    <!-- UI Font -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="app-container">
+        
+        <!-- Left Side: Preview Area -->
         <main class="preview-section">
             <div class="bg-overlay"></div>
+            <!-- Background Options Switcher -->
             <div class="bg-switcher-wrapper">
+                <!-- Cart Toggle -->
+                <button class="cart-toggle-btn" id="cart-toggle-btn">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    <span class="cart-count" id="cart-count">0</span>
+                </button>
+
                 <div class="upload-callout">
                     <span>Try it in your room!</span>
                     <svg class="upload-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
@@ -29,69 +43,187 @@
                     <button class="bg-option bg-btn" data-bg="vignette" title="Cinematic Brick" style="background: url('bg/brick_vignette.png') center/cover;"></button>
                 </div>
             </div>
-            <div class="neon-container" id="neon-container"></div>
+            
+            <div class="neon-container" id="neon-container">
+                <!-- Words injected dynamically -->
+            </div>
+            
             <div class="liquid-glass-badge" id="strip-length-badge">
                 TOTAL STRIP LENGTH: <strong id="total-strip-length">-- cm</strong>
             </div>
+
+            <!-- Context Menu Template (Hidden by default) -->
             <div id="word-context-menu" class="floating-context-menu hidden">
                 <div class="menu-row">
                     <div id="ctx-font-gallery" class="ctx-font-gallery"></div>
-                    <div class="ctx-size-tools"><button id="ctx-size-down">-</button><span id="ctx-size-label">1.0x</span><button id="ctx-size-up">+</button></div>
+                    <div class="ctx-size-tools">
+                        <button id="ctx-size-down">-</button>
+                        <span id="ctx-size-label">1.0x</span>
+                        <button id="ctx-size-up">+</button>
+                    </div>
                 </div>
-                <div class="menu-row"><div class="ctx-color-grid" id="ctx-color-grid"></div></div>
+                <div class="menu-row">
+                    <div class="ctx-color-grid" id="ctx-color-grid"></div>
+                </div>
             </div>
+
+            <!-- Hidden Metrics for JS -->
             <div id="est-width" style="display:none"></div>
             <div id="est-height" style="display:none"></div>
         </main>
+
+        <!-- Right Side: Control Panel -->
         <aside class="control-panel">
-            <header class="panel-header"><h1>Design Your Neon</h1><p>Create a custom LED sign in seconds</p></header>
+            <header class="panel-header">
+                <h1>Design Your Neon</h1>
+                <p>Create a custom LED sign in seconds</p>
+            </header>
+
             <div class="scrollable-controls">
+                <!-- STEP 1: DESIGN YOUR SIGN -->
                 <div class="control-block">
-                    <label class="section-title"><span>1. Design Your Sign</span><span id="char-count" class="info-pill">0 letters</span></label>
+                    <label class="section-title">
+                        <span>1. Design Your Sign</span>
+                        <span id="char-count" class="info-pill">0 letters</span>
+                    </label>
+                    
                     <textarea id="sign-text" placeholder="Your Text Here..." rows="2">Good Vibes</textarea>
-                    <div class="sub-control"><div class="sub-label"><span>Line Spacing</span> <span id="line-spacing-val">1.2x</span></div><input type="range" id="line-spacing-slider" class="neon-slider" min="0.1" max="2.0" step="0.1" value="1.2"></div>
-                    <div class="sub-control"><div class="sub-label"><span>Select Your Font Style</span></div><div class="font-gallery" id="global-font-gallery"></div></div>
-                    <div class="sub-control"><div class="sub-label"><span>Select Neon Color</span></div><div class="neon-color-button-grid" id="global-color-grid"></div></div>
+
+                    <!-- Line Spacing moved directly below textarea -->
+                    <div class="sub-control">
+                        <div class="sub-label"><span>Line Spacing</span> <span id="line-spacing-val">1.2x</span></div>
+                        <input type="range" id="line-spacing-slider" class="neon-slider" min="0.1" max="2.0" step="0.1" value="1.2">
+                    </div>
+                    
+                    <div class="sub-control">
+                        <div class="sub-label"><span>Select Your Font Style</span></div>
+                        <div class="font-gallery" id="global-font-gallery"></div>
+                    </div>
+
+                    <div class="sub-control">
+                        <div class="sub-label"><span>Select Neon Color</span></div>
+                        <div class="neon-color-button-grid" id="global-color-grid"></div>
+                    </div>
                 </div>
+
+                <!-- STEP 2: CHOOSE ACRYLIC BACKBOARD -->
                 <div class="control-block">
                     <label class="section-title">2. Choose Acrylic Backboard</label>
                     <div class="backing-grid">
-                        <div class="bb-card active" data-backing="cut-to-shape"><div class="bb-icon"></div><span>Cut to Shape</span></div>
-                        <div class="bb-card" data-backing="cut-to-letter"><div class="bb-icon"></div><span>Cut to Letter</span></div>
-                        <div class="bb-card" data-backing="rectangle"><div class="bb-icon"></div><span>Rectangle</span></div>
+                        <div class="bb-card active" data-backing="cut-to-shape">
+                            <div class="bb-icon"></div>
+                            <span>Cut to Shape</span>
+                        </div>
+                        <div class="bb-card" data-backing="cut-to-letter">
+                            <div class="bb-icon"></div>
+                            <span>Cut to Letter</span>
+                        </div>
+                        <div class="bb-card" data-backing="rectangle">
+                            <div class="bb-icon"></div>
+                            <span>Rectangle</span>
+                        </div>
                     </div>
                 </div>
+
+                <!-- STEP 3: BACKBOARD MATERIAL -->
                 <div class="control-block">
                     <label class="section-title">3. Backboard Material</label>
                     <div class="backing-color-grid">
-                        <div class="color-swatch active" data-bcolor="acrylic"><div class="swatch-preview acrylic-preview"></div><span>Clear Glass</span></div>
-                        <div class="color-swatch" data-bcolor="black"><div class="swatch-preview black-preview"></div><span>Black</span></div>
-                        <div class="color-swatch" data-bcolor="white"><div class="swatch-preview white-preview"></div><span>White</span></div>
+                        <div class="color-swatch active" data-bcolor="acrylic">
+                            <div class="swatch-preview acrylic-preview"></div>
+                            <span>Clear Glass</span>
+                        </div>
+                        <div class="color-swatch" data-bcolor="black">
+                            <div class="swatch-preview black-preview"></div>
+                            <span>Black</span>
+                        </div>
+                        <div class="color-swatch" data-bcolor="white">
+                            <div class="swatch-preview white-preview"></div>
+                            <span>White</span>
+                        </div>
                     </div>
                 </div>
+
+                <!-- STEP 4: CHOOSE A SIZE -->
                 <div class="control-block">
                     <label class="section-title">Choose a size</label>
                     <div class="size-card-grid">
-                        <div class="size-card" data-width="23"><div class="size-name">Mini</div><div class="size-dims">23cm x 8cm / 9in x 3in</div></div>
-                        <div class="size-card" data-width="30"><div class="size-name">Small</div><div class="size-dims">30cm x 10cm / 12in x 4in</div></div>
-                        <div class="size-card active" data-width="40"><div class="size-name">Medium</div><div class="size-dims">40cm x 14cm / 16in x 5in</div></div>
-                        <div class="size-card" data-width="50"><div class="size-name">Large</div><div class="size-dims">50cm x 17cm / 20in x 7in</div></div>
-                        <div class="size-card" data-width="60"><div class="size-name">X-Large</div><div class="size-dims">60cm x 21cm / 23in x 8in</div></div>
-                        <div class="size-card" data-custom="true"><div class="size-name">Custom</div><div class="size-dims">Set your own size</div></div>
+                        <div class="size-card" data-width="23">
+                            <div class="size-name">Mini</div>
+                            <div class="size-dims">23cm x 8cm / 9in x 3in</div>
+                        </div>
+                        <div class="size-card" data-width="30">
+                            <div class="size-name">Small</div>
+                            <div class="size-dims">30cm x 10cm / 12in x 4in</div>
+                        </div>
+                        <div class="size-card active" data-width="40">
+                            <div class="size-name">Medium</div>
+                            <div class="size-dims">40cm x 14cm / 16in x 5in</div>
+                        </div>
+                        <div class="size-card" data-width="50">
+                            <div class="size-name">Large</div>
+                            <div class="size-dims">50cm x 17cm / 20in x 7in</div>
+                        </div>
+                        <div class="size-card" data-width="60">
+                            <div class="size-name">X-Large</div>
+                            <div class="size-dims">60cm x 21cm / 23in x 8in</div>
+                        </div>
+                        <div class="size-card" data-custom="true">
+                            <div class="size-name">Custom</div>
+                            <div class="size-dims">Set your own size</div>
+                        </div>
                     </div>
+
+                    <!-- Hidden Custom Inputs (shown only when Custom selected) -->
                     <div class="custom-size-inputs" id="custom-inputs-section" style="display: none; margin-top: 15px;">
-                        <div class="size-input-group"><label>Width (cm)</label><input type="number" id="input-width-cm" value="40" min="10" max="500"></div>
-                        <div class="size-input-group"><label>Height (cm)</label><input type="number" id="input-height-cm" value="14" readonly></div>
+                        <div class="size-input-group">
+                            <label>Width (cm)</label>
+                            <input type="number" id="input-width-cm" value="40" min="10" max="500">
+                        </div>
+                        <div class="size-input-group">
+                            <label>Height (cm)</label>
+                            <input type="number" id="input-height-cm" value="14" readonly>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </div> <!-- End of scrollable-controls -->
+
+            <!-- Price and Checkout Footer -->
             <footer class="panel-footer">
-                <div class="price-breakdown"><span class="price-label">Estimated Total:</span><span class="price-value" id="price-total">$150.00</span></div>
+                <div class="price-breakdown">
+                    <span class="price-label">Estimated Total:</span>
+                    <span class="price-value" id="price-total">$150.00</span>
+                </div>
                 <button class="checkout-btn" id="add-to-cart-btn">Add to Cart</button>
-                <p class="shipping-notice">Free express shipping worldwide</p>
+                <p class="shipping-notice">Free express shipping worldwide ✈️</p>
             </footer>
         </aside>
+
     </div>
+
+    <!-- Cart Side Panel -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h2>Your Cart</h2>
+            <button class="close-cart" id="close-cart">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+        </div>
+        <div class="cart-items" id="cart-items-list">
+            <!-- Items injected via JS -->
+            <div class="empty-cart-msg">Your cart is empty</div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-subtotal">
+                <span>Subtotal</span>
+                <span id="cart-subtotal-val">$0.00</span>
+            </div>
+            <button class="checkout-now-btn" id="go-to-cart-btn">View Full Cart & Checkout</button>
+            <button class="continue-shopping-btn" id="continue-shopping">Continue Designing</button>
+        </div>
+    </div>
+
+    <!-- opentype.js for TTF path extraction -->
     <script src="https://cdn.jsdelivr.net/npm/opentype.js@1.3.4/dist/opentype.min.js"></script>
     <script src="script.js"></script>
 </body>
