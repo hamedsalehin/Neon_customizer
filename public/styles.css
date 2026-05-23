@@ -789,7 +789,7 @@ textarea::placeholder { color: rgba(255,255,255,0.25); }
 }
 /* ================= CART STYLES ================= */
 .cart-toggle-btn {
-    background: rgba(15, 15, 18, 0.4);
+    background: rgba(15, 15, 18, 0.6);
     backdrop-filter: blur(var(--blur-amount));
     -webkit-backdrop-filter: blur(var(--blur-amount));
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -801,10 +801,12 @@ textarea::placeholder { color: rgba(255,255,255,0.25); }
     align-items: center;
     color: #fff;
     cursor: pointer;
-    position: relative;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 500;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-    margin-bottom: 8px;
 }
 .cart-toggle-btn:hover {
     background: rgba(255, 255, 255, 0.08);
