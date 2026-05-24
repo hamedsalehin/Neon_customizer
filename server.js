@@ -395,7 +395,8 @@ app.post('/api/quote', async (req, res) => {
                 return res.status(500).json({ success: false, error: dbErr.message });
             }
         } else {
-            console.log('ℹ️ Supabase not configured. Simulating quote storage.');
+            console.error('❌ Supabase not configured on the hosting server.');
+            return res.status(500).json({ success: false, error: 'Database connection is missing. Supabase environment variables (SUPABASE_URL and SUPABASE_KEY) are not configured on your Hostinger server.' });
         }
 
         res.json({ success: true, quoteId });
