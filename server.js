@@ -331,6 +331,54 @@ async function sendQuoteRequestEmail(quoteData, fileBase64, fileName, fileUrl) {
     }
 }
 
+// Helper to mark order as paid and trigger email notifications once
+async function markOrderAsPaid(orderId, sessionId, customerEmail) {
+    if (!supabase || !orderId) return false;
+
+    try {
+        // Fetch current order status
+        const { data: order, error: fetchError } = await supabase
+            .from('orders')
+            .select('payment_status')
+            .eq('id', orderId)
+            .single();
+
+        if (fetchError || !order) {
+            console.error(`❌ Failed to fetch order ${orderId} status:`, fetchError?.message);
+            return false;
+        }
+
+        // If already paid, do not re-send email
+        if (order.payment_status === 'paid') {
+            console.log(`ℹ️ Order ${orderId} is already marked as paid. Skipping duplicate actions.`);
+            return false;
+        }
+
+        // Update to paid
+        const { error: updateError } = await supabase
+            .from('orders')
+            .update({
+                payment_status: 'paid',
+                stripe_session_id: sessionId,
+                customer_email: customerEmail || undefined
+            })
+            .eq('id', orderId);
+
+        if (updateError) {
+            console.error(`❌ Failed to mark order ${orderId} as paid:`, updateError.message);
+            return false;
+        }
+
+        console.log(`✅ Order ${orderId} successfully marked as paid.`);
+        // Dispatch email notification to admin containing customizer attachment
+        sendOrderConfirmationEmail(orderId).catch(err => console.error('Order email dispatcher error:', err));
+        return true;
+    } catch (err) {
+        console.error(`❌ Exception in markOrderAsPaid for order ${orderId}:`, err.message);
+        return false;
+    }
+}
+
 // ─── Stripe Webhook (raw body needed BEFORE json parser) ─────────────────────
 app.post('/webhook/stripe', express.raw({ type: 'application/json' }), async (req, res) => {
     const sig = req.headers['stripe-signature'];
@@ -353,22 +401,7 @@ app.post('/webhook/stripe', express.raw({ type: 'application/json' }), async (re
 
         // Mark order as paid in Supabase
         if (supabase && orderId) {
-            const { error } = await supabase
-                .from('orders')
-                .update({
-                    payment_status: 'paid',
-                    stripe_session_id: session.id,
-                    customer_email: customerEmail || undefined
-                })
-                .eq('id', orderId);
-
-            if (error) {
-                console.error('Failed to update order payment status:', error);
-            } else {
-                console.log(`✅ Order ${orderId} marked as paid`);
-                // Dispatch confirmation email with customizer design attachment
-                sendOrderConfirmationEmail(orderId).catch(err => console.error('Email dispatcher error:', err));
-            }
+            await markOrderAsPaid(orderId, session.id, customerEmail);
         }
     }
 
@@ -392,14 +425,8 @@ app.get('/api/verify-payment', async (req, res) => {
         const paid = session.payment_status === 'paid';
 
         if (paid && supabase && order_id) {
-            await supabase
-                .from('orders')
-                .update({
-                    payment_status: 'paid',
-                    stripe_session_id: session_id
-                })
-                .eq('id', order_id);
-            console.log(`✅ Order ${order_id} verified and marked as paid`);
+            await markOrderAsPaid(order_id, session_id, session.customer_details?.email);
+            console.log(`✅ Order ${order_id} verified and checked for payment mark`);
         }
 
         res.json({ paid, customerEmail: session.customer_details?.email });
