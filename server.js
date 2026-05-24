@@ -3,8 +3,20 @@ const express = require('express');
 const path = require('path');
 const { createClient } = require('@supabase/supabase-js');
 const Stripe = require('stripe');
+const nodemailer = require('nodemailer');
 
 const app = express();
+
+// ─── Nodemailer Transporter Setup ────────────────────────────────────────────
+const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST || 'smtp.gmail.com',
+    port: parseInt(process.env.SMTP_PORT || '587'),
+    secure: process.env.SMTP_SECURE === 'true', // true for 465, false for 587
+    auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS
+    }
+});
 
 const PORT = process.env.PORT || 3000;
 
@@ -27,6 +39,121 @@ if (process.env.STRIPE_SECRET_KEY && process.env.STRIPE_SECRET_KEY !== 'YOUR_STR
     console.log('✅ Stripe connected');
 } else {
     console.warn('⚠️  Stripe credentials missing – payment features disabled.');
+}
+
+// ─── Nodemailer Order Confirmation Dispatcher ────────────────────────────────
+async function sendOrderConfirmationEmail(orderId) {
+    if (!supabase) {
+        console.warn('⚠️ Supabase not initialized, cannot fetch order details for email.');
+        return;
+    }
+
+    try {
+        console.log(`✉️ Fetching order details to dispatch email for order: ${orderId}`);
+        
+        // 1. Fetch Order Details from Supabase
+        const { data: order, error: orderErr } = await supabase
+            .from('orders')
+            .select('*')
+            .eq('id', orderId)
+            .single();
+
+        if (orderErr || !order) {
+            throw new Error(orderErr ? orderErr.message : 'Order not found');
+        }
+
+        // 2. Fetch Order Items (with SVG markup) from Supabase
+        const { data: items, error: itemsErr } = await supabase
+            .from('order_items')
+            .select('*')
+            .eq('order_id', orderId);
+
+        if (itemsErr || !items) {
+            throw new Error(itemsErr ? itemsErr.message : 'Order items not found');
+        }
+
+        const emailTo = order.customer_email;
+        if (!emailTo) {
+            console.warn('⚠️ No customer email found on order, skipping email dispatch.');
+            return;
+        }
+
+        // 3. Build detailed email confirmation body
+        let itemsHtml = '';
+        const attachments = [];
+
+        items.forEach((item, index) => {
+            itemsHtml += `
+                <div style="background: #f8fafc; border-radius: 12px; padding: 20px; border: 1px solid #e2e8f0; margin-bottom: 20px; font-family: sans-serif;">
+                    <h3 style="margin-top: 0; color: #ff007f; font-size: 1.15rem;">Custom Neon Sign #${index + 1}</h3>
+                    <p style="margin: 6px 0; color: #1e1b4b;"><strong>Sign Text:</strong> "${item.text}"</p>
+                    <p style="margin: 6px 0; color: #475569;"><strong>Font Name:</strong> ${item.font_name}</p>
+                    <p style="margin: 6px 0; color: #475569;"><strong>Color Theme:</strong> ${item.color_name}</p>
+                    <p style="margin: 6px 0; color: #475569;"><strong>Dimensions:</strong> ${item.width_cm}cm x ${item.height_cm}cm</p>
+                    <p style="margin: 6px 0; color: #475569;"><strong>Backing Material:</strong> ${item.backing}</p>
+                    <p style="margin: 6px 0; color: #ff007f; font-weight: 700;"><strong>Price:</strong> $${item.price.toFixed(2)}</p>
+                </div>
+            `;
+
+            // If there's SVG markup, attach it as a file!
+            if (item.svg_markup) {
+                attachments.push({
+                    filename: `design-custom-sign-${index + 1}.svg`,
+                    content: item.svg_markup,
+                    contentType: 'image/svg+xml'
+                });
+            }
+        });
+
+        const adminEmail = process.env.SMTP_USER || 'info@nanoneons.com';
+
+        const mailOptions = {
+            from: `"Nano Neons" <${adminEmail}>`,
+            to: emailTo,
+            cc: adminEmail, // Send copy to admin to help create the order!
+            subject: `🎨 Order Confirmed - Your Custom Neon Design [Order ID: ${orderId}]`,
+            html: `
+                <div style="max-width: 600px; margin: 0 auto; font-family: Arial, sans-serif; line-height: 1.6; color: #1e1b4b; padding: 20px; background: #ffffff;">
+                    <div style="text-align: center; padding: 20px 0;">
+                        <h2 style="margin: 0; font-weight: 800; font-size: 24px; color: #1e1b4b;">Order Confirmed!</h2>
+                        <p style="color: #64748b; margin-top: 5px;">Your digital neon design and order receipt</p>
+                    </div>
+                    
+                    <div style="background: #ff007f; color: #ffffff; padding: 18px 24px; border-radius: 12px; margin-bottom: 30px;">
+                        <h3 style="margin: 0; font-size: 16px;">Reference Order ID: <strong>${orderId}</strong></h3>
+                        <p style="margin: 5px 0 0 0; font-size: 14px; opacity: 0.95;">Thank you for your order. Your custom neon layout has been sent directly to our neon artisans for handcrafted creation.</p>
+                    </div>
+
+                    <h2 style="font-size: 18px; margin-bottom: 15px; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px;">Order Details</h2>
+                    ${itemsHtml}
+
+                    <div style="background: #f1f5f9; border-radius: 12px; padding: 16px 24px; margin-top: 30px;">
+                        <p style="margin: 6px 0; color: #475569;"><strong>Customer Name:</strong> ${order.customer_name || 'Valued Customer'}</p>
+                        <p style="margin: 6px 0; color: #475569;"><strong>Shipping Address:</strong> ${order.shipping_address || 'Provided in details'}</p>
+                        <p style="margin: 6px 0; font-size: 1.1rem; color: #10b981;"><strong>Total Amount Paid:</strong> $${order.total_price.toFixed(2)}</p>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 40px; border-top: 1px solid #e2e8f0; padding-top: 25px; color: #64748b; font-size: 12px;">
+                        <p>Questions? Contact our support at info@nanoneons.com</p>
+                        <p>&copy; 2026 Nano Neons. All rights reserved.</p>
+                    </div>
+                </div>
+            `,
+            attachments: attachments
+        };
+
+        if (process.env.SMTP_USER && process.env.SMTP_PASS) {
+            const info = await transporter.sendMail(mailOptions);
+            console.log('✅ Order Confirmation Email sent successfully:', info.messageId);
+        } else {
+            console.warn('⚠️ SMTP Credentials missing in .env. Here is the simulated email transmission:');
+            console.log(`[SIMULATION] To: ${emailTo} | CC: ${adminEmail}`);
+            console.log(`[SIMULATION] Attaching ${attachments.length} design files.`);
+        }
+
+    } catch (err) {
+        console.error('❌ Failed to process order email notification:', err);
+    }
 }
 
 // ─── Stripe Webhook (raw body needed BEFORE json parser) ─────────────────────
@@ -64,6 +191,8 @@ app.post('/webhook/stripe', express.raw({ type: 'application/json' }), async (re
                 console.error('Failed to update order payment status:', error);
             } else {
                 console.log(`✅ Order ${orderId} marked as paid`);
+                // Dispatch confirmation email with customizer design attachment
+                sendOrderConfirmationEmail(orderId).catch(err => console.error('Email dispatcher error:', err));
             }
         }
     }
@@ -216,6 +345,9 @@ app.post('/api/orders', async (req, res) => {
 
         const { error: itemsError } = await supabase.from('order_items').insert(orderItems);
         if (itemsError) throw itemsError;
+
+        // Dispatch email confirmation asynchronously with design attachments
+        sendOrderConfirmationEmail(order.id).catch(err => console.error('Email dispatcher error:', err));
 
         res.json({ success: true, orderId: order.id });
     } catch (err) {
