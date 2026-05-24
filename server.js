@@ -365,38 +365,78 @@ app.post('/api/quote', async (req, res) => {
 
         let quoteId = 'Q-' + Math.floor(100000 + Math.random() * 900000);
 
-        if (supabase) {
-            try {
-                const { error } = await supabase
-                    .from('quote_requests')
-                    .insert([{
-                        quote_id: quoteId,
-                        name,
-                        email,
-                        phone,
-                        text,
-                        color,
-                        size,
-                        backing,
-                        location,
-                        notes,
-                        file_name: fileName,
-                        file_data: fileBase64
-                    }]);
-
-                if (error) {
-                    console.error('❌ Supabase quote_requests insert error:', error.message);
-                    return res.status(500).json({ success: false, error: error.message });
-                }
-                
-                console.log('✅ Quote saved to Supabase:', quoteId);
-            } catch (dbErr) {
-                console.error('❌ Database exception during quote insert:', dbErr.message);
-                return res.status(500).json({ success: false, error: dbErr.message });
-            }
-        } else {
+        if (!supabase) {
             console.error('❌ Supabase not configured on the hosting server.');
             return res.status(500).json({ success: false, error: 'Database connection is missing. Supabase environment variables (SUPABASE_URL and SUPABASE_KEY) are not configured on your Hostinger server.' });
+        }
+
+        try {
+            let fileUrl = null;
+
+            // Upload design file to Supabase Storage if provided
+            if (fileBase64 && fileName) {
+                try {
+                    // Extract the mime type and raw base64 data
+                    const matches = fileBase64.match(/^data:(.+);base64,(.+)$/);
+                    if (matches) {
+                        const mimeType = matches[1];
+                        const base64Data = matches[2];
+                        const fileBuffer = Buffer.from(base64Data, 'base64');
+
+                        // Create a unique file path: quote-id/original-filename
+                        const storagePath = `${quoteId}/${fileName}`;
+
+                        const { data: uploadData, error: uploadError } = await supabase.storage
+                            .from('quote-uploads')
+                            .upload(storagePath, fileBuffer, {
+                                contentType: mimeType,
+                                upsert: false
+                            });
+
+                        if (uploadError) {
+                            console.warn('⚠️ Storage upload failed:', uploadError.message);
+                        } else {
+                            // Get the public URL for the uploaded file
+                            const { data: urlData } = supabase.storage
+                                .from('quote-uploads')
+                                .getPublicUrl(storagePath);
+
+                            fileUrl = urlData.publicUrl;
+                            console.log('✅ Design file uploaded to Storage:', fileUrl);
+                        }
+                    }
+                } catch (uploadErr) {
+                    console.warn('⚠️ File upload exception (non-blocking):', uploadErr.message);
+                }
+            }
+
+            // Insert quote into database with clickable file URL instead of raw base64
+            const { error } = await supabase
+                .from('quote_requests')
+                .insert([{
+                    quote_id: quoteId,
+                    name,
+                    email,
+                    phone,
+                    text,
+                    color,
+                    size,
+                    backing,
+                    location,
+                    notes,
+                    file_name: fileName,
+                    file_data: fileUrl  // Now stores a clickable public URL instead of base64
+                }]);
+
+            if (error) {
+                console.error('❌ Supabase quote_requests insert error:', error.message);
+                return res.status(500).json({ success: false, error: error.message });
+            }
+            
+            console.log('✅ Quote saved to Supabase:', quoteId);
+        } catch (dbErr) {
+            console.error('❌ Database exception during quote insert:', dbErr.message);
+            return res.status(500).json({ success: false, error: dbErr.message });
         }
 
         res.json({ success: true, quoteId });
