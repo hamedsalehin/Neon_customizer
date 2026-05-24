@@ -469,7 +469,7 @@ app.post('/api/create-checkout', async (req, res) => {
         }));
 
         // 4. Create Stripe Checkout Session
-        const baseUrl = process.env.BASE_URL || `http://localhost:${PORT}`;
+        const origin = req.get('origin') || `${req.protocol}://${req.get('host')}`;
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             line_items: lineItems,
@@ -479,8 +479,8 @@ app.post('/api/create-checkout', async (req, res) => {
                 order_id: order.id,
                 customer_name: customer_name || ''
             },
-            success_url: `${baseUrl}/confirmation.html?id=${order.id}&session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: `${baseUrl}/cart.html`
+            success_url: `${origin}/confirmation.html?id=${order.id}&session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: `${origin}/cart.html`
         });
 
         res.json({ url: session.url });
