@@ -202,20 +202,7 @@ async function sendOrderConfirmationEmail(orderId) {
             </div>
         `;
 
-        // 1. Send confirmation to Customer
-        try {
-            await sendEmail({
-                to: emailTo,
-                subject: `🎨 Order Confirmed - Your Custom Neon Design [Order ID: ${orderId}]`,
-                html: orderMailHtml,
-                attachments: attachments
-            });
-            console.log(`✅ Order confirmation sent to customer: ${emailTo}`);
-        } catch (custErr) {
-            console.warn(`⚠️ Failed to send order confirmation to customer: ${custErr.message}`);
-        }
-
-        // 2. Send notification to Admin
+        // Send notification to Admin only
         try {
             await sendEmail({
                 to: adminEmail,
@@ -336,49 +323,6 @@ async function sendQuoteRequestEmail(quoteData, fileBase64, fileName, fileUrl) {
             console.log(`✅ Quote request notification sent to admin: ${adminEmail}`);
         } catch (adminErr) {
             console.error(`❌ Failed to send quote request email to admin: ${adminErr.message}`);
-        }
-
-        // 2. Confirmation Email to Customer
-        const customerMailSubject = `✨ Quote Request Confirmed [Ref: ${quoteId}] - Nano Neons`;
-        const customerMailHtml = `
-            <div style="max-width: 600px; margin: 0 auto; font-family: Arial, sans-serif; line-height: 1.6; color: #1e1b4b; padding: 20px; background: #ffffff;">
-                <div style="text-align: center; padding: 20px 0;">
-                    <h2 style="margin: 0; font-weight: 800; font-size: 24px; color: #1e1b4b;">Quote Request Received!</h2>
-                    <p style="color: #64748b; margin-top: 5px;">We are reviewing your design details</p>
-                </div>
-                
-                <div style="background: #ff007f; color: #ffffff; padding: 18px 24px; border-radius: 12px; margin-bottom: 30px;">
-                    <h3 style="margin: 0; font-size: 16px;">Reference Request ID: <strong>${quoteId}</strong></h3>
-                    <p style="margin: 5px 0 0 0; font-size: 14px; opacity: 0.95;">Hi ${quoteData.name}, thank you for sending us your custom neon design! Our design experts are preparing your free digital mockup proof and price quote.</p>
-                </div>
-
-                <h2 style="font-size: 18px; margin-bottom: 15px; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px;">Your Design Details</h2>
-                <div style="background: #f8fafc; border-radius: 12px; padding: 20px; border: 1px solid #e2e8f0; margin-bottom: 20px;">
-                    <p style="margin: 6px 0; color: #475569;"><strong>Preferred Size:</strong> ${quoteData.size}</p>
-                    <p style="margin: 6px 0; color: #475569;"><strong>Backing Style:</strong> ${quoteData.backing}</p>
-                    <p style="margin: 6px 0; color: #475569;"><strong>Installation Place:</strong> ${quoteData.location}</p>
-                    ${colorsHtml}
-                    <p style="margin: 6px 0; color: #475569;"><strong>Custom Sign Text:</strong> "${quoteData.text || 'None'}"</p>
-                </div>
-
-                <p style="color: #475569; font-size: 14px; margin-top: 20px;">You will receive your custom price quote and mockup rendering via email in <strong>less than 12 hours</strong>. If you have any additional requests or need to modify your design, please feel free to reply directly to this email!</p>
-
-                <div style="text-align: center; margin-top: 40px; border-top: 1px solid #e2e8f0; padding-top: 25px; color: #64748b; font-size: 12px;">
-                    <p>Questions? Contact our support at info@nanoneons.com</p>
-                    <p>&copy; 2026 Nano Neons. All rights reserved.</p>
-                </div>
-            </div>
-        `;
-
-        try {
-            await sendEmail({
-                to: customerEmail,
-                subject: customerMailSubject,
-                html: customerMailHtml
-            });
-            console.log(`✅ Quote confirmation sent to customer: ${customerEmail}`);
-        } catch (custErr) {
-            console.warn(`⚠️ Failed to send quote confirmation to customer: ${custErr.message}. (Expected if Resend is in sandbox testing mode and customer email is unverified)`);
         }
 
         console.log(`✉️ Quote request confirmation process completed for ${quoteId}`);
