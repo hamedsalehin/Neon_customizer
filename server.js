@@ -367,7 +367,7 @@ app.post('/api/quote', async (req, res) => {
 
         if (supabase) {
             try {
-                const { data, error } = await supabase
+                const { error } = await supabase
                     .from('quote_requests')
                     .insert([{
                         quote_id: quoteId,
@@ -382,18 +382,17 @@ app.post('/api/quote', async (req, res) => {
                         notes,
                         file_name: fileName,
                         file_data: fileBase64
-                    }])
-                    .select()
-                    .single();
+                    }]);
 
                 if (error) {
-                    console.warn('⚠️ Supabase quote_requests insert error (table might not exist):', error.message);
-                } else if (data) {
-                    quoteId = data.quote_id || quoteId;
-                    console.log('✅ Quote saved to Supabase:', quoteId);
+                    console.error('❌ Supabase quote_requests insert error:', error.message);
+                    return res.status(500).json({ success: false, error: error.message });
                 }
+                
+                console.log('✅ Quote saved to Supabase:', quoteId);
             } catch (dbErr) {
-                console.warn('⚠️ Database error during quote insert:', dbErr.message);
+                console.error('❌ Database exception during quote insert:', dbErr.message);
+                return res.status(500).json({ success: false, error: dbErr.message });
             }
         } else {
             console.log('ℹ️ Supabase not configured. Simulating quote storage.');
