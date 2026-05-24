@@ -224,7 +224,7 @@ header.site-header.scrolled {
 }
 
 .logo img {
-    height: 52px;
+    height: 34px;
     width: auto;
     object-fit: contain;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);

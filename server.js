@@ -224,6 +224,56 @@ app.post('/api/orders', async (req, res) => {
     }
 });
 
+// ─── API: Submit Quote Request ────────────────────────────────────────────────
+app.post('/api/quote', async (req, res) => {
+    try {
+        const { name, email, phone, text, color, size, backing, location, notes, fileBase64, fileName } = req.body;
+        
+        console.log('Received Quote Request:', { name, email, phone, text, color, size, backing, location });
+
+        let quoteId = 'Q-' + Math.floor(100000 + Math.random() * 900000);
+
+        if (supabase) {
+            try {
+                const { data, error } = await supabase
+                    .from('quote_requests')
+                    .insert([{
+                        quote_id: quoteId,
+                        name,
+                        email,
+                        phone,
+                        text,
+                        color,
+                        size,
+                        backing,
+                        location,
+                        notes,
+                        file_name: fileName,
+                        file_data: fileBase64
+                    }])
+                    .select()
+                    .single();
+
+                if (error) {
+                    console.warn('⚠️ Supabase quote_requests insert error (table might not exist):', error.message);
+                } else if (data) {
+                    quoteId = data.quote_id || quoteId;
+                    console.log('✅ Quote saved to Supabase:', quoteId);
+                }
+            } catch (dbErr) {
+                console.warn('⚠️ Database error during quote insert:', dbErr.message);
+            }
+        } else {
+            console.log('ℹ️ Supabase not configured. Simulating quote storage.');
+        }
+
+        res.json({ success: true, quoteId });
+    } catch (err) {
+        console.error('Quote submission API error:', err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
 if (require.main === module) {
     app.listen(PORT, () => {
         console.log(`\n🚀 Neon Sign Creator running at http://localhost:${PORT}\n`);
