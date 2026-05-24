@@ -3,20 +3,18 @@ const express = require('express');
 const path = require('path');
 const { createClient } = require('@supabase/supabase-js');
 const Stripe = require('stripe');
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
 
 const app = express();
 
-// ─── Nodemailer Transporter Setup ────────────────────────────────────────────
-const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST || 'smtp.gmail.com',
-    port: parseInt(process.env.SMTP_PORT || '587'),
-    secure: process.env.SMTP_SECURE === 'true', // true for 465, false for 587
-    auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS
-    }
-});
+// ─── Resend API Client Setup ──────────────────────────────────────────────────
+let resend;
+if (process.env.RESEND_API_KEY) {
+    resend = new Resend(process.env.RESEND_API_KEY);
+    console.log('✅ Resend connected');
+} else {
+    console.warn('⚠️  Resend API Key missing. Email features will operate in Simulation Mode.');
+}
 
 const PORT = process.env.PORT || 3000;
 
@@ -41,7 +39,76 @@ if (process.env.STRIPE_SECRET_KEY && process.env.STRIPE_SECRET_KEY !== 'YOUR_STR
     console.warn('⚠️  Stripe credentials missing – payment features disabled.');
 }
 
-// ─── Nodemailer Order Confirmation Dispatcher ────────────────────────────────
+// ─── Unified Resend Email Dispatcher ─────────────────────────────────────────
+async function sendEmail({ to, cc, subject, html, attachments }) {
+    if (!resend) {
+        console.warn('⚠️ Resend is not initialized. Simulated Email:');
+        console.log(`[SIMULATION] To: ${to} | CC: ${cc} | Subject: ${subject}`);
+        console.log(`[SIMULATION] Attachments: ${JSON.stringify(attachments || [])}`);
+        return { success: false, simulated: true };
+    }
+
+    try {
+        const fromEmail = process.env.MAIL_FROM || 'onboarding@resend.dev';
+        const mailOptions = {
+            from: `Nano Neons <${fromEmail}>`,
+            to: Array.isArray(to) ? to : [to],
+            subject: subject,
+            html: html
+        };
+
+        if (cc) {
+            mailOptions.cc = Array.isArray(cc) ? cc : [cc];
+        }
+
+        if (attachments && attachments.length > 0) {
+            // Map attachments to Resend format
+            mailOptions.attachments = await Promise.all(attachments.map(async (att) => {
+                let content = att.content;
+                
+                // If content is a base64 string, convert it to a Buffer
+                if (typeof content === 'string' && content.startsWith('data:')) {
+                    const matches = content.match(/^data:(.+);base64,(.+)$/);
+                    if (matches) {
+                        content = Buffer.from(matches[2], 'base64');
+                    }
+                } else if (typeof content === 'string' && !att.path) {
+                    content = Buffer.from(content); // e.g. SVG string text
+                }
+
+                const resendAttachment = {
+                    filename: att.filename
+                };
+
+                if (content) {
+                    resendAttachment.content = content;
+                }
+                if (att.path) {
+                    resendAttachment.path = att.path;
+                }
+                if (att.contentType) {
+                    resendAttachment.contentType = att.contentType;
+                }
+
+                return resendAttachment;
+            }));
+        }
+
+        const response = await resend.emails.send(mailOptions);
+        if (response.error) {
+            console.error('❌ Resend API Error:', response.error);
+            throw new Error(response.error.message || 'Resend failed to send email');
+        }
+
+        console.log('✅ Email sent via Resend successfully:', response.data);
+        return { success: true, data: response.data };
+    } catch (err) {
+        console.error('❌ Failed to send email via Resend:', err.message);
+        throw err;
+    }
+}
+
+// ─── Resend Order Confirmation Dispatcher ────────────────────────────────────
 async function sendOrderConfirmationEmail(orderId) {
     if (!supabase) {
         console.warn('⚠️ Supabase not initialized, cannot fetch order details for email.');
@@ -105,54 +172,192 @@ async function sendOrderConfirmationEmail(orderId) {
             }
         });
 
-        const adminEmail = process.env.SMTP_USER || 'info@nanoneons.com';
+        const adminEmail = process.env.MAIL_TO || 'info@nanoneons.com';
 
-        const mailOptions = {
-            from: `"Nano Neons" <${adminEmail}>`,
-            to: emailTo,
-            cc: adminEmail, // Send copy to admin to help create the order!
-            subject: `🎨 Order Confirmed - Your Custom Neon Design [Order ID: ${orderId}]`,
-            html: `
-                <div style="max-width: 600px; margin: 0 auto; font-family: Arial, sans-serif; line-height: 1.6; color: #1e1b4b; padding: 20px; background: #ffffff;">
-                    <div style="text-align: center; padding: 20px 0;">
-                        <h2 style="margin: 0; font-weight: 800; font-size: 24px; color: #1e1b4b;">Order Confirmed!</h2>
-                        <p style="color: #64748b; margin-top: 5px;">Your digital neon design and order receipt</p>
-                    </div>
-                    
-                    <div style="background: #ff007f; color: #ffffff; padding: 18px 24px; border-radius: 12px; margin-bottom: 30px;">
-                        <h3 style="margin: 0; font-size: 16px;">Reference Order ID: <strong>${orderId}</strong></h3>
-                        <p style="margin: 5px 0 0 0; font-size: 14px; opacity: 0.95;">Thank you for your order. Your custom neon layout has been sent directly to our neon artisans for handcrafted creation.</p>
-                    </div>
-
-                    <h2 style="font-size: 18px; margin-bottom: 15px; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px;">Order Details</h2>
-                    ${itemsHtml}
-
-                    <div style="background: #f1f5f9; border-radius: 12px; padding: 16px 24px; margin-top: 30px;">
-                        <p style="margin: 6px 0; color: #475569;"><strong>Customer Name:</strong> ${order.customer_name || 'Valued Customer'}</p>
-                        <p style="margin: 6px 0; color: #475569;"><strong>Shipping Address:</strong> ${order.shipping_address || 'Provided in details'}</p>
-                        <p style="margin: 6px 0; font-size: 1.1rem; color: #10b981;"><strong>Total Amount Paid:</strong> $${order.total_price.toFixed(2)}</p>
-                    </div>
-
-                    <div style="text-align: center; margin-top: 40px; border-top: 1px solid #e2e8f0; padding-top: 25px; color: #64748b; font-size: 12px;">
-                        <p>Questions? Contact our support at info@nanoneons.com</p>
-                        <p>&copy; 2026 Nano Neons. All rights reserved.</p>
-                    </div>
+        const orderMailHtml = `
+            <div style="max-width: 600px; margin: 0 auto; font-family: Arial, sans-serif; line-height: 1.6; color: #1e1b4b; padding: 20px; background: #ffffff;">
+                <div style="text-align: center; padding: 20px 0;">
+                    <h2 style="margin: 0; font-weight: 800; font-size: 24px; color: #1e1b4b;">Order Confirmed!</h2>
+                    <p style="color: #64748b; margin-top: 5px;">Your digital neon design and order receipt</p>
                 </div>
-            `,
-            attachments: attachments
-        };
+                
+                <div style="background: #ff007f; color: #ffffff; padding: 18px 24px; border-radius: 12px; margin-bottom: 30px;">
+                    <h3 style="margin: 0; font-size: 16px;">Reference Order ID: <strong>${orderId}</strong></h3>
+                    <p style="margin: 5px 0 0 0; font-size: 14px; opacity: 0.95;">Thank you for your order. Your custom neon layout has been sent directly to our neon artisans for handcrafted creation.</p>
+                </div>
 
-        if (process.env.SMTP_USER && process.env.SMTP_PASS) {
-            const info = await transporter.sendMail(mailOptions);
-            console.log('✅ Order Confirmation Email sent successfully:', info.messageId);
-        } else {
-            console.warn('⚠️ SMTP Credentials missing in .env. Here is the simulated email transmission:');
-            console.log(`[SIMULATION] To: ${emailTo} | CC: ${adminEmail}`);
-            console.log(`[SIMULATION] Attaching ${attachments.length} design files.`);
-        }
+                <h2 style="font-size: 18px; margin-bottom: 15px; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px;">Order Details</h2>
+                ${itemsHtml}
+
+                <div style="background: #f1f5f9; border-radius: 12px; padding: 16px 24px; margin-top: 30px;">
+                    <p style="margin: 6px 0; color: #475569;"><strong>Customer Name:</strong> ${order.customer_name || 'Valued Customer'}</p>
+                    <p style="margin: 6px 0; color: #475569;"><strong>Shipping Address:</strong> ${order.shipping_address || 'Provided in details'}</p>
+                    <p style="margin: 6px 0; font-size: 1.1rem; color: #10b981;"><strong>Total Amount Paid:</strong> $${order.total_price.toFixed(2)}</p>
+                </div>
+
+                <div style="text-align: center; margin-top: 40px; border-top: 1px solid #e2e8f0; padding-top: 25px; color: #64748b; font-size: 12px;">
+                    <p>Questions? Contact our support at info@nanoneons.com</p>
+                    <p>&copy; 2026 Nano Neons. All rights reserved.</p>
+                </div>
+            </div>
+        `;
+
+        // Send to Customer and CC/Notify Admin
+        await sendEmail({
+            to: emailTo,
+            cc: adminEmail,
+            subject: `🎨 Order Confirmed - Your Custom Neon Design [Order ID: ${orderId}]`,
+            html: orderMailHtml,
+            attachments: attachments
+        });
 
     } catch (err) {
         console.error('❌ Failed to process order email notification:', err);
+    }
+}
+
+// ─── Resend Quote Request Dispatcher ─────────────────────────────────────────
+async function sendQuoteRequestEmail(quoteData, fileBase64, fileName, fileUrl) {
+    try {
+        const quoteId = quoteData.quote_id;
+        const customerEmail = quoteData.email;
+        const adminEmail = process.env.MAIL_TO || 'info@nanoneons.com';
+
+        // Build list of colors
+        const colorsHtml = quoteData.color 
+            ? `<p style="margin: 6px 0; color: #1e1b4b;"><strong>Selected Colors:</strong> ${quoteData.color}</p>`
+            : '';
+
+        const attachments = [];
+        let imageEmbedHtml = '';
+
+        if (fileBase64 && fileName) {
+            const matches = fileBase64.match(/^data:(.+);base64,(.+)$/);
+            if (matches) {
+                const mimeType = matches[1];
+                const base64Data = matches[2];
+                const fileBuffer = Buffer.from(base64Data, 'base64');
+
+                attachments.push({
+                    filename: fileName,
+                    content: fileBuffer,
+                    contentType: mimeType
+                });
+
+                // If it's an image, we can embed it in the HTML body
+                if (mimeType.startsWith('image/')) {
+                    if (fileUrl) {
+                        imageEmbedHtml = `
+                            <div style="margin-top: 20px; text-align: center; border: 1px solid #e2e8f0; border-radius: 12px; padding: 15px; background: #f8fafc;">
+                                <p style="margin: 0 0 10px 0; font-size: 0.9rem; color: #64748b;">Uploaded Design Preview</p>
+                                <img src="${fileUrl}" alt="Customer Uploaded Design" style="max-width: 100%; max-height: 300px; border-radius: 8px; object-fit: contain;">
+                            </div>
+                        `;
+                    } else {
+                        imageEmbedHtml = `
+                            <div style="margin-top: 20px; text-align: center; border: 1px solid #e2e8f0; border-radius: 12px; padding: 15px; background: #f8fafc;">
+                                <p style="margin: 0 0 10px 0; font-size: 0.9rem; color: #64748b;">Uploaded Design Preview</p>
+                                <img src="${fileBase64}" alt="Customer Uploaded Design" style="max-width: 100%; max-height: 300px; border-radius: 8px; object-fit: contain;">
+                            </div>
+                        `;
+                    }
+                }
+            }
+        }
+
+        // Add file download link if URL is available
+        const fileUrlHtml = fileUrl
+            ? `<p style="margin: 12px 0 6px; color: #1e1b4b;"><strong>Uploaded File URL:</strong> <a href="${fileUrl}" target="_blank" style="color: #ff007f; text-decoration: underline; font-weight: 600;">View & Download Design File</a></p>`
+            : '';
+
+        // 1. Email to Admin
+        const adminMailSubject = `🎨 New Neon Quote Request [ID: ${quoteId}] - ${quoteData.name}`;
+        const adminMailHtml = `
+            <div style="max-width: 600px; margin: 0 auto; font-family: Arial, sans-serif; line-height: 1.6; color: #1e1b4b; padding: 20px; background: #ffffff;">
+                <div style="text-align: center; padding: 10px 0; border-bottom: 2px solid #f1f5f9; margin-bottom: 25px;">
+                    <h2 style="margin: 0; font-weight: 800; font-size: 22px; color: #ff007f;">New Quote Request Received</h2>
+                    <p style="color: #64748b; margin-top: 5px; font-size: 14px;">Reference ID: ${quoteId}</p>
+                </div>
+
+                <div style="background: #f8fafc; border-radius: 12px; padding: 20px; border: 1px solid #e2e8f0; margin-bottom: 25px;">
+                    <h3 style="margin-top: 0; color: #1e1b4b; font-size: 1.1rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;">Customer Information</h3>
+                    <p style="margin: 6px 0; color: #1e1b4b;"><strong>Name:</strong> ${quoteData.name}</p>
+                    <p style="margin: 6px 0; color: #1e1b4b;"><strong>Email:</strong> <a href="mailto:${customerEmail}" style="color: #00c6fb;">${customerEmail}</a></p>
+                    <p style="margin: 6px 0; color: #1e1b4b;"><strong>Phone:</strong> <a href="tel:${quoteData.phone}" style="color: #00c6fb;">${quoteData.phone}</a></p>
+                </div>
+
+                <div style="background: #f8fafc; border-radius: 12px; padding: 20px; border: 1px solid #e2e8f0; margin-bottom: 25px;">
+                    <h3 style="margin-top: 0; color: #ff007f; font-size: 1.1rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;">Neon Specifications</h3>
+                    <p style="margin: 6px 0; color: #1e1b4b;"><strong>Preferred Size:</strong> ${quoteData.size}</p>
+                    <p style="margin: 6px 0; color: #1e1b4b;"><strong>Backing Style:</strong> ${quoteData.backing}</p>
+                    <p style="margin: 6px 0; color: #1e1b4b;"><strong>Location/Install:</strong> ${quoteData.location}</p>
+                    ${colorsHtml}
+                    <p style="margin: 6px 0; color: #1e1b4b;"><strong>Custom Sign Text:</strong> "${quoteData.text || 'None'}"</p>
+                    <p style="margin: 6px 0; color: #1e1b4b;"><strong>FileName:</strong> ${fileName || 'None'}</p>
+                    ${fileUrlHtml}
+                    <p style="margin: 6px 0; color: #1e1b4b;"><strong>Instructions / Notes:</strong></p>
+                    <p style="margin: 6px 0; padding: 10px; background: #ffffff; border-radius: 6px; border: 1px solid #e2e8f0; color: #475569; font-style: italic;">
+                        ${quoteData.notes || 'No extra notes provided.'}
+                    </p>
+                    ${imageEmbedHtml}
+                </div>
+
+                <div style="text-align: center; color: #64748b; font-size: 11px; margin-top: 30px; border-top: 1px solid #e2e8f0; padding-top: 20px;">
+                    <p>This email was automatically generated and sent to you from your website quote form.</p>
+                </div>
+            </div>
+        `;
+
+        // Send to Admin
+        await sendEmail({
+            to: adminEmail,
+            subject: adminMailSubject,
+            html: adminMailHtml,
+            attachments: attachments
+        });
+
+        // 2. Confirmation Email to Customer
+        const customerMailSubject = `✨ Quote Request Confirmed [Ref: ${quoteId}] - Nano Neons`;
+        const customerMailHtml = `
+            <div style="max-width: 600px; margin: 0 auto; font-family: Arial, sans-serif; line-height: 1.6; color: #1e1b4b; padding: 20px; background: #ffffff;">
+                <div style="text-align: center; padding: 20px 0;">
+                    <h2 style="margin: 0; font-weight: 800; font-size: 24px; color: #1e1b4b;">Quote Request Received!</h2>
+                    <p style="color: #64748b; margin-top: 5px;">We are reviewing your design details</p>
+                </div>
+                
+                <div style="background: #ff007f; color: #ffffff; padding: 18px 24px; border-radius: 12px; margin-bottom: 30px;">
+                    <h3 style="margin: 0; font-size: 16px;">Reference Request ID: <strong>${quoteId}</strong></h3>
+                    <p style="margin: 5px 0 0 0; font-size: 14px; opacity: 0.95;">Hi ${quoteData.name}, thank you for sending us your custom neon design! Our design experts are preparing your free digital mockup proof and price quote.</p>
+                </div>
+
+                <h2 style="font-size: 18px; margin-bottom: 15px; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px;">Your Design Details</h2>
+                <div style="background: #f8fafc; border-radius: 12px; padding: 20px; border: 1px solid #e2e8f0; margin-bottom: 20px;">
+                    <p style="margin: 6px 0; color: #475569;"><strong>Preferred Size:</strong> ${quoteData.size}</p>
+                    <p style="margin: 6px 0; color: #475569;"><strong>Backing Style:</strong> ${quoteData.backing}</p>
+                    <p style="margin: 6px 0; color: #475569;"><strong>Installation Place:</strong> ${quoteData.location}</p>
+                    ${colorsHtml}
+                    <p style="margin: 6px 0; color: #475569;"><strong>Custom Sign Text:</strong> "${quoteData.text || 'None'}"</p>
+                </div>
+
+                <p style="color: #475569; font-size: 14px; margin-top: 20px;">You will receive your custom price quote and mockup rendering via email in <strong>less than 12 hours</strong>. If you have any additional requests or need to modify your design, please feel free to reply directly to this email!</p>
+
+                <div style="text-align: center; margin-top: 40px; border-top: 1px solid #e2e8f0; padding-top: 25px; color: #64748b; font-size: 12px;">
+                    <p>Questions? Contact our support at info@nanoneons.com</p>
+                    <p>&copy; 2026 Nano Neons. All rights reserved.</p>
+                </div>
+            </div>
+        `;
+
+        // Send to Customer
+        await sendEmail({
+            to: customerEmail,
+            subject: customerMailSubject,
+            html: customerMailHtml
+        });
+
+        console.log(`✉️ Quote request confirmation emails sent for ${quoteId}`);
+    } catch (err) {
+        console.error('❌ Failed to process quote request email notification:', err.message);
     }
 }
 
@@ -434,6 +639,15 @@ app.post('/api/quote', async (req, res) => {
             }
             
             console.log('✅ Quote saved to Supabase:', quoteId);
+
+            // Dispatch email notification asynchronously (attaching design file)
+            sendQuoteRequestEmail(
+                { quote_id: quoteId, name, email, phone, text, color, size, backing, location, notes },
+                fileBase64,
+                fileName,
+                fileUrl
+            ).catch(err => console.error('Quote email dispatcher error:', err));
+
         } catch (dbErr) {
             console.error('❌ Database exception during quote insert:', dbErr.message);
             return res.status(500).json({ success: false, error: dbErr.message });
