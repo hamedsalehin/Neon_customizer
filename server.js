@@ -202,14 +202,31 @@ async function sendOrderConfirmationEmail(orderId) {
             </div>
         `;
 
-        // Send to Customer and CC/Notify Admin
-        await sendEmail({
-            to: emailTo,
-            cc: adminEmail,
-            subject: `🎨 Order Confirmed - Your Custom Neon Design [Order ID: ${orderId}]`,
-            html: orderMailHtml,
-            attachments: attachments
-        });
+        // 1. Send confirmation to Customer
+        try {
+            await sendEmail({
+                to: emailTo,
+                subject: `🎨 Order Confirmed - Your Custom Neon Design [Order ID: ${orderId}]`,
+                html: orderMailHtml,
+                attachments: attachments
+            });
+            console.log(`✅ Order confirmation sent to customer: ${emailTo}`);
+        } catch (custErr) {
+            console.warn(`⚠️ Failed to send order confirmation to customer: ${custErr.message}`);
+        }
+
+        // 2. Send notification to Admin
+        try {
+            await sendEmail({
+                to: adminEmail,
+                subject: `🔔 [Admin Alert] New Order Placed [Order ID: ${orderId}]`,
+                html: `<h3>New Order Received</h3><p>An order confirmation has been generated for ${order.customer_name || 'Customer'}.</p>` + orderMailHtml,
+                attachments: attachments
+            });
+            console.log(`✅ Order notification sent to admin: ${adminEmail}`);
+        } catch (adminErr) {
+            console.error(`❌ Failed to send order notification to admin: ${adminErr.message}`);
+        }
 
     } catch (err) {
         console.error('❌ Failed to process order email notification:', err);
@@ -308,13 +325,18 @@ async function sendQuoteRequestEmail(quoteData, fileBase64, fileName, fileUrl) {
             </div>
         `;
 
-        // Send to Admin
-        await sendEmail({
-            to: adminEmail,
-            subject: adminMailSubject,
-            html: adminMailHtml,
-            attachments: attachments
-        });
+        // 1. Email to Admin
+        try {
+            await sendEmail({
+                to: adminEmail,
+                subject: adminMailSubject,
+                html: adminMailHtml,
+                attachments: attachments
+            });
+            console.log(`✅ Quote request notification sent to admin: ${adminEmail}`);
+        } catch (adminErr) {
+            console.error(`❌ Failed to send quote request email to admin: ${adminErr.message}`);
+        }
 
         // 2. Confirmation Email to Customer
         const customerMailSubject = `✨ Quote Request Confirmed [Ref: ${quoteId}] - Nano Neons`;
@@ -348,14 +370,18 @@ async function sendQuoteRequestEmail(quoteData, fileBase64, fileName, fileUrl) {
             </div>
         `;
 
-        // Send to Customer
-        await sendEmail({
-            to: customerEmail,
-            subject: customerMailSubject,
-            html: customerMailHtml
-        });
+        try {
+            await sendEmail({
+                to: customerEmail,
+                subject: customerMailSubject,
+                html: customerMailHtml
+            });
+            console.log(`✅ Quote confirmation sent to customer: ${customerEmail}`);
+        } catch (custErr) {
+            console.warn(`⚠️ Failed to send quote confirmation to customer: ${custErr.message}. (Expected if Resend is in sandbox testing mode and customer email is unverified)`);
+        }
 
-        console.log(`✉️ Quote request confirmation emails sent for ${quoteId}`);
+        console.log(`✉️ Quote request confirmation process completed for ${quoteId}`);
     } catch (err) {
         console.error('❌ Failed to process quote request email notification:', err.message);
     }
