@@ -9,6 +9,15 @@
 }
 
 /* Local Fonts Registry */
+@font-face { font-family: 'a little sunshine'; src: url('fonts/DancingScript-Regular.ttf'); }
+@font-face { font-family: 'adventure Island Script'; src: url('fonts/GreatVibes-Regular.ttf'); }
+@font-face { font-family: 'Andolucia'; src: url('fonts/Parisienne-Regular.ttf'); }
+@font-face { font-family: 'Anthony Houston'; src: url('fonts/BungeeHairline-Regular.ttf'); }
+@font-face { font-family: 'Balmonde'; src: url('fonts/Comfortaa-Light.ttf'); }
+@font-face { font-family: 'Baychore'; src: url('fonts/Raleway-Thin.ttf'); }
+@font-face { font-family: 'Bearline'; src: url('fonts/JosefinSans-Thin.ttf'); }
+@font-face { font-family: 'Eathomascript Font'; src: url('fonts/MsMadi-Regular.ttf'); }
+@font-face { font-family: 'Damion'; src: url('fonts/Damion-Regular.ttf'); }
 @font-face { font-family: 'Gruppo'; src: url('fonts/Gruppo-Regular.ttf'); }
 @font-face { font-family: 'Kodchasan'; src: url('fonts/Kodchasan-Regular.ttf'); }
 @font-face { font-family: 'Meow Script'; src: url('fonts/MeowScript-Regular.ttf'); }
@@ -18,13 +27,10 @@
 @font-face { font-family: 'Julius Sans One'; src: url('fonts/JuliusSansOne-Regular.ttf'); }
 @font-face { font-family: 'Wire One'; src: url('fonts/WireOne-Regular.ttf'); }
 @font-face { font-family: 'Poiret One'; src: url('fonts/PoiretOne-Regular.ttf'); }
-@font-face { font-family: 'Syncopate'; src: url('fonts/Syncopate-Regular.ttf'); }
-@font-face { font-family: 'Yellowtail'; src: url('fonts/Yellowtail-Regular.ttf'); }
 @font-face { font-family: 'Text Me One'; src: url('fonts/TextMeOne-Regular.ttf'); }
 @font-face { font-family: 'Tulpen One'; src: url('fonts/TulpenOne-Regular.ttf'); }
 @font-face { font-family: 'Neonderthaw'; src: url('fonts/Neonderthaw-Regular.ttf'); }
 @font-face { font-family: 'Ms Madi'; src: url('fonts/MsMadi-Regular.ttf'); }
-@font-face { font-family: 'Vampiro One'; src: url('fonts/VampiroOne-Regular.ttf'); }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -1160,6 +1166,28 @@ textarea#sign-text::placeholder {
 .global-color-grid, .font-gallery {
     background: rgba(255, 255, 255, 0.3) !important;
     border: 1px solid rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Font items — readable on white panel */
+.font-item {
+    color: #1e1b4b !important;
+    background: rgba(255, 255, 255, 0.5) !important;
+    border: 1px solid rgba(100, 100, 150, 0.2) !important;
+}
+.font-item::after {
+    color: #ff007f !important;
+    opacity: 0.85 !important;
+}
+.font-item:hover {
+    background: rgba(255, 255, 255, 0.8) !important;
+    border-color: rgba(255, 0, 127, 0.3) !important;
+    color: #1e1b4b !important;
+}
+.font-item.active {
+    background: rgba(255, 0, 127, 0.08) !important;
+    border-color: #ff007f !important;
+    box-shadow: 0 0 12px rgba(255, 0, 127, 0.15) !important;
+    color: #1e1b4b !important;
 }
 
 /* Swatch materials previews */

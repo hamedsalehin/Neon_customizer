@@ -15,8 +15,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     // FONT REGISTRY — only consistent monoline-stroke typefaces
     // ============================================================
     const FONT_LIST = [
-        { name: 'Mr Dafoe',            file: 'MrDafoe-Regular.ttf' },
-        { name: 'Alex Brush',          file: 'AlexBrush-Regular.ttf' },
+        { name: 'a little sunshine',   file: 'DancingScript-Regular.ttf' },
+        { name: 'adventure Island Script', file: 'GreatVibes-Regular.ttf' },
+        { name: 'Andolucia',           file: 'Parisienne-Regular.ttf' },
+        { name: 'Anthony Houston',     file: 'BungeeHairline-Regular.ttf' },
+        { name: 'Balmonde',            file: 'Comfortaa-Light.ttf' },
+        { name: 'Baychore',            file: 'Raleway-Thin.ttf' },
+        { name: 'Bearline',            file: 'JosefinSans-Thin.ttf' },
+        { name: 'Eathomascript Font',  file: 'MsMadi-Regular.ttf' },
+        { name: 'Damion',              file: 'Damion-Regular.ttf' },
         { name: 'Gruppo',              file: 'Gruppo-Regular.ttf' },
         { name: 'Kodchasan',           file: 'Kodchasan-Regular.ttf' },
         { name: 'Meow Script',         file: 'MeowScript-Regular.ttf' },
@@ -26,13 +33,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         { name: 'Julius Sans One',     file: 'JuliusSansOne-Regular.ttf' },
         { name: 'Wire One',            file: 'WireOne-Regular.ttf' },
         { name: 'Poiret One',          file: 'PoiretOne-Regular.ttf' },
-        { name: 'Syncopate',           file: 'Syncopate-Regular.ttf' },
-        { name: 'Yellowtail',          file: 'Yellowtail-Regular.ttf' },
         { name: 'Text Me One',         file: 'TextMeOne-Regular.ttf' },
         { name: 'Tulpen One',          file: 'TulpenOne-Regular.ttf' },
         { name: 'Neonderthaw',         file: 'Neonderthaw-Regular.ttf' },
         { name: 'Ms Madi',             file: 'MsMadi-Regular.ttf' },
-        { name: 'Vampiro One',         file: 'VampiroOne-Regular.ttf' },
     ];
 
     // ============================================================
@@ -260,7 +264,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const glow = color.glowColor;
 
         // Padding for backboard and glow
-        const boardPadding = fontSize * (backing === 'cut-to-letter' ? 0.35 : 0.65);
+        const boardPadding = fontSize * (backing === 'cut-to-letter' ? 0.18 : 0.30);
         const bleed = boardPadding + 40;
 
         const vx = totalMinX - bleed;
