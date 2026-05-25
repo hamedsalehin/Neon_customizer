@@ -68,14 +68,6 @@
                     </a>
                 </div>
             </div>
-            
-            <div class="hero-visual">
-                <div class="neon-mockup-frame">
-                    <div class="neon-preview-viewport">
-                        <div class="neon-preview-sign" id="hero-preview-sign">Glow Up</div>
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
 
@@ -467,18 +459,6 @@
                 mainNav.style.borderBottom = '1px solid var(--border-color)';
             });
 
-            // Hero blink animation text swap helper
-            const heroSign = document.getElementById('hero-preview-sign');
-            const phrases = ["Glow Up", "Nano Sign", "Good Vibes", "Open 24/7"];
-            let phraseIndex = 0;
-            setInterval(() => {
-                heroSign.style.opacity = '0.1';
-                setTimeout(() => {
-                    phraseIndex = (phraseIndex + 1) % phrases.length;
-                    heroSign.textContent = phrases[phraseIndex];
-                    heroSign.style.opacity = '1';
-                }, 400);
-            }, 6000);
 
             // Swatch Color selector functionality
             const swatches = document.querySelectorAll('.swatch');

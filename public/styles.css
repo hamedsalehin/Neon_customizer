@@ -9,15 +9,15 @@
 }
 
 /* Local Fonts Registry */
-@font-face { font-family: 'a little sunshine'; src: url('fonts/a-little-sunshine.ttf'); }
-@font-face { font-family: 'adventure Island Script'; src: url('fonts/adventure-island-script.ttf'); }
-@font-face { font-family: 'Andolucia'; src: url('fonts/andolucia.ttf'); }
-@font-face { font-family: 'Anthony Houston'; src: url('fonts/anthony-houston.ttf'); }
-@font-face { font-family: 'Balmonde'; src: url('fonts/balmonde.ttf'); }
-@font-face { font-family: 'Baychore'; src: url('fonts/baychore.ttf'); }
-@font-face { font-family: 'Bearline'; src: url('fonts/bearline.ttf'); }
-@font-face { font-family: 'Eathomascript Font'; src: url('fonts/eathomascript.ttf'); }
-@font-face { font-family: 'Damion-Regular'; src: url('fonts/damion-regular.ttf'); }
+@font-face { font-family: 'Adventure Island Script'; src: url('fonts/Adventure Island Script.ttf'); }
+@font-face { font-family: 'Andolucia'; src: url('fonts/Andolucia.ttf'); }
+@font-face { font-family: 'Anthony Houston'; src: url('fonts/Anthony_Houston.ttf'); }
+@font-face { font-family: 'Barokah Signature'; src: url('fonts/Barokah Signature by Alifinart Studio.ttf'); }
+@font-face { font-family: 'Famulred'; src: url('fonts/Famulred.otf'); }
+@font-face { font-family: 'High Empathy'; src: url('fonts/High Empathy.ttf'); }
+@font-face { font-family: 'Jastyka'; src: url('fonts/Jastyka.ttf'); }
+@font-face { font-family: 'Nickainley'; src: url('fonts/Nickainley.ttf'); }
+@font-face { font-family: 'Zing Script Rust'; src: url('fonts/ZingScriptRustSBDemo-Base.otf'); }
 @font-face { font-family: 'Gruppo'; src: url('fonts/Gruppo-Regular.ttf'); }
 @font-face { font-family: 'Kodchasan'; src: url('fonts/Kodchasan-Regular.ttf'); }
 @font-face { font-family: 'Meow Script'; src: url('fonts/MeowScript-Regular.ttf'); }
