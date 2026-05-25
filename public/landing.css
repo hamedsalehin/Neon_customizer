@@ -305,6 +305,12 @@ nav.main-nav a:hover::after {
     align-items: center;
 }
 
+@media (min-width: 769px) {
+    .hero-grid {
+        margin-left: -50px; /* Push hero elements slightly to the left on desktop/tablet */
+    }
+}
+
 .hero-content {
     text-align: left;
 }
@@ -345,7 +351,7 @@ nav.main-nav a:hover::after {
 
 .benefits-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 30px;
 }
 
@@ -963,10 +969,6 @@ footer.site-footer {
         gap: 40px;
     }
     
-    .categories-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
     .tech-grid {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -1020,10 +1022,6 @@ footer.site-footer {
     }
     
     .benefits-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .categories-grid {
         grid-template-columns: 1fr;
     }
     

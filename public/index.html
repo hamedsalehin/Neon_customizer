@@ -24,7 +24,6 @@
                 <ul>
                     <li><a href="#hero">Home</a></li>
                     <li><a href="customizer.html">Customizer <span style="background: var(--neon-pink); color: #fff; font-size: 0.65rem; padding: 2px 6px; border-radius: 10px; font-weight: 700; vertical-align: middle; margin-left: 2px;">NEW</span></a></li>
-                    <li><a href="#categories">Categories</a></li>
                     <li><a href="#colors">Colors</a></li>
                     <li><a href="#tech">Technology</a></li>
                     <li><a href="#faq">FAQs</a></li>
@@ -56,7 +55,7 @@
         <div class="container hero-grid">
             <div class="hero-content">
                 <span class="section-tag">Handcrafted & Premium</span>
-                <h1>Illuminate Your Vision With <span class="text-gradient-pink-blue">Nano Sign</span></h1>
+                <h1>Illuminate Your Vision<br>With <span class="text-gradient-pink-blue">Nano Sign</span></h1>
                 <p>Create a vibrant, customized atmosphere for your business storefront, wedding backdrop, home décor, or events. Built by hand using energy-efficient, safe-to-touch LED neon flex technology.</p>
                 <div class="hero-cta">
                     <a href="customizer.html" class="glow-btn pink-glow">
@@ -96,83 +95,6 @@
                     <p>Round-the-clock expert customer service whenever you need it.</p>
                 </div>
             </div>
-            <div class="benefit-item">
-                <div class="benefit-icon">🛡️</div>
-                <div class="benefit-text">
-                    <h3>UL Listed & Safe</h3>
-                    <p>CE & UL certified power options. Low 12V system, cold to the touch.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="categories-section" id="categories">
-        <div class="glass-blob blob-blue" style="top: 20%; left: -200px; opacity: 0.12;"></div>
-        <div class="glass-blob blob-pink" style="bottom: 10%; right: -200px; opacity: 0.12;"></div>
-        <div class="container">
-            <div class="section-title-area">
-                <span class="section-tag">Collections</span>
-                <h2 class="section-title">Shop Our Custom Neon Signs</h2>
-                <p class="section-desc">Handmade LED neon creations tailored perfectly for every space and occasion.</p>
-            </div>
-            
-            <div class="categories-grid">
-                <div class="category-card" onclick="window.location.href='customizer.html'">
-                    <div class="category-card-glow"></div>
-                    <div class="category-icon">🏢</div>
-                    <h3>Business Neon Signs</h3>
-                    <p>Attract foot traffic and define your workspace branding.</p>
-                </div>
-                
-                <div class="category-card" onclick="window.location.href='customizer.html'">
-                    <div class="category-card-glow"></div>
-                    <div class="category-icon">✍️</div>
-                    <h3>Personalized Neon Signs</h3>
-                    <p>Turn names, custom quotes, or designs into glowing masterpieces.</p>
-                </div>
-                
-                <div class="category-card" onclick="window.location.href='customizer.html'">
-                    <div class="category-card-glow"></div>
-                    <div class="category-icon">💍</div>
-                    <h3>Wedding Neon Signs</h3>
-                    <p>Make your special day unforgettable with customized backdrops.</p>
-                </div>
-                
-                <div class="category-card" onclick="window.location.href='customizer.html'">
-                    <div class="category-card-glow"></div>
-                    <div class="category-icon">🍹</div>
-                    <h3>Custom Neon Bar Signs</h3>
-                    <p>Set the perfect mood for your home bar, tavern, or club.</p>
-                </div>
-                
-                <div class="category-card" onclick="window.location.href='customizer.html'">
-                    <div class="category-card-glow"></div>
-                    <div class="category-icon">🏠</div>
-                    <h3>Neon Signs For Home</h3>
-                    <p>Warm up your bedrooms, living rooms, and private spaces.</p>
-                </div>
-                
-                <div class="category-card" onclick="window.location.href='customizer.html'">
-                    <div class="category-card-glow"></div>
-                    <div class="category-icon">🌧️</div>
-                    <h3>Outdoor Neon Signs</h3>
-                    <p>Waterproofed (IP67) designs built to withstand external weather.</p>
-                </div>
-                
-                <div class="category-card" onclick="window.location.href='customizer.html'">
-                    <div class="category-card-glow"></div>
-                    <div class="category-icon">✨</div>
-                    <h3>Neon Minis</h3>
-                    <p>Compact designs, ideal for desks, table overlays, and gifts.</p>
-                </div>
-                
-                <div class="category-card" onclick="window.location.href='customizer.html'">
-                    <div class="category-card-glow"></div>
-                    <div class="category-icon">🏷️</div>
-                    <h3>Cheap Neon Signs</h3>
-                    <p>Premium craftsmanship at competitive, budget-friendly rates.</p>
-                </div>
-            </div>
         </div>
     </section>
 
@@ -186,9 +108,8 @@
             </div>
             
             <div class="color-panel-layout">
-                <div class="color-demo-display">
-                    <div class="color-demo-glow" id="color-demo-glow"></div>
-                    <div class="color-demo-text" id="color-demo-text">NANO SIGN</div>
+                <div class="color-demo-display" style="padding: 0; background: #000; overflow: hidden; display: flex; align-items: center; justify-content: center; height: 380px; border-radius: 20px;">
+                    <img id="color-demo-image" src="" alt="Nano Sign Preview" style="width: 100%; height: 100%; object-fit: contain; transition: opacity 0.3s ease;">
                 </div>
                 
                 <div class="color-selector-controls">
@@ -197,38 +118,53 @@
                         <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px;">We use standard dual jacket flex LED nodes for premium saturation.</p>
                         
                         <div class="swatch-group">
-                            <div class="swatch active" style="background-color: #00f2fe;" data-color="#00f2fe" data-shadow="rgba(0, 242, 254, 0.6)" data-name="Ice Blue">
+                            <div class="swatch active" data-image="images/colors/ice_blue_preview.png" data-name="Ice Blue">
+                                <img src="images/colors/ice_blue_icon.png" alt="Ice Blue" style="width: 100%; height: 100%; border-radius: 12px; object-fit: cover; pointer-events: none;">
                                 <span class="swatch-name">Ice Blue</span>
                             </div>
-                            <div class="swatch" style="background-color: #ff007f;" data-color="#ff007f" data-shadow="rgba(255, 0, 127, 0.6)" data-name="Hot Pink">
+                            <div class="swatch" data-image="images/colors/hot_pink_preview.png" data-name="Hot Pink">
+                                <img src="images/colors/hot_pink_icon.png" alt="Hot Pink" style="width: 100%; height: 100%; border-radius: 12px; object-fit: cover; pointer-events: none;">
                                 <span class="swatch-name">Hot Pink</span>
                             </div>
-                            <div class="swatch" style="background-color: #0070f3;" data-color="#0070f3" data-shadow="rgba(0, 112, 243, 0.6)" data-name="Deep Blue">
+                            <div class="swatch" data-image="images/colors/deep_blue_preview.png" data-name="Deep Blue">
+                                <img src="images/colors/deep_blue_icon.png" alt="Deep Blue" style="width: 100%; height: 100%; border-radius: 12px; object-fit: cover; pointer-events: none;">
                                 <span class="swatch-name">Deep Blue</span>
                             </div>
-                            <div class="swatch" style="background-color: #00ff00;" data-color="#00ff00" data-shadow="rgba(0, 255, 0, 0.6)" data-name="Lime Green">
+                            <div class="swatch" data-image="images/colors/lime_green_preview.png" data-name="Lime Green">
+                                <img src="images/colors/lime_green_icon.png" alt="Lime Green" style="width: 100%; height: 100%; border-radius: 12px; object-fit: cover; pointer-events: none;">
                                 <span class="swatch-name">Green</span>
                             </div>
-                            <div class="swatch" style="background-color: #ffb703;" data-color="#ffb703" data-shadow="rgba(255, 183, 3, 0.6)" data-name="Golden Yellow">
+                            <div class="swatch" data-image="images/colors/golden_yellow_preview.png" data-name="Golden Yellow">
+                                <img src="images/colors/golden_yellow_icon.png" alt="Golden Yellow" style="width: 100%; height: 100%; border-radius: 12px; object-fit: cover; pointer-events: none;">
                                 <span class="swatch-name">Yellow</span>
                             </div>
-                            <div class="swatch" style="background-color: #ff8a00;" data-color="#ff8a00" data-shadow="rgba(255, 138, 0, 0.6)" data-name="Neon Orange">
+                            <div class="swatch" data-image="images/colors/neon_orange_preview.png" data-name="Neon Orange">
+                                <img src="images/colors/neon_orange_icon.png" alt="Neon Orange" style="width: 100%; height: 100%; border-radius: 12px; object-fit: cover; pointer-events: none;">
                                 <span class="swatch-name">Orange</span>
                             </div>
-                            <div class="swatch" style="background-color: #ff0000;" data-color="#ff0000" data-shadow="rgba(255, 0, 0, 0.6)" data-name="Bright Red">
+                            <div class="swatch" data-image="images/colors/bright_red_preview.png" data-name="Bright Red">
+                                <img src="images/colors/bright_red_icon.png" alt="Bright Red" style="width: 100%; height: 100%; border-radius: 12px; object-fit: cover; pointer-events: none;">
                                 <span class="swatch-name">Red</span>
                             </div>
-                            <div class="swatch" style="background-color: #9d4edd;" data-color="#9d4edd" data-shadow="rgba(157, 78, 221, 0.6)" data-name="Acid Purple">
+                            <div class="swatch" data-image="images/colors/acid_purple_preview.png" data-name="Acid Purple">
+                                <img src="images/colors/acid_purple_icon.png" alt="Acid Purple" style="width: 100%; height: 100%; border-radius: 12px; object-fit: cover; pointer-events: none;">
                                 <span class="swatch-name">Purple</span>
                             </div>
-                            <div class="swatch" style="background-color: #f0f8ff;" data-color="#f0f8ff" data-shadow="rgba(240, 248, 255, 0.6)" data-name="Cool White">
+                            <div class="swatch" data-image="images/colors/cool_white_preview.png" data-name="Cool White">
+                                <img src="images/colors/cool_white_icon.png" alt="Cool White" style="width: 100%; height: 100%; border-radius: 12px; object-fit: cover; pointer-events: none;">
                                 <span class="swatch-name">Cool White</span>
                             </div>
-                            <div class="swatch" style="background-color: #fff9e6;" data-color="#fff9e6" data-shadow="rgba(255, 249, 230, 0.6)" data-name="Warm White">
+                            <div class="swatch" data-image="images/colors/warm_white_preview.png" data-name="Warm White">
+                                <img src="images/colors/warm_white_icon.png" alt="Warm White" style="width: 100%; height: 100%; border-radius: 12px; object-fit: cover; pointer-events: none;">
                                 <span class="swatch-name">Warm White</span>
                             </div>
-                            <div class="swatch" style="background-color: #00f5d4;" data-color="#00f5d4" data-shadow="rgba(0, 245, 212, 0.6)" data-name="Turquoise">
+                            <div class="swatch" data-image="images/colors/turquoise_preview.png" data-name="Turquoise">
+                                <img src="images/colors/turquoise_icon.png" alt="Turquoise" style="width: 100%; height: 100%; border-radius: 12px; object-fit: cover; pointer-events: none;">
                                 <span class="swatch-name">Turquoise</span>
+                            </div>
+                            <div class="swatch" data-image="images/colors/lime_yellow_preview.png" data-name="Lime Yellow">
+                                <img src="images/colors/lime_yellow_icon.png" alt="Lime Yellow" style="width: 100%; height: 100%; border-radius: 12px; object-fit: cover; pointer-events: none;">
+                                <span class="swatch-name">Lime Yellow</span>
                             </div>
                         </div>
                     </div>
@@ -396,9 +332,9 @@
                 <h4>Products</h4>
                 <ul>
                     <li><a href="customizer.html">Custom Text Signs</a></li>
-                    <li><a href="#categories">Business Outfits</a></li>
-                    <li><a href="#categories">Wedding Backdrops</a></li>
-                    <li><a href="#tech">UV Printed Logos</a></li>
+                    <li><a href="customizer.html">Business Signs</a></li>
+                    <li><a href="customizer.html">Wedding Backdrops</a></li>
+                    <li><a href="quote.html">UV Printed Logos / Quote</a></li>
                 </ul>
             </div>
             
@@ -463,8 +399,7 @@
 
             // Swatch Color selector functionality
             const swatches = document.querySelectorAll('.swatch');
-            const demoText = document.getElementById('color-demo-text');
-            const demoGlow = document.getElementById('color-demo-glow');
+            const demoImage = document.getElementById('color-demo-image');
             
             swatches.forEach(swatch => {
                 swatch.addEventListener('click', () => {
@@ -472,28 +407,24 @@
                     swatches.forEach(s => s.classList.remove('active'));
                     swatch.classList.add('active');
 
-                    // Extract color values
-                    const colorHex = swatch.dataset.color;
-                    const glowShadow = swatch.dataset.shadow;
-                    const colorName = swatch.dataset.name;
+                    // Extract image path
+                    const imagePath = swatch.dataset.image;
 
-                    // Update UI demo displays
-                    demoText.style.color = '#fff';
-                    demoText.style.textShadow = `
-                        0 0 5px #fff,
-                        0 0 10px #fff,
-                        0 0 20px ${colorHex},
-                        0 0 40px ${colorHex},
-                        0 0 60px ${colorHex}
-                    `;
-                    demoGlow.style.backgroundColor = colorHex;
-                    demoGlow.style.boxShadow = `0 0 80px 40px ${colorHex}`;
-                    demoGlow.style.opacity = '0.35';
+                    // Update UI demo displays with fade transition
+                    if (demoImage.src !== window.location.origin + '/' + imagePath) {
+                        demoImage.style.opacity = '0';
+                        setTimeout(() => {
+                            demoImage.src = imagePath;
+                            demoImage.style.opacity = '1';
+                        }, 200);
+                    }
                 });
             });
 
             // Trigger click on first swatch to initialize demo
-            swatches[0].click();
+            if (swatches.length > 0) {
+                swatches[0].click();
+            }
 
             // FAQ Accordion toggles
             const faqItems = document.querySelectorAll('.faq-item');
