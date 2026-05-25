@@ -89,6 +89,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const charCountEl    = document.getElementById('char-count');
     const priceTotal     = document.getElementById('price-total');
     const estHeightEl    = document.getElementById('est-height');
+    const estWidthEl     = document.getElementById('est-width');
     const totalLengthEl  = document.getElementById('total-strip-length');
     const inputWidthCm   = document.getElementById('input-width-cm');
     const inputHeightCm  = document.getElementById('input-height-cm');
