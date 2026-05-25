@@ -1104,7 +1104,7 @@ textarea#sign-text::placeholder {
 }
 
 /* Step Selection Cards (Backing Cards, Size Cards) & Swatches */
-.bb-card, .size-card, .color-swatch {
+.bb-card, .size-card, .color-swatch, .env-card {
     background: rgba(255, 255, 255, 0.35) !important;
     border: 1px solid rgba(255, 255, 255, 0.6) !important;
     border-radius: 16px !important;
@@ -1115,7 +1115,7 @@ textarea#sign-text::placeholder {
 }
 
 /* Gloss sheen top highlight */
-.bb-card::before, .size-card::before, .color-swatch::before {
+.bb-card::before, .size-card::before, .color-swatch::before, .env-card::before {
     content: '' !important;
     position: absolute !important;
     top: 1px !important;
@@ -1128,25 +1128,25 @@ textarea#sign-text::placeholder {
     z-index: 2 !important;
 }
 
-.bb-card:hover, .size-card:hover, .color-swatch:hover {
+.bb-card:hover, .size-card:hover, .color-swatch:hover, .env-card:hover {
     background: rgba(255, 255, 255, 0.55) !important;
     border-color: rgba(255, 255, 255, 0.85) !important;
     transform: translateY(-2px) !important;
     box-shadow: 0 8px 16px rgba(31, 38, 135, 0.04) !important;
 }
 
-.bb-card.active, .size-card.active, .color-swatch.active {
+.bb-card.active, .size-card.active, .color-swatch.active, .env-card.active {
     border-color: #ff007f !important;
     background: rgba(255, 0, 127, 0.05) !important;
     box-shadow: 0 0 15px rgba(255, 0, 127, 0.1) !important;
 }
 
-.bb-card span, .size-name, .size-dims, .color-swatch span {
+.bb-card span, .size-name, .size-dims, .color-swatch span, .env-card span {
     color: #475569 !important;
     z-index: 3 !important;
 }
 
-.bb-card.active span, .size-card.active .size-name, .size-card.active .size-dims, .color-swatch.active span {
+.bb-card.active span, .size-card.active .size-name, .size-card.active .size-dims, .color-swatch.active span, .env-card.active span {
     color: #1e1b4b !important;
     font-weight: 700 !important;
 }

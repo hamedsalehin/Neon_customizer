@@ -100,6 +100,25 @@
                         <div class="sub-label"><span>Line Spacing</span> <span id="line-spacing-val">1.2x</span></div>
                         <input type="range" id="line-spacing-slider" class="neon-slider" min="0.1" max="2.0" step="0.1" value="1.2">
                     </div>
+
+                    <!-- Moved Choose Acrylic Backboard here -->
+                    <div class="sub-control">
+                        <div class="sub-label"><span>Choose Acrylic Backboard</span></div>
+                        <div class="backing-grid">
+                            <div class="bb-card active" data-backing="cut-to-shape">
+                                <div class="bb-icon"></div>
+                                <span>Cut to Shape</span>
+                            </div>
+                            <div class="bb-card" data-backing="cut-to-letter">
+                                <div class="bb-icon"></div>
+                                <span>Cut to Letter</span>
+                            </div>
+                            <div class="bb-card" data-backing="rectangle">
+                                <div class="bb-icon"></div>
+                                <span>Rectangle</span>
+                            </div>
+                        </div>
+                    </div>
                     
                     <div class="sub-control">
                         <div class="sub-label"><span>Select Your Font Style</span></div>
@@ -109,25 +128,6 @@
                     <div class="sub-control">
                         <div class="sub-label"><span>Select Neon Color</span></div>
                         <div class="neon-color-button-grid" id="global-color-grid"></div>
-                    </div>
-                </div>
-
-                <!-- STEP 2: CHOOSE ACRYLIC BACKBOARD -->
-                <div class="control-block">
-                    <label class="section-title">2. Choose Acrylic Backboard</label>
-                    <div class="backing-grid">
-                        <div class="bb-card active" data-backing="cut-to-shape">
-                            <div class="bb-icon"></div>
-                            <span>Cut to Shape</span>
-                        </div>
-                        <div class="bb-card" data-backing="cut-to-letter">
-                            <div class="bb-icon"></div>
-                            <span>Cut to Letter</span>
-                        </div>
-                        <div class="bb-card" data-backing="rectangle">
-                            <div class="bb-icon"></div>
-                            <span>Rectangle</span>
-                        </div>
                     </div>
                 </div>
 
@@ -189,6 +189,19 @@
                         <div class="size-input-group">
                             <label>Height (cm)</label>
                             <input type="number" id="input-height-cm" value="14" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- USE ENVIRONMENT SECTION -->
+                <div class="control-block">
+                    <label class="section-title">Use Environment</label>
+                    <div class="env-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+                        <div class="env-card active" data-env="indoor" style="padding: 12px; text-align: center; cursor: pointer; display: flex; justify-content: center; align-items: center; min-height: 50px;">
+                            <span>Indoor Use</span>
+                        </div>
+                        <div class="env-card" data-env="outdoor" style="padding: 12px; text-align: center; cursor: pointer; display: flex; justify-content: center; align-items: center; min-height: 50px;">
+                            <span>Outdoor (Waterproof)</span>
                         </div>
                     </div>
                 </div>

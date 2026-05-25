@@ -72,7 +72,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         x: 0, // offset from center
         y: 0,
         selected: true,
-        targetWidthCm: 100, // Default physical width
+        targetWidthCm: 40, // Default physical width (matches active Medium size-card)
+        environment: 'indoor',
+        backingColor: 'acrylic',
+        backing: 'cut-to-shape',
         _stripCm: 0
     };
     let currentBacking = 'cut-to-shape';
@@ -587,11 +590,34 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         if (estWidthEl) estWidthEl.textContent = `Total: ${finalWCm}cm x ${finalHCm}cm / ${finalWIn}in x ${finalHIn}in`;
         
-        // Accurate price based on neon strip length
-        const baseCost = 45;
-        const cmCost = 0.85; 
-        const finalPrice = baseCost + (totalPx * currentCmPerPx * cmCost);
-        priceTotal.textContent = `$${finalPrice.toFixed(2)}`;
+        // Accurate price based on width, height and neon strip length
+        const wIn = parseFloat(finalWIn) || 0;
+        const hIn = parseFloat(finalHIn) || 0;
+        const lIn = parseFloat(totalIn) || 0;
+
+        let calculatedPrice = 50 + (wIn + hIn) * 1.2 + lIn * 0.79;
+
+        // Apply color multiplier (RGB Cycle is 2x, Color Flow is 3x)
+        let colorMult = 1.0;
+        if (currentSign.colorId === 'rgb') colorMult = 2.0;
+        else if (currentSign.colorId === 'flow') colorMult = 3.0;
+        calculatedPrice *= colorMult;
+
+        // Apply backboard material multiplier (White and Black are 1.1x)
+        let materialMult = 1.0;
+        if (currentSign.backingColor === 'white' || currentSign.backingColor === 'black') {
+            materialMult = 1.1;
+        }
+        calculatedPrice *= materialMult;
+
+        // Apply use environment multiplier (Outdoor waterproof is 1.35x)
+        let envMult = 1.0;
+        if (currentSign.environment === 'outdoor') {
+            envMult = 1.35;
+        }
+        calculatedPrice *= envMult;
+
+        priceTotal.textContent = `$${calculatedPrice.toFixed(2)}`;
     };
 
     // Background click to deselect
@@ -623,6 +649,18 @@ document.addEventListener('DOMContentLoaded', async () => {
             swatch.classList.add('active');
             currentBackingColor = swatch.dataset.bcolor;
             currentSign.backingColor = swatch.dataset.bcolor;
+            syncTextToCanvas();
+        });
+    });
+
+    // ============================================================
+    // USE ENVIRONMENT SELECTION
+    // ============================================================
+    document.querySelectorAll('.env-card').forEach(card => {
+        card.addEventListener('click', () => {
+            document.querySelectorAll('.env-card').forEach(c => c.classList.remove('active'));
+            card.classList.add('active');
+            currentSign.environment = card.dataset.env;
             syncTextToCanvas();
         });
     });
@@ -732,7 +770,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <div class="cart-item-name">${item.text.replace(/\n/g, ' ')}</div>
                         <div class="cart-item-details">
                             ${item.fontName} • ${item.colorName}<br>
-                            ${item.widthCm}cm x ${item.heightCm}cm • ${item.backing}
+                            ${item.widthCm}cm x ${item.heightCm}cm • ${item.backing === 'cut-to-letter' ? 'Cut to Letter' : item.backing === 'rectangle' ? 'Rectangle' : 'Cut to Shape'}<br>
+                            Material: ${item.backingColor === 'black' ? 'Black Acrylic' : item.backingColor === 'white' ? 'White Acrylic' : 'Clear Glass'} • Use: ${item.environment === 'outdoor' ? 'Outdoor Waterproof' : 'Indoor Use'}
                         </div>
                         <div class="cart-item-price">$${item.price.toFixed(2)}</div>
                     </div>
@@ -781,6 +820,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 widthCm: Math.round(parseFloat(inputWidthCm.value)),
                 heightCm: Math.round(parseFloat(inputHeightCm.value)),
                 backing: currentBacking,
+                backingColor: currentSign.backingColor || 'acrylic',
+                environment: currentSign.environment || 'indoor',
                 price: currentPrice,
                 svgMarkup: svgMarkup,
                 timestamp: Date.now()

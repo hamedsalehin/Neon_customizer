@@ -471,7 +471,7 @@ app.post('/api/create-checkout', async (req, res) => {
             color_name: item.colorName,
             width_cm: item.widthCm,
             height_cm: item.heightCm,
-            backing: item.backing,
+            backing: `${item.backing === 'cut-to-letter' ? 'Cut to Letter' : item.backing === 'rectangle' ? 'Rectangle' : 'Cut to Shape'} (${item.backingColor === 'black' ? 'Black Acrylic' : item.backingColor === 'white' ? 'White Acrylic' : 'Clear Glass'}, ${item.environment === 'outdoor' ? 'Outdoor Waterproof' : 'Indoor Use'})`,
             price: item.price,
             svg_markup: item.svgMarkup
         }));
@@ -488,7 +488,7 @@ app.post('/api/create-checkout', async (req, res) => {
                 currency: 'usd',
                 product_data: {
                     name: `Neon Sign — "${item.text}"`,
-                    description: `${item.fontName} · ${item.colorName} · ${item.widthCm}×${item.heightCm}cm · ${item.backing} backing`
+                    description: `${item.fontName} · ${item.colorName} · ${item.widthCm}×${item.heightCm}cm · ${item.backing === 'cut-to-letter' ? 'Cut to Letter' : item.backing === 'rectangle' ? 'Rectangle' : 'Cut to Shape'} · ${item.backingColor === 'black' ? 'Black Acrylic' : item.backingColor === 'white' ? 'White Acrylic' : 'Clear Glass'} · ${item.environment === 'outdoor' ? 'Outdoor Waterproof' : 'Indoor Use'}`
                 },
                 unit_amount: Math.round(item.price * 100) // Stripe expects cents
             },

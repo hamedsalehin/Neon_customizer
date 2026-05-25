@@ -307,7 +307,7 @@ nav.main-nav a:hover::after {
 
 @media (min-width: 769px) {
     .hero-grid {
-        margin-left: -50px; /* Push hero elements slightly to the left on desktop/tablet */
+        margin-left: 15px; /* Shifted slightly right to balance visual layout */
     }
 }
 

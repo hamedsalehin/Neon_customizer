@@ -35,7 +35,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         <strong>Font:</strong> ${item.fontName}<br>
                         <strong>Color:</strong> ${item.colorName}<br>
                         <strong>Size:</strong> ${item.widthCm}cm x ${item.heightCm}cm<br>
-                        <strong>Backing:</strong> ${item.backing}
+                        <strong>Backing:</strong> ${item.backing === 'cut-to-letter' ? 'Cut to Letter' : item.backing === 'rectangle' ? 'Rectangle' : 'Cut to Shape'}<br>
+                        <strong>Material:</strong> ${item.backingColor === 'black' ? 'Black Acrylic' : item.backingColor === 'white' ? 'White Acrylic' : 'Clear Glass'}<br>
+                        <strong>Use:</strong> ${item.environment === 'outdoor' ? 'Outdoor (Waterproof)' : 'Indoor'}
                     </div>
                     <div class="cart-page-item-price">$${item.price.toFixed(2)}</div>
                 </div>
