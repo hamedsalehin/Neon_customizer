@@ -195,16 +195,14 @@ header.site-header {
     left: 0;
     width: 100%;
     z-index: 1000;
-    background: rgba(255, 255, 255, 0.45);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    background: #ffffff;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02);
     transition: var(--transition);
 }
 
 header.site-header.scrolled {
-    background: rgba(255, 255, 255, 0.75);
+    background: #ffffff;
     padding: 5px 0;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
 }
@@ -301,45 +299,36 @@ nav.main-nav a:hover::after {
 }
 
 .hero-grid {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1.2fr;
+    gap: 60px;
     align-items: center;
-    justify-content: center;
-    text-align: center;
-    max-width: 840px;
-    margin: 0 auto;
 }
 
 .hero-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+    text-align: left;
 }
 
 .hero-content h1 {
-    font-size: 4rem;
-    font-weight: 850;
+    font-size: 3.8rem;
+    font-weight: 800;
     line-height: 1.15;
     letter-spacing: -0.03em;
     margin-bottom: 24px;
     color: #ffffff;
-    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.9);
 }
 
 .hero-content p {
-    font-size: 1.25rem;
-    color: rgba(255, 255, 255, 0.95);
+    font-size: 1.15rem;
+    color: rgba(255, 255, 255, 0.85);
     margin-bottom: 40px;
-    max-width: 680px;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
+    max-width: 580px;
 }
 
 .hero-cta {
     display: flex;
     gap: 16px;
     flex-wrap: wrap;
-    justify-content: center;
 }
 
 /* ─── Trust Banner ──────────────────────────────────────────────────────── */
