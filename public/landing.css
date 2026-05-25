@@ -297,6 +297,7 @@ nav.main-nav a:hover::after {
     position: relative;
     padding: 180px 0 100px;
     overflow: hidden;
+    background: linear-gradient(rgba(10, 10, 12, 0.78), rgba(10, 10, 12, 0.85)), url('bg/hero_bg.jpg') center/cover no-repeat;
 }
 
 .hero-grid {
@@ -312,12 +313,12 @@ nav.main-nav a:hover::after {
     line-height: 1.15;
     letter-spacing: -0.03em;
     margin-bottom: 24px;
-    color: var(--text-primary);
+    color: #ffffff;
 }
 
 .hero-content p {
     font-size: 1.15rem;
-    color: var(--text-secondary);
+    color: rgba(255, 255, 255, 0.8);
     margin-bottom: 40px;
     max-width: 580px;
 }

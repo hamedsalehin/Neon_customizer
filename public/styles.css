@@ -9,15 +9,15 @@
 }
 
 /* Local Fonts Registry */
-@font-face { font-family: 'a little sunshine'; src: url('fonts/DancingScript-Regular.ttf'); }
-@font-face { font-family: 'adventure Island Script'; src: url('fonts/GreatVibes-Regular.ttf'); }
-@font-face { font-family: 'Andolucia'; src: url('fonts/Parisienne-Regular.ttf'); }
-@font-face { font-family: 'Anthony Houston'; src: url('fonts/BungeeHairline-Regular.ttf'); }
-@font-face { font-family: 'Balmonde'; src: url('fonts/Comfortaa-Light.ttf'); }
-@font-face { font-family: 'Baychore'; src: url('fonts/Raleway-Thin.ttf'); }
-@font-face { font-family: 'Bearline'; src: url('fonts/JosefinSans-Thin.ttf'); }
-@font-face { font-family: 'Eathomascript Font'; src: url('fonts/MsMadi-Regular.ttf'); }
-@font-face { font-family: 'Damion'; src: url('fonts/Damion-Regular.ttf'); }
+@font-face { font-family: 'a little sunshine'; src: url('fonts/a-little-sunshine.ttf'); }
+@font-face { font-family: 'adventure Island Script'; src: url('fonts/adventure-island-script.ttf'); }
+@font-face { font-family: 'Andolucia'; src: url('fonts/andolucia.ttf'); }
+@font-face { font-family: 'Anthony Houston'; src: url('fonts/anthony-houston.ttf'); }
+@font-face { font-family: 'Balmonde'; src: url('fonts/balmonde.ttf'); }
+@font-face { font-family: 'Baychore'; src: url('fonts/baychore.ttf'); }
+@font-face { font-family: 'Bearline'; src: url('fonts/bearline.ttf'); }
+@font-face { font-family: 'Eathomascript Font'; src: url('fonts/eathomascript.ttf'); }
+@font-face { font-family: 'Damion-Regular'; src: url('fonts/damion-regular.ttf'); }
 @font-face { font-family: 'Gruppo'; src: url('fonts/Gruppo-Regular.ttf'); }
 @font-face { font-family: 'Kodchasan'; src: url('fonts/Kodchasan-Regular.ttf'); }
 @font-face { font-family: 'Meow Script'; src: url('fonts/MeowScript-Regular.ttf'); }
