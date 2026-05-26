@@ -351,7 +351,7 @@ nav.main-nav a:hover::after {
 
 .benefits-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 30px;
 }
 
@@ -675,7 +675,7 @@ nav.main-nav a:hover::after {
     display: flex;
     width: max-content;
     gap: 0;
-    animation: scroll-right 40s linear infinite;
+    animation: scroll-right 70s linear infinite;
 }
 
 .marquee-group {
