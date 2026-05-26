@@ -293,7 +293,7 @@ nav.main-nav a:hover::after {
 /* ─── Hero Section ────────────────────────────────────────────────────────── */
 .hero-section {
     position: relative;
-    padding: 180px 0 120px;
+    padding: 140px 0 80px;
     overflow: hidden;
     background: url('bg/hero_bg.jpg') center/cover no-repeat;
 }
@@ -412,7 +412,7 @@ nav.main-nav a:hover::after {
 
 /* ─── Category Sections ─────────────────────────────────────────────────── */
 .categories-section {
-    padding: 100px 0;
+    padding: 50px 0;
     position: relative;
 }
 
@@ -508,7 +508,7 @@ nav.main-nav a:hover::after {
     background: rgba(255, 255, 255, 0.2);
     border-top: 1px solid rgba(255, 255, 255, 0.4);
     border-bottom: 1px solid rgba(255, 255, 255, 0.4);
-    padding: 100px 0;
+    padding: 50px 0;
 }
 
 .color-panel-layout {
@@ -531,7 +531,7 @@ nav.main-nav a:hover::after {
     box-shadow: 
         0 20px 40px rgba(0,0,0,0.25),
         inset 0 10px 20px rgba(0,0,0,0.5);
-    max-width: 440px;
+    max-width: 460px;
     width: 100%;
     justify-self: end;
 }
@@ -653,7 +653,7 @@ nav.main-nav a:hover::after {
 
 /* ─── Past Works Gallery ────────────────────────────────────────────────── */
 .tech-section {
-    padding: 100px 0;
+    padding: 50px 0;
 }
 
 .marquee-wrapper {
@@ -675,7 +675,7 @@ nav.main-nav a:hover::after {
     display: flex;
     width: max-content;
     gap: 0;
-    animation: scroll-right 30s linear infinite;
+    animation: scroll-right 40s linear infinite;
 }
 
 .marquee-group {
@@ -688,8 +688,8 @@ nav.main-nav a:hover::after {
 }
 
 .marquee-group img {
-    width: 320px;
-    height: 220px;
+    width: 440px;
+    height: 300px;
     object-fit: cover;
     border-radius: 20px;
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -721,7 +721,7 @@ nav.main-nav a:hover::after {
     background: rgba(255, 255, 255, 0.2);
     border-top: 1px solid rgba(255, 255, 255, 0.4);
     border-bottom: 1px solid rgba(255, 255, 255, 0.4);
-    padding: 100px 0;
+    padding: 50px 0;
 }
 
 .faq-list {
@@ -789,7 +789,7 @@ nav.main-nav a:hover::after {
 
 /* ─── Pre-Footer Newsletter Banner ──────────────────────────────────────── */
 .cta-banner-section {
-    padding: 120px 0;
+    padding: 60px 0;
     text-align: center;
     position: relative;
 }

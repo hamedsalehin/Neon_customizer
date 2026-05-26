@@ -24,9 +24,9 @@
                 <ul>
                     <li><a href="#hero">Home</a></li>
                     <li><a href="customizer.html">Customizer <span style="background: var(--neon-pink); color: #fff; font-size: 0.65rem; padding: 2px 6px; border-radius: 10px; font-weight: 700; vertical-align: middle; margin-left: 2px;">NEW</span></a></li>
+                    <li><a href="#gallery">Gallery</a></li>
                     <li><a href="#colors">Colors</a></li>
-                    <li><a href="#tech">Technology</a></li>
-                    <li><a href="#faq">FAQs</a></li>
+                    <li><a href="#faq">FAQ</a></li>
                 </ul>
             </nav>
             
@@ -98,90 +98,8 @@
         </div>
     </section>
 
-    <!-- ─── INTERACTIVE COLOR PANEL SECTION ────────────────────────────────── -->
-    <section class="color-panel-section" id="colors">
-        <div class="container">
-            <div class="section-title-area">
-                <span class="section-tag">Interactive Swatches</span>
-                <h2 class="section-title">Explore Our Color Spectrum</h2>
-                <p class="section-desc">Click on any color block below to see it come to life in real-time.</p>
-            </div>
-            
-            <div class="color-panel-layout">
-                <div class="color-demo-display" style="padding: 0; background: #000; overflow: hidden; display: flex; align-items: center; justify-content: center; height: 380px; border-radius: 20px; max-width: 440px; width: 100%; justify-self: end;">
-                    <img id="color-demo-image" src="" alt="Nano Sign Preview" style="width: 100%; height: 100%; object-fit: contain; transition: opacity 0.3s ease;">
-                </div>
-                
-                <div class="color-selector-controls">
-                    <div>
-                        <h3 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 8px;">Pick a color:</h3>
-                        <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px;">We use standard dual jacket flex LED nodes for premium saturation.</p>
-                        
-                        <div class="swatch-group">
-                            <div class="swatch active" data-image="images/colors/ice_blue_preview.jpeg" data-name="Ice Blue">
-                                <img src="images/colors/ice_blue_icon.jpg" alt="Ice Blue" style="width: 100%; height: 100%; border-radius: 12px; object-fit: cover; pointer-events: none;">
-                                <span class="swatch-name">Ice Blue</span>
-                            </div>
-                            <div class="swatch" data-image="images/colors/hot_pink_preview.jpeg" data-name="Hot Pink">
-                                <img src="images/colors/hot_pink_icon.jpg" alt="Hot Pink" style="width: 100%; height: 100%; border-radius: 12px; object-fit: cover; pointer-events: none;">
-                                <span class="swatch-name">Hot Pink</span>
-                            </div>
-                            <div class="swatch" data-image="images/colors/deep_blue_preview.jpeg" data-name="Deep Blue">
-                                <img src="images/colors/deep_blue_icon.jpg" alt="Deep Blue" style="width: 100%; height: 100%; border-radius: 12px; object-fit: cover; pointer-events: none;">
-                                <span class="swatch-name">Deep Blue</span>
-                            </div>
-                            <div class="swatch" data-image="images/colors/lime_green_preview.jpeg" data-name="Lime Green">
-                                <img src="images/colors/lime_green_icon.jpg" alt="Lime Green" style="width: 100%; height: 100%; border-radius: 12px; object-fit: cover; pointer-events: none;">
-                                <span class="swatch-name">Green</span>
-                            </div>
-                            <div class="swatch" data-image="images/colors/golden_yellow_preview.jpeg" data-name="Golden Yellow">
-                                <img src="images/colors/golden_yellow_icon.jpg" alt="Golden Yellow" style="width: 100%; height: 100%; border-radius: 12px; object-fit: cover; pointer-events: none;">
-                                <span class="swatch-name">Yellow</span>
-                            </div>
-                            <div class="swatch" data-image="images/colors/neon_orange_preview.jpeg" data-name="Neon Orange">
-                                <img src="images/colors/neon_orange_icon.jpg" alt="Neon Orange" style="width: 100%; height: 100%; border-radius: 12px; object-fit: cover; pointer-events: none;">
-                                <span class="swatch-name">Orange</span>
-                            </div>
-                            <div class="swatch" data-image="images/colors/bright_red_preview.jpeg" data-name="Bright Red">
-                                <img src="images/colors/bright_red_icon.jpg" alt="Bright Red" style="width: 100%; height: 100%; border-radius: 12px; object-fit: cover; pointer-events: none;">
-                                <span class="swatch-name">Red</span>
-                            </div>
-                            <div class="swatch" data-image="images/colors/acid_purple_preview.jpeg" data-name="Acid Purple">
-                                <img src="images/colors/acid_purple_icon.jpg" alt="Acid Purple" style="width: 100%; height: 100%; border-radius: 12px; object-fit: cover; pointer-events: none;">
-                                <span class="swatch-name">Purple</span>
-                            </div>
-                            <div class="swatch" data-image="images/colors/cool_white_preview.jpeg" data-name="Cool White">
-                                <img src="images/colors/cool_white_icon.jpg" alt="Cool White" style="width: 100%; height: 100%; border-radius: 12px; object-fit: cover; pointer-events: none;">
-                                <span class="swatch-name">Cool White</span>
-                            </div>
-                            <div class="swatch" data-image="images/colors/warm_white_preview.jpeg" data-name="Warm White">
-                                <img src="images/colors/warm_white_icon.jpg" alt="Warm White" style="width: 100%; height: 100%; border-radius: 12px; object-fit: cover; pointer-events: none;">
-                                <span class="swatch-name">Warm White</span>
-                            </div>
-                            <div class="swatch" data-image="images/colors/lime_yellow_preview.jpeg" data-name="Lime Yellow">
-                                <img src="images/colors/lime_yellow_icon.jpg" alt="Lime Yellow" style="width: 100%; height: 100%; border-radius: 12px; object-fit: cover; pointer-events: none;">
-                                <span class="swatch-name">Lime Yellow</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="jacket-info">
-                        <div class="jacket-card">
-                            <h4>White Jacket Option</h4>
-                            <p>Appears clean, matte white when turned off. Shines with full vibrant saturation when illuminated.</p>
-                        </div>
-                        <div class="jacket-card">
-                            <h4>Colored Jacket Option</h4>
-                            <p>Matches the neon sign color even when powered off. Highly visible in daylight.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- ─── PAST WORKS GALLERY SECTION ─────────────────────────────────────── -->
-    <section class="tech-section" id="tech">
+    <section class="tech-section" id="gallery">
         <div class="container">
             <div class="section-title-area">
                 <span class="section-tag">Our Past Works</span>
@@ -206,6 +124,88 @@
                         <img src="images/gallery/work4.png" alt="Past Work 4">
                         <img src="images/gallery/work5.png" alt="Past Work 5">
                         <img src="images/gallery/work6.png" alt="Past Work 6">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── INTERACTIVE COLOR PANEL SECTION ────────────────────────────────── -->
+    <section class="color-panel-section" id="colors">
+        <div class="container">
+            <div class="section-title-area">
+                <span class="section-tag">Interactive Swatches</span>
+                <h2 class="section-title">Explore Our Color Spectrum</h2>
+                <p class="section-desc">Click on any color block below to see it come to life in real-time.</p>
+            </div>
+            
+            <div class="color-panel-layout">
+                <div class="color-demo-display" style="padding: 0; background: #000; overflow: hidden; display: flex; align-items: center; justify-content: center; height: 380px; border-radius: 20px; max-width: 460px; width: 100%; justify-self: end;">
+                    <img id="color-demo-image" src="" alt="Nano Sign Preview" style="width: 100%; height: 100%; object-fit: contain; transition: opacity 0.3s ease;">
+                </div>
+                
+                <div class="color-selector-controls">
+                    <div>
+                        <h3 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 8px;">Pick a color:</h3>
+                        <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px;">We use standard dual jacket flex LED nodes for premium saturation.</p>
+                        
+                        <div class="swatch-group">
+                            <div class="swatch active" data-image="images/colors/ice_blue_preview.jpeg?v=3" data-name="Ice Blue">
+                                <img src="images/colors/ice_blue_icon.jpg?v=3" alt="Ice Blue" style="width: 100%; height: 100%; border-radius: 12px; object-fit: cover; pointer-events: none;">
+                                <span class="swatch-name">Ice Blue</span>
+                            </div>
+                            <div class="swatch" data-image="images/colors/hot_pink_preview.jpeg?v=3" data-name="Hot Pink">
+                                <img src="images/colors/hot_pink_icon.jpg?v=3" alt="Hot Pink" style="width: 100%; height: 100%; border-radius: 12px; object-fit: cover; pointer-events: none;">
+                                <span class="swatch-name">Hot Pink</span>
+                            </div>
+                            <div class="swatch" data-image="images/colors/deep_blue_preview.jpeg?v=3" data-name="Deep Blue">
+                                <img src="images/colors/deep_blue_icon.jpg?v=3" alt="Deep Blue" style="width: 100%; height: 100%; border-radius: 12px; object-fit: cover; pointer-events: none;">
+                                <span class="swatch-name">Deep Blue</span>
+                            </div>
+                            <div class="swatch" data-image="images/colors/lime_green_preview.jpeg?v=3" data-name="Lime Green">
+                                <img src="images/colors/lime_green_icon.jpg?v=3" alt="Lime Green" style="width: 100%; height: 100%; border-radius: 12px; object-fit: cover; pointer-events: none;">
+                                <span class="swatch-name">Green</span>
+                            </div>
+                            <div class="swatch" data-image="images/colors/golden_yellow_preview.jpeg?v=3" data-name="Golden Yellow">
+                                <img src="images/colors/golden_yellow_icon.jpg?v=3" alt="Golden Yellow" style="width: 100%; height: 100%; border-radius: 12px; object-fit: cover; pointer-events: none;">
+                                <span class="swatch-name">Yellow</span>
+                            </div>
+                            <div class="swatch" data-image="images/colors/neon_orange_preview.jpeg?v=3" data-name="Neon Orange">
+                                <img src="images/colors/neon_orange_icon.jpg?v=3" alt="Neon Orange" style="width: 100%; height: 100%; border-radius: 12px; object-fit: cover; pointer-events: none;">
+                                <span class="swatch-name">Orange</span>
+                            </div>
+                            <div class="swatch" data-image="images/colors/bright_red_preview.jpeg?v=3" data-name="Bright Red">
+                                <img src="images/colors/bright_red_icon.jpg?v=3" alt="Bright Red" style="width: 100%; height: 100%; border-radius: 12px; object-fit: cover; pointer-events: none;">
+                                <span class="swatch-name">Red</span>
+                            </div>
+                            <div class="swatch" data-image="images/colors/acid_purple_preview.jpeg?v=3" data-name="Acid Purple">
+                                <img src="images/colors/acid_purple_icon.jpg?v=3" alt="Acid Purple" style="width: 100%; height: 100%; border-radius: 12px; object-fit: cover; pointer-events: none;">
+                                <span class="swatch-name">Purple</span>
+                            </div>
+                            <div class="swatch" data-image="images/colors/cool_white_preview.jpeg?v=3" data-name="Cool White">
+                                <img src="images/colors/cool_white_icon.jpg?v=3" alt="Cool White" style="width: 100%; height: 100%; border-radius: 12px; object-fit: cover; pointer-events: none;">
+                                <span class="swatch-name">Cool White</span>
+                            </div>
+                            <div class="swatch" data-image="images/colors/warm_white_preview.jpeg?v=3" data-name="Warm White">
+                                <img src="images/colors/warm_white_icon.jpg?v=3" alt="Warm White" style="width: 100%; height: 100%; border-radius: 12px; object-fit: cover; pointer-events: none;">
+                                <span class="swatch-name">Warm White</span>
+                            </div>
+                            <div class="swatch" data-image="images/colors/lime_yellow_preview.jpeg?v=3" data-name="Lime Yellow">
+                                <img src="images/colors/lime_yellow_icon.jpg?v=3" alt="Lime Yellow" style="width: 100%; height: 100%; border-radius: 12px; object-fit: cover; pointer-events: none;">
+                                <span class="swatch-name">Lime Yellow</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="jacket-info">
+                        <div class="jacket-card">
+                            <h4>White Jacket Option</h4>
+                            <p>Appears clean, matte white when turned off. Shines with full vibrant saturation when illuminated.</p>
+                        </div>
+                        <div class="jacket-card">
+                            <h4>Colored Jacket Option</h4>
+                            <p>Matches the neon sign color even when powered off. Highly visible in daylight.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -323,8 +323,8 @@
             <div class="footer-links">
                 <h4>Information</h4>
                 <ul>
+                    <li><a href="#gallery">Gallery</a></li>
                     <li><a href="#colors">Color Panel</a></li>
-                    <li><a href="#tech">Our Technology</a></li>
                     <li><a href="#faq">Frequently Asked Questions</a></li>
                 </ul>
             </div>
@@ -332,9 +332,9 @@
             <div class="footer-links">
                 <h4>Contact & Support</h4>
                 <ul>
-                    <li><a href="mailto:info@nanosigns.com">info@nanosigns.com</a></li>
-                    <li><a href="tel:+18665734920">1-866-573-4920</a></li>
-                    <li><p style="font-size:0.85rem; color:var(--text-muted); line-height:1.4;">20812 Carrey Road,<br>Walnut, CA 91789</p></li>
+                    <li><a href="mailto:nanosign1@gmail.com">nanosign1@gmail.com</a></li>
+                    <li><a href="tel:+13059671005">305 967 1005</a> / <a href="tel:+13059679654">305 967 9654</a></li>
+                    <li><p style="font-size:0.85rem; color:var(--text-muted); line-height:1.4;">4567 Powerline Rd,<br>Oakland Park, FL 33309</p></li>
                 </ul>
             </div>
         </div>
