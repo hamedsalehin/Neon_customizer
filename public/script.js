@@ -428,6 +428,63 @@ document.addEventListener('DOMContentLoaded', async () => {
         svgWrapper.appendChild(result.svg);
         signNode.appendChild(svgWrapper);
 
+        // 3. Dimension Logic (Decoupled: Visual scale vs Physical CM)
+        const currentPxWidth  = result.vw;
+        const currentPxHeight = result.vh;
+        
+        // Calibration factor: how many CM is 1 PX for this specific setup?
+        const currentCmPerPx = currentSign.targetWidthCm / currentPxWidth;
+
+        const finalWCm = currentSign.targetWidthCm.toFixed(1);
+        const finalHCm = (currentPxHeight * currentCmPerPx).toFixed(1);
+        const finalWIn = (currentSign.targetWidthCm / 2.54).toFixed(1);
+        const finalHIn = (currentPxHeight * currentCmPerPx / 2.54).toFixed(1);
+
+        if (inputHeightCm) inputHeightCm.value = Math.round(finalHCm);
+
+        // Update Sidebar Labels for Size Cards
+        document.querySelectorAll('.size-card').forEach(card => {
+            if (card.dataset.custom) return;
+            const cardW = parseFloat(card.dataset.width);
+            const cardH = (cardW * (result.vh / result.vw)).toFixed(0);
+            const cardWIn = (cardW / 2.54).toFixed(0);
+            const cardHIn = (parseFloat(cardH) / 2.54).toFixed(0);
+            
+            const dimsEl = card.querySelector('.size-dims');
+            if (dimsEl) {
+                dimsEl.textContent = `${cardW}cm x ${cardH}cm / ${cardWIn}in x ${cardHIn}in`;
+            }
+        });
+
+        const badge = document.createElement('div');
+        badge.className = 'dim-badge';
+        badge.textContent = `${finalWCm}cm x ${finalHCm}cm / ${finalWIn}in x ${finalHIn}in`;
+        svgWrapper.appendChild(badge);
+
+        // 4. Ruler Lines (Re-adding missing style definitions in JS for layout)
+        const hr = document.createElement('div'); hr.className = 'ruler-line h';
+        hr.style.cssText = 'height:1px; top:-15px; left:0; right:0; position:absolute; background:rgba(255,255,255,0.4);';
+        const vr = document.createElement('div'); vr.className = 'ruler-line v';
+        vr.style.cssText = 'width:1px; left:-15px; top:0; bottom:0; position:absolute; background:rgba(255,255,255,0.4);';
+        
+        const hTxt = document.createElement('div'); hTxt.className = 'ruler-text h';
+        hTxt.style.cssText = 'position:absolute; top:-30px; left:50%; transform:translateX(-50%); color:rgba(255,255,255,0.7); font-size:0.75rem;';
+        const vTxt = document.createElement('div'); vTxt.className = 'ruler-text v';
+        vTxt.style.cssText = 'position:absolute; left:-55px; top:50%; transform:translateY(-50%); color:rgba(255,255,255,0.7); font-size:0.75rem; text-align:right;';
+        
+        hTxt.textContent = `${finalWCm}cm`;
+        vTxt.innerHTML = `${finalHCm}cm<br>${finalHIn}in`;
+        
+        // Exact alignment: The sign's outer edge is 40px from the SVG border at scale 1
+        const bleedOffset = 40;
+        hr.style.left = `${bleedOffset}px`;
+        hr.style.right = `${bleedOffset}px`;
+        vr.style.top = `${bleedOffset}px`;
+        vr.style.bottom = `${bleedOffset}px`;
+
+        svgWrapper.appendChild(hr); svgWrapper.appendChild(vr);
+        svgWrapper.appendChild(hTxt); svgWrapper.appendChild(vTxt);
+
         // 1. Selection Box
         const selectionBox = document.createElement('div');
         selectionBox.className = 'selection-box';
@@ -464,16 +521,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const visualFactor = newScale / startScale;
                 svgWrapper.style.transform = `scale(${visualFactor})`;
                 
-                // Live metrics (fast)
-                const curWCm = (result.vw * PX_TO_CM * visualFactor).toFixed(1);
-                const curHCm = (result.vh * PX_TO_CM * visualFactor).toFixed(1);
-                const curWIn = (result.vw * PX_TO_CM * visualFactor / 2.54).toFixed(1);
-                const curHIn = (result.vh * PX_TO_CM * visualFactor / 2.54).toFixed(1);
-                
-                badge.textContent = `${curWCm}cm x ${curHCm}cm / ${curWIn}in x ${curHIn}in`;
-                hTxt.textContent = `${curWCm}cm`;
-                vTxt.innerHTML = `${curHCm}cm<br>${curHIn}in`;
-                
                 h.lastScale = newScale;
             });
 
@@ -485,63 +532,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 resizing = false; 
             });
         });
-
-        // 3. Dimension Logic (Decoupled: Visual scale vs Physical CM)
-        const currentPxWidth  = result.vw;
-        const currentPxHeight = result.vh;
-        
-        // Calibration factor: how many CM is 1 PX for this specific setup?
-        const currentCmPerPx = currentSign.targetWidthCm / currentPxWidth;
-
-        // Update Sidebar Labels for Size Cards
-        document.querySelectorAll('.size-card').forEach(card => {
-            if (card.dataset.custom) return;
-            const cardW = parseFloat(card.dataset.width);
-            const cardH = (cardW * (result.vh / result.vw)).toFixed(0);
-            const cardWIn = (cardW / 2.54).toFixed(0);
-            const cardHIn = (parseFloat(cardH) / 2.54).toFixed(0);
-            
-            const dimsEl = card.querySelector('.size-dims');
-            if (dimsEl) {
-                dimsEl.textContent = `${cardW}cm x ${cardH}cm / ${cardWIn}in x ${cardHIn}in`;
-            }
-        });
-
-        const finalWCm = currentSign.targetWidthCm.toFixed(1);
-        const finalHCm = (currentPxHeight * currentCmPerPx).toFixed(1);
-        const finalWIn = (currentSign.targetWidthCm / 2.54).toFixed(1);
-        const finalHIn = (currentPxHeight * currentCmPerPx / 2.54).toFixed(1);
-
-        if (inputHeightCm) inputHeightCm.value = Math.round(finalHCm);
-
-        const badge = document.createElement('div');
-        badge.className = 'dim-badge';
-        badge.textContent = `${finalWCm}cm x ${finalHCm}cm / ${finalWIn}in x ${finalHIn}in`;
-        svgWrapper.appendChild(badge);
-
-        // 4. Ruler Lines (Re-adding missing style definitions in JS for layout)
-        const hr = document.createElement('div'); hr.className = 'ruler-line h';
-        hr.style.cssText = 'height:1px; top:-15px; left:0; right:0; position:absolute; background:rgba(255,255,255,0.4);';
-        const vr = document.createElement('div'); vr.className = 'ruler-line v';
-        vr.style.cssText = 'width:1px; left:-15px; top:0; bottom:0; position:absolute; background:rgba(255,255,255,0.4);';
-        
-        const hTxt = document.createElement('div'); hTxt.className = 'ruler-text h';
-        hTxt.style.cssText = 'position:absolute; top:-30px; left:50%; transform:translateX(-50%); color:rgba(255,255,255,0.7); font-size:0.75rem;';
-        const vTxt = document.createElement('div'); vTxt.className = 'ruler-text v';
-        vTxt.style.cssText = 'position:absolute; left:-55px; top:50%; transform:translateY(-50%); color:rgba(255,255,255,0.7); font-size:0.75rem; text-align:right;';
-        
-        hTxt.textContent = `${finalWCm}cm`;
-        vTxt.innerHTML = `${finalHCm}cm<br>${finalHIn}in`;
-        
-        // Exact alignment: The sign's outer edge is 40px from the SVG border at scale 1
-        const bleedOffset = 40;
-        hr.style.left = `${bleedOffset}px`;
-        hr.style.right = `${bleedOffset}px`;
-        vr.style.top = `${bleedOffset}px`;
-        vr.style.bottom = `${bleedOffset}px`;
-
-        svgWrapper.appendChild(hr); svgWrapper.appendChild(vr);
-        svgWrapper.appendChild(hTxt); svgWrapper.appendChild(vTxt);
 
         neonContainer.appendChild(signNode);
 
@@ -582,8 +572,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         let totalPx = 0;
         tubes.forEach(t => { try { totalPx += t.getTotalLength(); } catch(e) {} });
         
-        const totalCm = (totalPx * PX_TO_CM).toFixed(1);
-        const totalIn = (totalPx * PX_TO_CM / 2.54).toFixed(1);
+        const totalCm = (totalPx * currentCmPerPx).toFixed(1);
+        const totalIn = (totalPx * currentCmPerPx / 2.54).toFixed(1);
 
         if (totalLengthEl) {
             totalLengthEl.textContent = `${totalCm} cm / ${totalIn} in`;
