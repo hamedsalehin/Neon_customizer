@@ -513,7 +513,7 @@ nav.main-nav a:hover::after {
 
 .color-panel-layout {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 0.9fr 1.1fr;
     gap: 80px;
     align-items: center;
 }
@@ -531,6 +531,9 @@ nav.main-nav a:hover::after {
     box-shadow: 
         0 20px 40px rgba(0,0,0,0.25),
         inset 0 10px 20px rgba(0,0,0,0.5);
+    max-width: 480px;
+    width: 100%;
+    justify-self: end;
 }
 
 .color-demo-glow {
@@ -561,7 +564,8 @@ nav.main-nav a:hover::after {
 .swatch-group {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    gap: 12px;
+    column-gap: 12px;
+    row-gap: 20px;
 }
 
 .swatch {
@@ -647,85 +651,68 @@ nav.main-nav a:hover::after {
     color: var(--text-secondary);
 }
 
-/* ─── Technology Highlights ─────────────────────────────────────────────── */
+/* ─── Past Works Gallery ────────────────────────────────────────────────── */
 .tech-section {
     padding: 100px 0;
 }
 
-.tech-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
-}
-
-.tech-card {
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    backdrop-filter: blur(var(--blur-amount));
-    -webkit-backdrop-filter: blur(var(--blur-amount));
-    border-radius: 28px;
+.marquee-wrapper {
     overflow: hidden;
-    transition: var(--transition);
-    display: flex;
-    flex-direction: column;
-    box-shadow: 
-        var(--glass-shadow),
-        inset 0 2px 4px rgba(255, 255, 255, 0.4);
-}
-
-.tech-card:hover {
-    transform: translateY(-8px);
-    background: var(--glass-bg-hover);
-    border-color: var(--glass-border-hover);
-    box-shadow: var(--glass-shadow-hover);
-}
-
-.tech-img {
-    height: 220px;
+    width: 100%;
     position: relative;
+    padding: 30px 0;
+    background: rgba(15, 15, 18, 0.4);
+    border-radius: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 
+        0 20px 40px rgba(0,0,0,0.25),
+        inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+.marquee-track {
     display: flex;
-    justify-content: center;
+    width: max-content;
+    gap: 20px;
+    animation: scroll-right 30s linear infinite;
+}
+
+.marquee-group {
+    display: flex;
+    gap: 20px;
     align-items: center;
-    background: #060608;
+    justify-content: space-around;
+    width: max-content;
 }
 
-.tech-neon-glow {
-    font-size: 1.8rem;
-    font-weight: 800;
-    text-align: center;
+.marquee-group img {
+    width: 320px;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: auto;
 }
 
-.tech-body {
-    padding: 28px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+.marquee-group img:hover {
+    transform: scale(1.04) translateY(-4px);
+    border-color: #ff2a85; /* Pink neon theme match */
+    box-shadow: 
+        0 15px 30px rgba(255, 42, 133, 0.25),
+        0 0 15px rgba(255, 42, 133, 0.15);
 }
 
-.tech-body h3 {
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin-bottom: 8px;
-    color: var(--text-primary);
-}
-
-.tech-body p {
-    font-size: 0.92rem;
-    color: var(--text-secondary);
-    margin-bottom: 20px;
-    flex: 1;
-}
-
-.tech-tag {
-    align-self: flex-start;
-    padding: 4px 12px;
-    border-radius: 100px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    background: rgba(255, 255, 255, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.7);
-    color: var(--neon-pink);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+/* Scroll horizontally to the right slowly and seamlessly */
+@keyframes scroll-right {
+    0% {
+        transform: translateX(calc(-50% - 10px));
+    }
+    100% {
+        transform: translateX(0);
+    }
 }
 
 /* ─── FAQ Accordions ────────────────────────────────────────────────────── */
@@ -969,9 +956,7 @@ footer.site-footer {
         gap: 40px;
     }
     
-    .tech-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
+
     
     .color-panel-layout {
         grid-template-columns: 1fr;
@@ -1025,9 +1010,7 @@ footer.site-footer {
         grid-template-columns: 1fr;
     }
     
-    .tech-grid {
-        grid-template-columns: 1fr;
-    }
+
     
     .glow-btn {
         width: 100%;
