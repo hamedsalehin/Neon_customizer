@@ -48,6 +48,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         { id: 'orange',     name: 'Orange',     glowColor: '#ff6600' },
         { id: 'yellow',     name: 'Yellow',     glowColor: '#ffff00' },
         { id: 'green',      name: 'Green',      glowColor: '#00ff00' },
+        { id: 'lime-yellow', name: 'Lime Yellow', glowColor: '#ccff00' },
         { id: 'ice-blue',   name: 'Ice Blue',   glowColor: '#19d6ff' },
         { id: 'blue',       name: 'Blue',       glowColor: '#0055ff' },
         { id: 'purple',     name: 'Purple',     glowColor: '#bf00ff' },
@@ -72,7 +73,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         x: 0, // offset from center
         y: 0,
         selected: true,
-        targetWidthCm: 40, // Default physical width (matches active Medium size-card)
+        targetWidthIn: 24, // Default physical width in inches (matches active Medium size-card)
+        visualScale: 1.0, // Cache visual scale from dragging blue handles
+        calculatedHeightIn: 0,
+        calculatedWidthCm: 0,
+        calculatedHeightCm: 0,
         environment: 'indoor',
         backingColor: 'acrylic',
         backing: 'cut-to-shape',
@@ -91,8 +96,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const estHeightEl    = document.getElementById('est-height');
     const estWidthEl     = document.getElementById('est-width');
     const totalLengthEl  = document.getElementById('total-strip-length');
-    const inputWidthCm   = document.getElementById('input-width-cm');
-    const inputHeightCm  = document.getElementById('input-height-cm');
+    const inputWidthIn   = document.getElementById('input-width-in');
+    const inputHeightIn  = document.getElementById('input-height-in');
+    const customSizeEquiv = document.getElementById('custom-size-equiv');
     const customInputs   = document.getElementById('custom-inputs-section');
     const neonContainer  = document.getElementById('neon-container');
     const contextMenu    = document.getElementById('word-context-menu');
@@ -425,40 +431,49 @@ document.addEventListener('DOMContentLoaded', async () => {
         const svgWrapper = document.createElement('div');
         svgWrapper.className = 'interaction-wrapper';
         svgWrapper.style.position = 'relative';
+        svgWrapper.style.transform = `scale(${currentSign.visualScale || 1.0})`;
         svgWrapper.appendChild(result.svg);
         signNode.appendChild(svgWrapper);
 
-        // 3. Dimension Logic (Decoupled: Visual scale vs Physical CM)
+        // 3. Dimension Logic (Decoupled: Visual scale vs Physical Inches)
         const currentPxWidth  = result.vw;
         const currentPxHeight = result.vh;
         
-        // Calibration factor: how many CM is 1 PX for this specific setup?
-        const currentCmPerPx = currentSign.targetWidthCm / currentPxWidth;
+        // Calibration factor: how many Inches is 1 PX for this specific setup?
+        const currentInPerPx = currentSign.targetWidthIn / currentPxWidth;
 
-        const finalWCm = currentSign.targetWidthCm.toFixed(1);
-        const finalHCm = (currentPxHeight * currentCmPerPx).toFixed(1);
-        const finalWIn = (currentSign.targetWidthCm / 2.54).toFixed(1);
-        const finalHIn = (currentPxHeight * currentCmPerPx / 2.54).toFixed(1);
+        const finalWIn = currentSign.targetWidthIn.toFixed(1);
+        const finalHIn = (currentPxHeight * currentInPerPx).toFixed(1);
+        const finalWCm = (currentSign.targetWidthIn * 2.54).toFixed(1);
+        const finalHCm = (currentPxHeight * currentInPerPx * 2.54).toFixed(1);
 
-        if (inputHeightCm) inputHeightCm.value = Math.round(finalHCm);
+        // Cache sizes in currentSign for external handlers (like Add to Cart)
+        currentSign.calculatedHeightIn = parseFloat(finalHIn);
+        currentSign.calculatedWidthCm = parseFloat(finalWCm);
+        currentSign.calculatedHeightCm = parseFloat(finalHCm);
+
+        if (inputHeightIn) inputHeightIn.value = Math.round(finalHIn);
+        if (customSizeEquiv) {
+            customSizeEquiv.textContent = `Equivalent to: ${Math.round(finalWCm)}cm x ${Math.round(finalHCm)}cm`;
+        }
 
         // Update Sidebar Labels for Size Cards
         document.querySelectorAll('.size-card').forEach(card => {
             if (card.dataset.custom) return;
-            const cardW = parseFloat(card.dataset.width);
-            const cardH = (cardW * (result.vh / result.vw)).toFixed(0);
-            const cardWIn = (cardW / 2.54).toFixed(0);
-            const cardHIn = (parseFloat(cardH) / 2.54).toFixed(0);
+            const cardWIn = parseFloat(card.dataset.width);
+            const cardHIn = (cardWIn * (result.vh / result.vw)).toFixed(0);
+            const cardWCm = (cardWIn * 2.54).toFixed(0);
+            const cardHCm = (parseFloat(cardHIn) * 2.54).toFixed(0);
             
             const dimsEl = card.querySelector('.size-dims');
             if (dimsEl) {
-                dimsEl.textContent = `${cardW}cm x ${cardH}cm / ${cardWIn}in x ${cardHIn}in`;
+                dimsEl.textContent = `${cardWIn}in x ${cardHIn}in / ${cardWCm}cm x ${cardHCm}cm`;
             }
         });
 
         const badge = document.createElement('div');
         badge.className = 'dim-badge';
-        badge.textContent = `${finalWCm}cm x ${finalHCm}cm / ${finalWIn}in x ${finalHIn}in`;
+        badge.textContent = `${finalWIn}in x ${finalHIn}in / ${finalWCm}cm x ${finalHCm}cm`;
         svgWrapper.appendChild(badge);
 
         // 4. Ruler Lines (Re-adding missing style definitions in JS for layout)
@@ -472,8 +487,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         const vTxt = document.createElement('div'); vTxt.className = 'ruler-text v';
         vTxt.style.cssText = 'position:absolute; left:-55px; top:50%; transform:translateY(-50%); color:rgba(255,255,255,0.7); font-size:0.75rem; text-align:right;';
         
-        hTxt.textContent = `${finalWCm}cm`;
-        vTxt.innerHTML = `${finalHCm}cm<br>${finalHIn}in`;
+        hTxt.textContent = `${finalWIn}in`;
+        vTxt.innerHTML = `${finalHIn}in<br><span style="font-size:0.65rem;opacity:0.8;">${finalHCm}cm</span>`;
         
         // Exact alignment: The sign's outer edge is 40px from the SVG border at scale 1
         const bleedOffset = 40;
@@ -498,6 +513,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             let resizing = false;
             let startDist, centerX, centerY;
+            let startScale = 1.0;
 
             h.addEventListener('pointerdown', e => {
                 e.stopPropagation();
@@ -506,6 +522,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 centerX = rect.left + rect.width / 2;
                 centerY = rect.top + rect.height / 2;
                 startDist = Math.hypot(e.clientX - centerX, e.clientY - centerY);
+                startScale = currentSign.visualScale || 1.0;
                 h.setPointerCapture(e.pointerId);
                 svgWrapper.style.transition = 'none';
             });
@@ -513,10 +530,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             h.addEventListener('pointermove', e => {
                 if (!resizing) return;
                 const dist = Math.hypot(e.clientX - centerX, e.clientY - centerY);
-                const visualFactor = Math.max(0.2, Math.min(5.0, dist / startDist));
+                const visualFactor = Math.max(0.2, Math.min(5.0, (dist / startDist) * startScale));
                 
                 // Pure CSS visual scale — no effect on physical metrics or price
                 svgWrapper.style.transform = `scale(${visualFactor})`;
+                currentSign.visualScale = visualFactor;
             });
 
             h.addEventListener('pointerup', () => { 
@@ -563,14 +581,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         let totalPx = 0;
         tubes.forEach(t => { try { totalPx += t.getTotalLength(); } catch(e) {} });
         
-        const totalCm = (totalPx * currentCmPerPx).toFixed(1);
-        const totalIn = (totalPx * currentCmPerPx / 2.54).toFixed(1);
+        const totalIn = (totalPx * currentInPerPx).toFixed(1);
+        const totalCm = (totalPx * currentInPerPx * 2.54).toFixed(1);
 
         if (totalLengthEl) {
-            totalLengthEl.textContent = `${totalCm} cm / ${totalIn} in`;
+            totalLengthEl.textContent = `${totalIn} in / ${totalCm} cm`;
         }
         
-        if (estWidthEl) estWidthEl.textContent = `Total: ${finalWCm}cm x ${finalHCm}cm / ${finalWIn}in x ${finalHIn}in`;
+        if (estWidthEl) estWidthEl.textContent = `Total: ${finalWIn}in x ${finalHIn}in / ${finalWCm}cm x ${finalHCm}cm`;
         
         // Accurate price based on width, height and neon strip length
         const wIn = parseFloat(finalWIn) || 0;
@@ -691,16 +709,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (customInputs) customInputs.style.display = 'grid';
             } else {
                 if (customInputs) customInputs.style.display = 'none';
-                currentSign.targetWidthCm = parseFloat(card.dataset.width);
-                if (inputWidthCm) inputWidthCm.value = currentSign.targetWidthCm;
+                currentSign.targetWidthIn = parseFloat(card.dataset.width);
+                if (inputWidthIn) inputWidthIn.value = currentSign.targetWidthIn;
             }
             syncTextToCanvas();
         });
     });
 
-    if (inputWidthCm) {
-        inputWidthCm.addEventListener('input', () => {
-            currentSign.targetWidthCm = parseFloat(inputWidthCm.value) || 10;
+    if (inputWidthIn) {
+        inputWidthIn.addEventListener('input', () => {
+            currentSign.targetWidthIn = parseFloat(inputWidthIn.value) || 4;
             syncTextToCanvas();
         });
     }
@@ -752,7 +770,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <div class="cart-item-name">${item.text.replace(/\n/g, ' ')}</div>
                         <div class="cart-item-details">
                             ${item.fontName} • ${item.colorName}<br>
-                            ${item.widthCm}cm x ${item.heightCm}cm • ${item.backing === 'cut-to-letter' ? 'Cut to Letter' : item.backing === 'rectangle' ? 'Rectangle' : 'Cut to Shape'}<br>
+                            ${item.widthIn || Math.round(item.widthCm / 2.54)}in x ${item.heightIn || Math.round(item.heightCm / 2.54)}in / ${item.widthCm}cm x ${item.heightCm}cm • ${item.backing === 'cut-to-letter' ? 'Cut to Letter' : item.backing === 'rectangle' ? 'Rectangle' : 'Cut to Shape'}<br>
                             Material: ${item.backingColor === 'black' ? 'Black Acrylic' : item.backingColor === 'white' ? 'White Acrylic' : 'Clear Glass'} • Use: ${item.environment === 'outdoor' ? 'Outdoor Waterproof' : 'Indoor Use'}
                         </div>
                         <div class="cart-item-price">$${item.price.toFixed(2)}</div>
@@ -799,8 +817,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 text: currentSign.text,
                 fontName: currentSign.fontName,
                 colorName: colorObj ? colorObj.name : 'Custom',
-                widthCm: Math.round(parseFloat(inputWidthCm.value)),
-                heightCm: Math.round(parseFloat(inputHeightCm.value)),
+                widthIn: Math.round(currentSign.targetWidthIn),
+                heightIn: Math.round(currentSign.calculatedHeightIn || (currentSign.targetWidthIn * 0.35)),
+                widthCm: Math.round(currentSign.calculatedWidthCm || (currentSign.targetWidthIn * 2.54)),
+                heightCm: Math.round(currentSign.calculatedHeightCm || (currentSign.targetWidthIn * 2.54 * 0.35)),
                 backing: currentBacking,
                 backingColor: currentSign.backingColor || 'acrylic',
                 environment: currentSign.environment || 'indoor',

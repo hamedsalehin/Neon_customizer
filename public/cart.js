@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="cart-page-item-details">
                         <strong>Font:</strong> ${item.fontName}<br>
                         <strong>Color:</strong> ${item.colorName}<br>
-                        <strong>Size:</strong> ${item.widthCm}cm x ${item.heightCm}cm<br>
+                        <strong>Size:</strong> ${item.widthIn || Math.round(item.widthCm / 2.54)}in x ${item.heightIn || Math.round(item.heightCm / 2.54)}in / ${item.widthCm}cm x ${item.heightCm}cm<br>
                         <strong>Backing:</strong> ${item.backing === 'cut-to-letter' ? 'Cut to Letter' : item.backing === 'rectangle' ? 'Rectangle' : 'Cut to Shape'}<br>
                         <strong>Material:</strong> ${item.backingColor === 'black' ? 'Black Acrylic' : item.backingColor === 'white' ? 'White Acrylic' : 'Clear Glass'}<br>
                         <strong>Use:</strong> ${item.environment === 'outdoor' ? 'Outdoor (Waterproof)' : 'Indoor'}

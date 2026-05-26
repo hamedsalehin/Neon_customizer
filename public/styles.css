@@ -623,6 +623,7 @@ textarea::placeholder { color: rgba(255,255,255,0.25); }
     display: flex;
     flex-direction: column;
     gap: 4px;
+    position: relative;
 }
 .size-card:hover {
     background: rgba(255, 255, 255, 0.08);
@@ -645,6 +646,42 @@ textarea::placeholder { color: rgba(255,255,255,0.25); }
     font-weight: 500;
 }
 .size-card.active .size-name { color: #fff; }
+
+.popular-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffb800; /* Gold star */
+    background: rgba(255, 184, 0, 0.12);
+    border: 1px solid rgba(255, 184, 0, 0.35);
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    transition: all 0.3s ease;
+    animation: gold-pulse-glow 2s infinite ease-in-out;
+}
+
+.size-card:hover .popular-badge {
+    transform: scale(1.1) rotate(15deg);
+    color: #ffcc00;
+    background: rgba(255, 204, 0, 0.2);
+    border-color: rgba(255, 204, 0, 0.5);
+}
+
+@keyframes gold-pulse-glow {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 184, 0, 0.3);
+    }
+    70% {
+        box-shadow: 0 0 0 8px rgba(255, 184, 0, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 184, 0, 0);
+    }
+}
 
 .custom-size-inputs {
     background: rgba(15, 15, 18, 0.4);

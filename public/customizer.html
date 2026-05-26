@@ -55,7 +55,7 @@
             </div>
             
             <div class="liquid-glass-badge" id="strip-length-badge">
-                TOTAL STRIP LENGTH: <strong id="total-strip-length">-- cm</strong>
+                TOTAL STRIP LENGTH: <strong id="total-strip-length">-- in</strong>
             </div>
 
             <!-- Context Menu Template (Hidden by default) -->
@@ -154,25 +154,31 @@
                 <div class="control-block">
                     <label class="section-title">Choose a size</label>
                     <div class="size-card-grid">
-                        <div class="size-card" data-width="23">
+                        <div class="size-card" data-width="15">
                             <div class="size-name">Mini</div>
-                            <div class="size-dims">23cm x 8cm / 9in x 3in</div>
+                            <div class="size-dims">15in x 5in / 38cm x 13cm</div>
                         </div>
-                        <div class="size-card" data-width="30">
+                        <div class="size-card" data-width="20">
                             <div class="size-name">Small</div>
-                            <div class="size-dims">30cm x 10cm / 12in x 4in</div>
+                            <div class="size-dims">20in x 7in / 51cm x 18cm</div>
                         </div>
-                        <div class="size-card active" data-width="40">
+                        <div class="size-card active" data-width="24" style="position: relative;">
                             <div class="size-name">Medium</div>
-                            <div class="size-dims">40cm x 14cm / 16in x 5in</div>
+                            <div class="size-dims">24in x 8in / 61cm x 20cm</div>
+                            <div class="popular-badge" title="Most Popular">
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polygon points="12 8 13.09 10.21 15.5 10.56 13.75 12.27 14.16 14.69 12 13.55 9.84 14.69 10.25 12.27 8.5 10.56 10.91 10.21 12 8" fill="currentColor"></polygon>
+                                </svg>
+                            </div>
                         </div>
-                        <div class="size-card" data-width="50">
+                        <div class="size-card" data-width="32">
                             <div class="size-name">Large</div>
-                            <div class="size-dims">50cm x 17cm / 20in x 7in</div>
+                            <div class="size-dims">32in x 11in / 81cm x 28cm</div>
                         </div>
-                        <div class="size-card" data-width="60">
+                        <div class="size-card" data-width="40">
                             <div class="size-name">X-Large</div>
-                            <div class="size-dims">60cm x 21cm / 23in x 8in</div>
+                            <div class="size-dims">40in x 14in / 102cm x 36cm</div>
                         </div>
                         <div class="size-card" data-custom="true">
                             <div class="size-name">Custom</div>
@@ -183,12 +189,15 @@
                     <!-- Hidden Custom Inputs (shown only when Custom selected) -->
                     <div class="custom-size-inputs" id="custom-inputs-section" style="display: none; margin-top: 15px;">
                         <div class="size-input-group">
-                            <label>Width (cm)</label>
-                            <input type="number" id="input-width-cm" value="40" min="10" max="500">
+                            <label>Width (in)</label>
+                            <input type="number" id="input-width-in" value="24" min="4" max="200">
                         </div>
                         <div class="size-input-group">
-                            <label>Height (cm)</label>
-                            <input type="number" id="input-height-cm" value="14" readonly>
+                            <label>Height (in)</label>
+                            <input type="number" id="input-height-in" value="8" readonly>
+                        </div>
+                        <div class="custom-size-equiv" id="custom-size-equiv" style="grid-column: span 2; font-size: 0.72rem; color: var(--text-secondary); text-align: center; margin-top: 4px; font-weight: 500;">
+                            Equivalent to: 61cm x 20cm
                         </div>
                     </div>
                 </div>
@@ -244,6 +253,6 @@
 
     <!-- opentype.js for TTF path extraction -->
     <script src="https://cdn.jsdelivr.net/npm/opentype.js@1.3.4/dist/opentype.min.js"></script>
-    <script src="script.js?v=5"></script>
+    <script src="script.js?v=7"></script>
 </body>
 </html>
