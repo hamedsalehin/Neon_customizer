@@ -490,20 +490,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         selectionBox.className = 'selection-box';
         svgWrapper.appendChild(selectionBox);
 
-        // 2. Multi-Point Handles
+        // 2. Multi-Point Handles (visual-only — does NOT change physical size/price)
         ['tl', 'tr', 'tm', 'bl', 'br'].forEach(pos => {
             const h = document.createElement('div');
             h.className = `sign-handle ${pos}`;
             svgWrapper.appendChild(h);
 
-            // Resizing Logic for all handles
             let resizing = false;
-            let startScale, startDist, centerX, centerY;
+            let startDist, centerX, centerY;
 
             h.addEventListener('pointerdown', e => {
                 e.stopPropagation();
                 resizing = true;
-                startScale = currentSign.scale;
                 const rect = svgWrapper.getBoundingClientRect();
                 centerX = rect.left + rect.width / 2;
                 centerY = rect.top + rect.height / 2;
@@ -515,20 +513,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             h.addEventListener('pointermove', e => {
                 if (!resizing) return;
                 const dist = Math.hypot(e.clientX - centerX, e.clientY - centerY);
-                const newScale = Math.max(0.2, Math.min(5.0, startScale * (dist / startDist)));
+                const visualFactor = Math.max(0.2, Math.min(5.0, dist / startDist));
                 
-                // Visual scale (fast)
-                const visualFactor = newScale / startScale;
+                // Pure CSS visual scale — no effect on physical metrics or price
                 svgWrapper.style.transform = `scale(${visualFactor})`;
-                
-                h.lastScale = newScale;
             });
 
-            h.addEventListener('pointerup', e => { 
-                if (resizing) {
-                    currentSign.scale = h.lastScale || currentSign.scale;
-                    syncTextToCanvas();
-                }
+            h.addEventListener('pointerup', () => { 
                 resizing = false; 
             });
         });
