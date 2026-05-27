@@ -5,6 +5,7 @@ const { createClient } = require('@supabase/supabase-js');
 const Stripe = require('stripe');
 const { Resend } = require('resend');
 
+// Restart trigger to reload Hostinger environment variables: 2026-05-27-01
 const app = express();
 
 // ─── Resend API Client Setup ──────────────────────────────────────────────────
