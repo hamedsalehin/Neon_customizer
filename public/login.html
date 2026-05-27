@@ -417,11 +417,16 @@
 
                     if (error) throw error;
 
-                    showMessage('Registration successful! Logging you in...', 'success');
-                    // Automatically sign user in after registering
-                    setTimeout(() => {
-                        handleSuccessfulAuth();
-                    }, 1000);
+                    if (data.session) {
+                        showMessage('Registration successful! Logging you in...', 'success');
+                        setTimeout(() => {
+                            handleSuccessfulAuth();
+                        }, 1000);
+                    } else {
+                        showMessage('Registration successful! Please check your email inbox to confirm your account before logging in.', 'success');
+                        btnSubmit.disabled = false;
+                        btnSubmit.textContent = 'Create Account';
+                    }
                 }
             } catch (err) {
                 console.error(err);
