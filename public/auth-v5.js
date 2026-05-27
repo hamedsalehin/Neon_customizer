@@ -5,7 +5,7 @@ let supabase = null;
 // Initialize Supabase Client dynamically from server config
 async function initSupabase() {
     try {
-        const res = await fetch('/api/config');
+        const res = await fetch(`/api/config?t=${Date.now()}`);
         if (!res.ok) throw new Error(`Failed to fetch config (Status: ${res.status})`);
         const config = await res.json();
         

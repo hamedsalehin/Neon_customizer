@@ -446,6 +446,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // ─── API: Expose Client Supabase Config ───────────────────────────────────────
 app.get('/api/config', (req, res) => {
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
     res.json({
         supabaseUrl: process.env.SUPABASE_URL || null,
         supabaseKey: process.env.SUPABASE_KEY || null
