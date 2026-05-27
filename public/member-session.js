@@ -2,27 +2,20 @@
 
 let supabase = null;
 
-// Initialize Supabase Client dynamically from server config
+// Initialize Supabase Client dynamically from public config
 async function initSupabase() {
     try {
-        const res = await fetch(`/api/config?t=${Date.now()}`);
-        if (!res.ok) throw new Error(`Failed to fetch config (Status: ${res.status})`);
-        const config = await res.json();
+        const supabaseUrl = "https://avmmmpdhcllkikdilcpb.supabase.co";
+        const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF2bW1tcGRoY2xsa2lrZGlsY3BiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgzNDA1ODQsImV4cCI6MjA5MzkxNjU4NH0.GGvE7fP3YgNZlY4jKc6CagcEjnT9CoTe4_Yez-EcM1k";
         
         if (!window.supabase || typeof window.supabase.createClient !== 'function') {
             throw new Error('Supabase library (supabase-js) failed to load from the CDN. Please check your internet connection or ad-blocker.');
         }
         
-        if (config.supabaseUrl && config.supabaseKey) {
-            supabase = window.supabase.createClient(config.supabaseUrl, config.supabaseKey);
-            window.supabase = supabase;
-            console.log('✅ Supabase Client initialized successfully');
-            return supabase;
-        } else {
-            console.warn('⚠️ Supabase config incomplete or missing on server.');
-            window.supabaseInitError = 'Supabase config missing on server variables.';
-            return null;
-        }
+        supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+        window.supabase = supabase;
+        console.log('✅ Supabase Client initialized successfully');
+        return supabase;
     } catch (err) {
         console.error('❌ Error initializing Supabase client:', err);
         window.supabaseInitError = err.message || err;
