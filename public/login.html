@@ -390,7 +390,10 @@
             // Wait for Supabase to be initialized
             const supabase = await window.supabaseInitPromise;
             if (!supabase) {
-                showMessage('Database is not initialized. Please try again later.', 'error');
+                const errMsg = window.supabaseInitError 
+                    ? `Database is not initialized. Error details: ${window.supabaseInitError}`
+                    : 'Database is not initialized. Please try again later.';
+                showMessage(errMsg, 'error');
                 return;
             }
 

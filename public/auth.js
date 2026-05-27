@@ -6,8 +6,12 @@ let supabase = null;
 async function initSupabase() {
     try {
         const res = await fetch('/api/config');
-        if (!res.ok) throw new Error('Failed to fetch config');
+        if (!res.ok) throw new Error(`Failed to fetch config (Status: ${res.status})`);
         const config = await res.json();
+        
+        if (!window.supabase || typeof window.supabase.createClient !== 'function') {
+            throw new Error('Supabase library (supabase-js) failed to load from the CDN. Please check your internet connection or ad-blocker.');
+        }
         
         if (config.supabaseUrl && config.supabaseKey) {
             supabase = window.supabase.createClient(config.supabaseUrl, config.supabaseKey);
@@ -16,10 +20,12 @@ async function initSupabase() {
             return supabase;
         } else {
             console.warn('⚠️ Supabase config incomplete or missing on server.');
+            window.supabaseInitError = 'Supabase config missing on server variables.';
             return null;
         }
     } catch (err) {
         console.error('❌ Error initializing Supabase client:', err);
+        window.supabaseInitError = err.message || err;
         return null;
     }
 }
