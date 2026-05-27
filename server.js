@@ -236,7 +236,8 @@ async function sendQuoteRequestEmail(quoteData, fileBase64, fileName, fileUrl) {
         const attachments = [];
         let imageEmbedHtml = '';
 
-        if (fileBase64 && fileName) {
+        // ONLY attach file if it is NOT uploaded to Supabase Storage (bypasses Resend 10MB payload limits)
+        if (!fileUrl && fileBase64 && fileName) {
             const matches = fileBase64.match(/^data:(.+);base64,(.+)$/);
             if (matches) {
                 const mimeType = matches[1];
@@ -248,8 +249,13 @@ async function sendQuoteRequestEmail(quoteData, fileBase64, fileName, fileUrl) {
                     content: fileBuffer,
                     contentType: mimeType
                 });
+            }
+        }
 
-                // If it's an image, we can embed it in the HTML body
+        if (fileBase64 && fileName) {
+            const matches = fileBase64.match(/^data:(.+);base64,(.+)$/);
+            if (matches) {
+                const mimeType = matches[1];
                 if (mimeType.startsWith('image/')) {
                     if (fileUrl) {
                         imageEmbedHtml = `
@@ -324,6 +330,49 @@ async function sendQuoteRequestEmail(quoteData, fileBase64, fileName, fileUrl) {
             console.log(`✅ Quote request notification sent to admin: ${adminEmail}`);
         } catch (adminErr) {
             console.error(`❌ Failed to send quote request email to admin: ${adminErr.message}`);
+        }
+
+        // 2. Email to Customer
+        try {
+            const customerMailSubject = `🎨 Your custom LED Neon quote request [ID: ${quoteId}] is being prepared!`;
+            const customerMailHtml = `
+                <div style="max-width: 600px; margin: 0 auto; font-family: Arial, sans-serif; line-height: 1.6; color: #1e1b4b; padding: 20px; background: #ffffff;">
+                    <div style="text-align: center; padding: 10px 0; border-bottom: 2px solid #f1f5f9; margin-bottom: 25px;">
+                        <h2 style="margin: 0; font-weight: 800; font-size: 22px; color: #ff007f;">We've Received Your Quote Request!</h2>
+                        <p style="color: #64748b; margin-top: 5px; font-size: 14px;">Reference ID: ${quoteId}</p>
+                    </div>
+
+                    <p>Hi ${quoteData.name},</p>
+                    <p>Thank you for reaching out to Nano Neons. Our design artisans are reviewing your custom LED neon request and will prepare a personalized layout and custom price quote for you shortly.</p>
+
+                    <div style="background: #f8fafc; border-radius: 12px; padding: 20px; border: 1px solid #e2e8f0; margin-bottom: 25px; margin-top: 20px;">
+                        <h3 style="margin-top: 0; color: #1e1b4b; font-size: 1.05rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;">Request Details</h3>
+                        <p style="margin: 6px 0; color: #475569;"><strong>Custom Sign Text:</strong> "${quoteData.text || 'None'}"</p>
+                        <p style="margin: 6px 0; color: #475569;"><strong>Preferred Size:</strong> ${quoteData.size}</p>
+                        <p style="margin: 6px 0; color: #475569;"><strong>Backing Style:</strong> ${quoteData.backing}</p>
+                        ${colorsHtml}
+                        ${imageEmbedHtml}
+                    </div>
+
+                    <p style="margin-top: 25px;">We usually respond with complete design mockups within **12 to 24 hours**. If you have any additional details or files to share, feel free to reply directly to this email!</p>
+
+                    <p style="margin-top: 30px;">Best regards,<br><strong>Nano Neons Design Team</strong></p>
+
+                    <div style="text-align: center; color: #64748b; font-size: 11px; margin-top: 40px; border-top: 1px solid #e2e8f0; padding-top: 20px;">
+                        <p>Questions? Contact us at <a href="mailto:${adminEmail}" style="color: #ff007f;">${adminEmail}</a></p>
+                    </div>
+                </div>
+            `;
+
+            await sendEmail({
+                to: customerEmail,
+                subject: customerMailSubject,
+                html: customerMailHtml,
+                attachments: attachments
+            });
+            console.log(`✅ Quote confirmation sent to customer: ${customerEmail}`);
+        } catch (custErr) {
+            console.error(`❌ Failed to send quote confirmation email to customer: ${custErr.message}`);
         }
 
         console.log(`✉️ Quote request confirmation process completed for ${quoteId}`);

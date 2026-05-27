@@ -24,7 +24,7 @@ async function runTest() {
 
         // Listen for page errors
         page.on('pageerror', err => {
-            console.error(`[BROWSER PAGEERROR]: ${err.toString()}`);
+            console.error(`[BROWSER PAGEERROR]:`, err.stack || err);
         });
 
         // Listen for failed requests
@@ -72,7 +72,7 @@ async function runTest() {
 
         // Fetch display message
         const messageBoxContent = await page.evaluate(() => {
-            const msgBox = document.getElementById('message-box');
+            const msgBox = document.getElementById('message-display');
             return msgBox ? {
                 text: msgBox.textContent,
                 className: msgBox.className,
