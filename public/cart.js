@@ -62,6 +62,27 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+    // Pre-fill user data if logged in
+    const prefillUserData = async () => {
+        const supabase = await window.supabaseInitPromise;
+        if (supabase) {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user) {
+                const nameInput = document.getElementById('cust-name');
+                const emailInput = document.getElementById('cust-email');
+                if (nameInput && !nameInput.value) {
+                    nameInput.value = user.user_metadata?.full_name || '';
+                }
+                if (emailInput && !emailInput.value) {
+                    emailInput.value = user.email || '';
+                    emailInput.readOnly = true; // Lock email field to prevent tampering
+                    emailInput.style.opacity = '0.7';
+                }
+            }
+        }
+    };
+    prefillUserData();
+
     if (placeOrderBtn) {
         placeOrderBtn.addEventListener('click', async () => {
             if (cart.length === 0) return;
@@ -81,9 +102,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 placeOrderBtn.disabled = true;
                 placeOrderBtn.textContent = '⏳ Redirecting to payment...';
 
+                // Fetch Supabase token if logged in
+                const supabase = await window.supabaseInitPromise;
+                let token = null;
+                if (supabase) {
+                    const session = (await supabase.auth.getSession()).data.session;
+                    if (session) {
+                        token = session.access_token;
+                    }
+                }
+
+                const headers = { 'Content-Type': 'application/json' };
+                if (token) {
+                    headers['Authorization'] = `Bearer ${token}`;
+                }
+
                 const response = await fetch('/api/create-checkout', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: headers,
                     body: JSON.stringify({
                         customer_name: name,
                         customer_email: email,

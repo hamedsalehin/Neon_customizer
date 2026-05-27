@@ -331,6 +331,21 @@ async function sendQuoteRequestEmail(quoteData, fileBase64, fileName, fileUrl) {
     }
 }
 
+// Helper to normalize emails (prevents gmail alias dot/plus bypass)
+function normalizeEmail(email) {
+    if (!email) return '';
+    const parts = email.toLowerCase().trim().split('@');
+    if (parts.length !== 2) return email.toLowerCase().trim();
+    let [local, domain] = parts;
+    
+    // Gmail / Google Suite normalization
+    if (domain === 'gmail.com' || domain === 'googlemail.com') {
+        local = local.split('+')[0]; // Remove plus subaddressing
+        local = local.replace(/\./g, ''); // Remove all dots
+    }
+    return `${local}@${domain}`;
+}
+
 // Helper to mark order as paid and trigger email notifications once
 async function markOrderAsPaid(orderId, sessionId, customerEmail) {
     if (!supabase || !orderId) return false;
@@ -475,21 +490,56 @@ app.post('/api/create-checkout', async (req, res) => {
         let finalTotalPrice = total_price;
 
         if (customer_email) {
-            try {
-                const { data: profile } = await supabase
-                    .from('profiles')
-                    .select('id, has_discount_used')
-                    .eq('email', customer_email.toLowerCase())
-                    .maybeSingle();
+            const normalizedEmail = normalizeEmail(customer_email);
 
-                if (profile && !profile.has_discount_used) {
-                    appliedDiscount = true;
-                    // Calculate 15% off total_price
-                    finalTotalPrice = Math.round(total_price * 0.85 * 100) / 100;
-                    console.log(`🎁 User ${customer_email} is eligible for a 15% discount! Applied Discount. New price: $${finalTotalPrice}`);
+            // Read the Authorization header to verify Supabase session token
+            const authHeader = req.headers.authorization;
+            let authenticatedUser = null;
+
+            if (authHeader && authHeader.startsWith('Bearer ')) {
+                const token = authHeader.split(' ')[1];
+                try {
+                    const { data: { user }, error: authErr } = await supabase.auth.getUser(token);
+                    if (user && !authErr) {
+                        authenticatedUser = user;
+                    }
+                } catch (e) {
+                    console.error('Error verifying auth token:', e.message);
                 }
-            } catch (err) {
-                console.error('Error checking discount eligibility:', err.message);
+            }
+
+            // ONLY apply discount if user is fully authenticated and matches the checkout email!
+            if (authenticatedUser && authenticatedUser.email.toLowerCase() === customer_email.toLowerCase()) {
+                try {
+                    // Check if email is verified in Supabase
+                    const { data: isVerified } = await supabase
+                        .rpc('is_email_verified', { email_to_check: customer_email.toLowerCase() });
+
+                    if (isVerified) {
+                        // Check if the normalized email has already used the discount
+                        const { data: profiles } = await supabase
+                            .from('profiles')
+                            .select('id, has_discount_used')
+                            .eq('normalized_email', normalizedEmail);
+
+                        if (profiles && profiles.length > 0) {
+                            const alreadyUsed = profiles.some(p => p.has_discount_used);
+                            if (!alreadyUsed) {
+                                appliedDiscount = true;
+                                finalTotalPrice = Math.round(total_price * 0.85 * 100) / 100;
+                                console.log(`🔒 [SECURE DISCOUNT] Applied 15% discount for verified user: ${customer_email}`);
+                            } else {
+                                console.log(`🔒 [SECURE DISCOUNT] Blocked discount for ${customer_email}: already used on normalized alias.`);
+                            }
+                        }
+                    } else {
+                        console.log(`🔒 [SECURE DISCOUNT] Blocked discount for ${customer_email}: email is not verified.`);
+                    }
+                } catch (err) {
+                    console.error('Security discount check error:', err.message);
+                }
+            } else {
+                console.log(`🔒 [SECURE DISCOUNT] No discount applied: guest checkout or token mismatch for ${customer_email}`);
             }
         }
 
