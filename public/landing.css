@@ -1018,3 +1018,279 @@ footer.site-footer {
         border-radius: 100px;
     }
 }
+
+/* ─── 15% OFF MEMBER DISCOUNT POP-UP & FLOATING BLOB ─────────────────────── */
+.discount-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(6, 6, 8, 0.4);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.discount-modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.discount-modal-card {
+    background: rgba(255, 255, 255, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    width: 90%;
+    max-width: 500px;
+    border-radius: 32px;
+    box-shadow: 
+        0 30px 60px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    overflow: hidden;
+    position: relative;
+    transform: scale(0.9) translateY(20px);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: flex;
+    flex-direction: column;
+}
+
+.discount-modal-overlay.active .discount-modal-card {
+    transform: scale(1) translateY(0);
+}
+
+.discount-modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: var(--text-primary);
+    cursor: pointer;
+    opacity: 0.6;
+    transition: var(--transition);
+    z-index: 10;
+    line-height: 1;
+}
+
+.discount-modal-close:hover {
+    opacity: 1;
+    transform: rotate(90deg);
+}
+
+.discount-modal-banner {
+    background: linear-gradient(135deg, #ff007f 0%, #00c6fb 100%);
+    padding: 40px 30px;
+    text-align: center;
+    color: white;
+    position: relative;
+}
+
+.discount-modal-banner::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 30%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.1) 100%);
+}
+
+.banner-badge {
+    background: rgba(255, 255, 255, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    padding: 6px 16px;
+    border-radius: 100px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    display: inline-block;
+    margin-bottom: 12px;
+}
+
+.discount-modal-banner h2 {
+    font-size: 3rem;
+    font-weight: 900;
+    margin: 0;
+    letter-spacing: -0.03em;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    line-height: 1.1;
+}
+
+.discount-modal-banner h3 {
+    font-size: 1.35rem;
+    font-weight: 600;
+    margin: 4px 0 0 0;
+    opacity: 0.95;
+}
+
+.discount-modal-body {
+    padding: 40px 35px 35px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.discount-modal-body h4 {
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    letter-spacing: 0.08em;
+}
+
+.discount-modal-desc {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.discount-signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+.discount-signup-form input {
+    padding: 16px 20px;
+    border: 1.5px solid rgba(0, 0, 0, 0.15);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.7);
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    outline: none;
+    transition: var(--transition);
+}
+
+.discount-signup-form input:focus {
+    border-color: #00c6fb;
+    background: white;
+    box-shadow: 0 0 15px rgba(0, 198, 251, 0.15);
+}
+
+.discount-submit-btn {
+    padding: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 100px;
+    background: linear-gradient(135deg, #ff007f 0%, #00c6fb 100%);
+    color: white;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 0.98rem;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(255, 0, 127, 0.2);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    transition: var(--transition);
+}
+
+.discount-submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(255, 0, 127, 0.3);
+}
+
+.discount-disclaimer {
+    font-size: 0.8rem;
+    line-height: 1.45;
+    color: var(--text-muted);
+    background: rgba(0, 198, 251, 0.05);
+    border: 1px dashed rgba(0, 198, 251, 0.25);
+    border-radius: 12px;
+    padding: 12px;
+    text-align: left;
+}
+
+.discount-modal-decline {
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: underline;
+    cursor: pointer;
+    transition: var(--transition);
+    align-self: center;
+}
+
+.discount-modal-decline:hover {
+    color: var(--text-primary);
+}
+
+/* Floating Glass Blob (Bottom-Left) */
+.discount-floating-blob {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    background: rgba(255, 255, 255, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 12px 22px;
+    border-radius: 100px;
+    box-shadow: 
+        0 10px 25px rgba(0, 0, 0, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    z-index: 9999;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    transform: scale(0.8) translateY(20px);
+    pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    animation: floatBlob 3s ease-in-out infinite;
+}
+
+.discount-floating-blob.active {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    pointer-events: auto;
+}
+
+.discount-floating-blob:hover {
+    background: rgba(255, 255, 255, 0.65);
+    border-color: #ff007f;
+    box-shadow: 
+        0 15px 30px rgba(255, 0, 127, 0.15),
+        0 0 15px rgba(255, 0, 127, 0.1);
+    transform: scale(1.05);
+}
+
+.blob-text {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+}
+
+.blob-glow {
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border-radius: 100px;
+    background: linear-gradient(135deg, #ff007f 0%, #00c6fb 100%);
+    z-index: -1;
+    filter: blur(10px);
+    opacity: 0.15;
+    transition: var(--transition);
+}
+
+.discount-floating-blob:hover .blob-glow {
+    opacity: 0.3;
+    filter: blur(12px);
+}
+

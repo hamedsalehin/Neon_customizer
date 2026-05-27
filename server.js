@@ -369,6 +369,20 @@ async function markOrderAsPaid(orderId, sessionId, customerEmail) {
             return false;
         }
 
+        // If payment succeeded, mark discount as used for this email in their profile
+        if (customerEmail) {
+            const { error: profileError } = await supabase
+                .from('profiles')
+                .update({ has_discount_used: true })
+                .eq('email', customerEmail.toLowerCase());
+            
+            if (profileError) {
+                console.error(`❌ Failed to update discount status for ${customerEmail}:`, profileError.message);
+            } else {
+                console.log(`🎁 Profile discount marked as used for ${customerEmail}`);
+            }
+        }
+
         console.log(`✅ Order ${orderId} successfully marked as paid.`);
         // Dispatch email notification to admin containing customizer attachment
         sendOrderConfirmationEmail(orderId).catch(err => console.error('Order email dispatcher error:', err));
@@ -415,6 +429,14 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // ─── Static files ─────────────────────────────────────────────────────────────
 app.use(express.static(path.join(__dirname, 'public')));
 
+// ─── API: Expose Client Supabase Config ───────────────────────────────────────
+app.get('/api/config', (req, res) => {
+    res.json({
+        supabaseUrl: process.env.SUPABASE_URL || null,
+        supabaseKey: process.env.SUPABASE_KEY || null
+    });
+});
+
 // ─── API: Verify Payment (called by confirmation page after Stripe redirects) ──
 app.get('/api/verify-payment', async (req, res) => {
     const { session_id, order_id } = req.query;
@@ -448,6 +470,29 @@ app.post('/api/create-checkout', async (req, res) => {
     }
 
     try {
+        // Check if user is eligible for a 15% discount
+        let appliedDiscount = false;
+        let finalTotalPrice = total_price;
+
+        if (customer_email) {
+            try {
+                const { data: profile } = await supabase
+                    .from('profiles')
+                    .select('id, has_discount_used')
+                    .eq('email', customer_email.toLowerCase())
+                    .maybeSingle();
+
+                if (profile && !profile.has_discount_used) {
+                    appliedDiscount = true;
+                    // Calculate 15% off total_price
+                    finalTotalPrice = Math.round(total_price * 0.85 * 100) / 100;
+                    console.log(`🎁 User ${customer_email} is eligible for a 15% discount! Applied Discount. New price: $${finalTotalPrice}`);
+                }
+            } catch (err) {
+                console.error('Error checking discount eligibility:', err.message);
+            }
+        }
+
         // 1. Save a PENDING order to Supabase first
         const { data: order, error: orderError } = await supabase
             .from('orders')
@@ -455,7 +500,7 @@ app.post('/api/create-checkout', async (req, res) => {
                 customer_name,
                 customer_email,
                 shipping_address,
-                total_price,
+                total_price: finalTotalPrice,
                 payment_status: 'pending'
             }])
             .select()
@@ -464,17 +509,23 @@ app.post('/api/create-checkout', async (req, res) => {
         if (orderError) throw orderError;
 
         // 2. Save order items
-        const orderItems = items.map(item => ({
-            order_id: order.id,
-            text: item.text,
-            font_name: item.fontName,
-            color_name: item.colorName,
-            width_cm: item.widthCm,
-            height_cm: item.heightCm,
-            backing: `${item.backing === 'cut-to-letter' ? 'Cut to Letter' : item.backing === 'rectangle' ? 'Rectangle' : 'Cut to Shape'} (${item.backingColor === 'black' ? 'Black Acrylic' : item.backingColor === 'white' ? 'White Acrylic' : 'Clear Glass'}, ${item.environment === 'outdoor' ? 'Outdoor Waterproof' : 'Indoor Use'})`,
-            price: item.price,
-            svg_markup: item.svgMarkup
-        }));
+        const orderItems = items.map(item => {
+            let itemPrice = item.price;
+            if (appliedDiscount) {
+                itemPrice = Math.round(itemPrice * 0.85 * 100) / 100;
+            }
+            return {
+                order_id: order.id,
+                text: item.text,
+                font_name: item.fontName,
+                color_name: item.colorName,
+                width_cm: item.widthCm,
+                height_cm: item.heightCm,
+                backing: `${item.backing === 'cut-to-letter' ? 'Cut to Letter' : item.backing === 'rectangle' ? 'Rectangle' : 'Cut to Shape'} (${item.backingColor === 'black' ? 'Black Acrylic' : item.backingColor === 'white' ? 'White Acrylic' : 'Clear Glass'}, ${item.environment === 'outdoor' ? 'Outdoor Waterproof' : 'Indoor Use'})`,
+                price: itemPrice,
+                svg_markup: item.svgMarkup
+            };
+        });
 
         const { error: itemsError } = await supabase
             .from('order_items')
@@ -483,17 +534,23 @@ app.post('/api/create-checkout', async (req, res) => {
         if (itemsError) throw itemsError;
 
         // 3. Build Stripe line items
-        const lineItems = items.map(item => ({
-            price_data: {
-                currency: 'usd',
-                product_data: {
-                    name: `Neon Sign — "${item.text}"`,
-                    description: `${item.fontName} · ${item.colorName} · ${item.widthIn || Math.round(item.widthCm / 2.54)}in x ${item.heightIn || Math.round(item.heightCm / 2.54)}in (${item.widthCm}×${item.heightCm}cm) · ${item.backing === 'cut-to-letter' ? 'Cut to Letter' : item.backing === 'rectangle' ? 'Rectangle' : 'Cut to Shape'} · ${item.backingColor === 'black' ? 'Black Acrylic' : item.backingColor === 'white' ? 'White Acrylic' : 'Clear Glass'} · ${item.environment === 'outdoor' ? 'Outdoor Waterproof' : 'Indoor Use'}`
+        const lineItems = items.map(item => {
+            let unitPrice = item.price;
+            if (appliedDiscount) {
+                unitPrice = Math.round(unitPrice * 0.85 * 100) / 100;
+            }
+            return {
+                price_data: {
+                    currency: 'usd',
+                    product_data: {
+                        name: `Neon Sign — "${item.text}"` + (appliedDiscount ? ' (15% Member Discount Applied)' : ''),
+                        description: `${item.fontName} · ${item.colorName} · ${item.widthIn || Math.round(item.widthCm / 2.54)}in x ${item.heightIn || Math.round(item.heightCm / 2.54)}in (${item.widthCm}×${item.heightCm}cm) · ${item.backing === 'cut-to-letter' ? 'Cut to Letter' : item.backing === 'rectangle' ? 'Rectangle' : 'Cut to Shape'} · ${item.backingColor === 'black' ? 'Black Acrylic' : item.backingColor === 'white' ? 'White Acrylic' : 'Clear Glass'} · ${item.environment === 'outdoor' ? 'Outdoor Waterproof' : 'Indoor Use'}`
+                    },
+                    unit_amount: Math.round(unitPrice * 100) // Stripe expects cents
                 },
-                unit_amount: Math.round(item.price * 100) // Stripe expects cents
-            },
-            quantity: 1
-        }));
+                quantity: 1
+            };
+        });
 
         // 4. Create Stripe Checkout Session
         const origin = req.get('origin') || `${req.protocol}://${req.get('host')}`;
@@ -504,7 +561,9 @@ app.post('/api/create-checkout', async (req, res) => {
             customer_email: customer_email || undefined,
             metadata: {
                 order_id: order.id,
-                customer_name: customer_name || ''
+                customer_name: customer_name || '',
+                discount_applied: appliedDiscount ? 'true' : 'false',
+                customer_email: customer_email || ''
             },
             success_url: `${origin}/confirmation.html?id=${order.id}&session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${origin}/cart.html`

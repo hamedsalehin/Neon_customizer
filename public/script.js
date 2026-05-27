@@ -203,6 +203,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         NEON_COLORS.forEach(color => {
             const btn = document.createElement('div');
             btn.className = 'neon-color-button';
+            btn.dataset.colorId = color.id;
             if (currentSign.colorId === color.id) btn.classList.add('active');
             
             const dot = document.createElement('div');
@@ -849,6 +850,283 @@ document.addEventListener('DOMContentLoaded', async () => {
         goToCartBtn.addEventListener('click', () => {
             window.location.href = 'cart.html';
         });
+    }
+
+    // ─── CUSTOMIZER USER AUTH & SAVE/LOAD INTEGRATION ────────────────────────────
+    function showToast(text, color = '#ff007f') {
+        if (!document.getElementById('toast-animation-style')) {
+            const style = document.createElement('style');
+            style.id = 'toast-animation-style';
+            style.textContent = `
+                @keyframes fadeSlideUp {
+                    from { opacity: 0; transform: translateY(20px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        const toast = document.createElement('div');
+        toast.style.cssText = `position:fixed; bottom:20px; right:20px; background:#060608; color:#fff; padding:16px 24px; border-radius:12px; border:1px solid ${color}; z-index:9999; font-weight:600; font-size:0.9rem; box-shadow:0 10px 30px rgba(0,0,0,0.25); animation: fadeSlideUp 0.3s ease-out;`;
+        toast.textContent = text;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 4000);
+    }
+
+    async function getActiveUser() {
+        const supabase = await window.supabaseInitPromise;
+        if (!supabase) return null;
+        const { data: { user } } = await supabase.auth.getUser();
+        return user;
+    }
+
+    const saveToAccountBtn = document.getElementById('save-to-account-btn');
+    const loadDesignsBtn = document.getElementById('load-designs-btn');
+    const savedDesignsSidebar = document.getElementById('saved-designs-sidebar');
+    const closeSavedDesignsBtn = document.getElementById('close-saved-designs');
+    const savedDesignsList = document.getElementById('saved-designs-list');
+
+    if (saveToAccountBtn) {
+        saveToAccountBtn.addEventListener('click', async () => {
+            const user = await getActiveUser();
+            const colorObj = NEON_COLORS.find(c => c.id === currentSign.colorId);
+            const designData = {
+                text: currentSign.text,
+                fontName: currentSign.fontName,
+                colorId: currentSign.colorId,
+                colorName: colorObj ? colorObj.name : 'Custom',
+                lineSpacing: currentSign.lineSpacing,
+                targetWidthIn: currentSign.targetWidthIn,
+                visualScale: currentSign.visualScale,
+                environment: currentSign.environment,
+                backingColor: currentSign.backingColor,
+                backing: currentSign.backing,
+                x: currentSign.x,
+                y: currentSign.y
+            };
+
+            if (!user) {
+                // Not logged in -> save pending sign to sessionStorage and redirect
+                sessionStorage.setItem('pending_save_design', JSON.stringify(designData));
+                showToast('🔑 Please sign in to save your design. Redirecting...', '#ff007f');
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 1500);
+                return;
+            }
+
+            const originalText = saveToAccountBtn.innerHTML;
+            saveToAccountBtn.disabled = true;
+            saveToAccountBtn.innerHTML = '⏳ Saving...';
+
+            try {
+                const { data, error } = await window.supabase
+                    .from('saved_designs')
+                    .insert({
+                        user_id: user.id,
+                        name: `${currentSign.text.substring(0, 15) || 'Untitled'} Sign`,
+                        design_data: designData
+                    });
+
+                if (error) throw error;
+
+                showToast('✨ Design saved successfully to your account!', '#10b981');
+                saveToAccountBtn.innerHTML = 'Saved! ✓';
+                setTimeout(() => {
+                    saveToAccountBtn.innerHTML = originalText;
+                    saveToAccountBtn.disabled = false;
+                }, 2000);
+            } catch (err) {
+                console.error('Error saving design:', err.message);
+                showToast('❌ Failed to save design. Please try again.', '#ef4444');
+                saveToAccountBtn.innerHTML = originalText;
+                saveToAccountBtn.disabled = false;
+            }
+        });
+    }
+
+    if (loadDesignsBtn) {
+        loadDesignsBtn.addEventListener('click', async () => {
+            const user = await getActiveUser();
+            if (!user) {
+                showToast('🔑 Please sign in to view your saved designs.', '#ff007f');
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 1500);
+                return;
+            }
+
+            savedDesignsSidebar.style.transform = 'translateX(0)';
+            await loadSavedDesignsList(user.id);
+        });
+    }
+
+    if (closeSavedDesignsBtn) {
+        closeSavedDesignsBtn.addEventListener('click', () => {
+            savedDesignsSidebar.style.transform = 'translateX(100%)';
+        });
+    }
+
+    async function loadSavedDesignsList(userId) {
+        savedDesignsList.innerHTML = '<div class="empty-cart-msg">⏳ Loading designs...</div>';
+        
+        try {
+            const { data: designs, error } = await window.supabase
+                .from('saved_designs')
+                .select('*')
+                .eq('user_id', userId)
+                .order('created_at', { ascending: false });
+
+            if (error) throw error;
+
+            if (!designs || designs.length === 0) {
+                savedDesignsList.innerHTML = '<div class="empty-cart-msg">No saved designs found</div>';
+                return;
+            }
+
+            savedDesignsList.innerHTML = '';
+            designs.forEach(design => {
+                const item = design.design_data;
+                const card = document.createElement('div');
+                card.className = 'cart-item';
+                card.style.cssText = 'border-bottom:1px solid rgba(0,0,0,0.08); padding:15px; display:flex; flex-direction:column; gap:10px; position:relative; background:rgba(255,255,255,0.4); border-radius:12px; margin-bottom:12px;';
+                
+                card.innerHTML = `
+                    <div style="font-weight:700; color:var(--text-primary); font-size:0.95rem;">${item.text.replace(/\n/g, ' ')}</div>
+                    <div style="font-size:0.78rem; color:var(--text-secondary); line-height:1.4;">
+                        Font: ${item.fontName} • Color: ${item.colorName}<br>
+                        Size: ${item.targetWidthIn}in • Backing: ${item.backing}<br>
+                        Material: ${item.backingColor === 'black' ? 'Black Acrylic' : item.backingColor === 'white' ? 'White Acrylic' : 'Clear Glass'} • Use: ${item.environment === 'outdoor' ? 'Outdoor' : 'Indoor'}
+                    </div>
+                    <div style="display:flex; gap:10px;">
+                        <button class="load-btn" data-id="${design.id}" style="flex:1.2; padding:8px 12px; background:linear-gradient(135deg,#ff007f,#00c6fb); color:white; border:none; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.8rem;">Load</button>
+                        <button class="delete-btn" data-id="${design.id}" style="flex:0.8; padding:8px 12px; background:rgba(239,68,68,0.08); color:#ef4444; border:1px solid rgba(239,68,68,0.15); border-radius:8px; font-weight:600; cursor:pointer; font-size:0.8rem;">Delete</button>
+                    </div>
+                `;
+
+                // Load design event
+                card.querySelector('.load-btn').addEventListener('click', () => {
+                    applySavedDesign(item);
+                    savedDesignsSidebar.style.transform = 'translateX(100%)';
+                    showToast('✨ Design loaded successfully!', '#10b981');
+                });
+
+                // Delete design event
+                card.querySelector('.delete-btn').addEventListener('click', async () => {
+                    if (confirm('Are you sure you want to delete this design?')) {
+                        const { error: delErr } = await window.supabase
+                            .from('saved_designs')
+                            .delete()
+                            .eq('id', design.id);
+                        
+                        if (!delErr) {
+                            showToast('🗑️ Design deleted.');
+                            loadSavedDesignsList(userId);
+                        } else {
+                            showToast('❌ Failed to delete design.');
+                        }
+                    }
+                });
+
+                savedDesignsList.appendChild(card);
+            });
+
+        } catch (err) {
+            console.error('Error loading designs list:', err.message);
+            savedDesignsList.innerHTML = '<div class="empty-cart-msg" style="color:#ef4444;">❌ Failed to load designs.</div>';
+        }
+    }
+
+    function applySavedDesign(item) {
+        // 1. Update state object
+        currentSign.text = item.text || 'Good Vibes';
+        currentSign.fontName = item.fontName || 'Meow Script';
+        currentSign.colorId = item.colorId || 'ice-blue';
+        currentSign.lineSpacing = item.lineSpacing || 1.2;
+        currentSign.targetWidthIn = item.targetWidthIn || 24;
+        currentSign.visualScale = item.visualScale || 1.0;
+        currentSign.environment = item.environment || 'indoor';
+        currentSign.backingColor = item.backingColor || 'acrylic';
+        currentSign.backing = item.backing || 'cut-to-shape';
+        currentSign.x = item.x || 0;
+        currentSign.y = item.y || 0;
+
+        currentBacking = currentSign.backing;
+        currentBackingColor = currentSign.backingColor;
+
+        // 2. Update DOM inputs
+        textInput.value = currentSign.text;
+        
+        const lineSpacingSlider = document.getElementById('line-spacing-slider');
+        const lineSpacingVal = document.getElementById('line-spacing-val');
+        if (lineSpacingSlider) {
+            lineSpacingSlider.value = currentSign.lineSpacing;
+            if (lineSpacingVal) lineSpacingVal.textContent = `${currentSign.lineSpacing.toFixed(1)}x`;
+        }
+
+        if (inputWidthIn) inputWidthIn.value = currentSign.targetWidthIn;
+
+        // 3. Highlight/select control items in UI
+        // Fonts
+        document.querySelectorAll('.font-item').forEach(card => {
+            if (card.dataset.fontName === currentSign.fontName) {
+                card.classList.add('active');
+            } else {
+                card.classList.remove('active');
+            }
+        });
+
+        // Colors
+        document.querySelectorAll('.neon-color-button').forEach(btn => {
+            if (btn.dataset.colorId === currentSign.colorId) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+
+        // Backings
+        document.querySelectorAll('.backing-card').forEach(card => {
+            if (card.dataset.backing === currentSign.backing) {
+                card.classList.add('active');
+            } else {
+                card.classList.remove('active');
+            }
+        });
+
+        // Backing Colors
+        document.querySelectorAll('.backing-color-swatch').forEach(swatch => {
+            if (swatch.dataset.bcolor === currentSign.backingColor) {
+                swatch.classList.add('active');
+            } else {
+                swatch.classList.remove('active');
+            }
+        });
+
+        // Environments
+        document.querySelectorAll('.env-card').forEach(card => {
+            if (card.dataset.env === currentSign.environment) {
+                card.classList.add('active');
+            } else {
+                card.classList.remove('active');
+            }
+        });
+
+        // Sizes
+        const customInputs = document.getElementById('custom-inputs-section');
+        document.querySelectorAll('.size-card').forEach(card => {
+            if (!card.dataset.custom && parseFloat(card.dataset.width) === currentSign.targetWidthIn) {
+                card.classList.add('active');
+                if (customInputs) customInputs.style.display = 'none';
+            } else if (card.dataset.custom && ![12, 20, 28, 36, 40].includes(currentSign.targetWidthIn)) {
+                card.classList.add('active');
+                if (customInputs) customInputs.style.display = 'grid';
+            } else {
+                card.classList.remove('active');
+            }
+        });
+
+        // 4. Trigger redraw
+        syncTextToCanvas();
     }
 
     // Initial UI Sync

@@ -27,6 +27,7 @@
                     <li><a href="#gallery">Gallery</a></li>
                     <li><a href="#colors">Colors</a></li>
                     <li><a href="#faq">FAQ</a></li>
+                    <li id="auth-nav-item"><a href="login.html" class="auth-login-link" style="text-decoration: none; color: var(--text-secondary); font-weight: 600; font-size: 0.95rem; transition: var(--transition); border: 1px solid rgba(0,0,0,0.15); padding: 8px 16px; border-radius: 100px; background: rgba(255,255,255,0.5);">Sign In</a></li>
                 </ul>
             </nav>
             
@@ -370,6 +371,43 @@
         </div>
     </footer>
 
+    <!-- ─── 15% MEMBER DISCOUNT POPUP MODAL ────────────────────────────────── -->
+    <div id="discount-modal-overlay" class="discount-modal-overlay">
+        <div class="discount-modal-card">
+            <!-- Close X Button -->
+            <button class="discount-modal-close" id="discount-modal-close-x" aria-label="Close Popup">&times;</button>
+            
+            <!-- Colorful Top Banner -->
+            <div class="discount-modal-banner">
+                <span class="banner-badge">Enjoy</span>
+                <h2>15% OFF</h2>
+                <h3>Your First Order</h3>
+            </div>
+            
+            <div class="discount-modal-body">
+                <h4>JOIN OUR EXCLUSIVE MEMBER CLUB</h4>
+                <p class="discount-modal-desc">Enter your email below to unlock a first-time member discount on your order and save your custom neon sign designs.</p>
+                
+                <form id="discount-signup-form" class="discount-signup-form">
+                    <input type="email" id="discount-email-input" placeholder="Enter your email address" required>
+                    <button type="submit" class="discount-submit-btn">Get My 15% Off Discount</button>
+                </form>
+                
+                <p class="discount-disclaimer">
+                    ⚠️ <strong>Important Note:</strong> To automatically receive your 15% discount at checkout, please sign up and place your order using the exact same email address.
+                </p>
+                
+                <button class="discount-modal-decline" id="discount-modal-decline-btn">No discount, thanks</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Liquid Glass Blob (Bottom-Left) -->
+    <div id="discount-floating-blob" class="discount-floating-blob" title="Claim 15% Member Discount">
+        <span class="blob-text">🎁 15% Off</span>
+        <span class="blob-glow"></span>
+    </div>
+
     <!-- ─── INTERACTIVE SCRIPTS ────────────────────────────────────────────── -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -441,7 +479,73 @@
                     }
                 });
             });
+
+            // ─── 15% DISCOUNT POP-UP & FLOATING BLOB LOGIC ────────────────────────
+            const discountModal = document.getElementById('discount-modal-overlay');
+            const floatingBlob = document.getElementById('discount-floating-blob');
+            const closeX = document.getElementById('discount-modal-close-x');
+            const declineBtn = document.getElementById('discount-modal-decline-btn');
+            const discountForm = document.getElementById('discount-signup-form');
+            const emailInput = document.getElementById('discount-email-input');
+
+            // Show popup function
+            function showPopup() {
+                discountModal.classList.add('active');
+                floatingBlob.classList.remove('active');
+            }
+
+            // Hide popup and show floating blob
+            function hidePopup() {
+                discountModal.classList.remove('active');
+                floatingBlob.classList.add('active');
+                localStorage.setItem('discount_popup_dismissed', 'true');
+            }
+
+            // Bind closing events
+            closeX.addEventListener('click', hidePopup);
+            declineBtn.addEventListener('click', hidePopup);
+
+            // Bind blob click to restore popup
+            floatingBlob.addEventListener('click', () => {
+                floatingBlob.classList.remove('active');
+                discountModal.classList.add('active');
+            });
+
+            // Bind form submission to save email and redirect to signup
+            discountForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = emailInput.value.trim();
+                localStorage.setItem('member_email', email);
+                localStorage.setItem('discount_popup_dismissed', 'true');
+                
+                // Hide popup immediately and redirect to registration page
+                discountModal.classList.remove('active');
+                window.location.href = `login.html?signup=true&email=${encodeURIComponent(email)}`;
+            });
+
+            // Trigger Pop-up check after small delay
+            setTimeout(async () => {
+                let user = null;
+                const supabase = await window.supabaseInitPromise;
+                if (supabase) {
+                    user = (await supabase.auth.getUser()).data.user;
+                }
+
+                const alreadyDismissed = localStorage.getItem('discount_popup_dismissed') === 'true';
+                const memberEmail = localStorage.getItem('member_email');
+
+                if (user || memberEmail) {
+                    discountModal.classList.remove('active');
+                    floatingBlob.classList.remove('active');
+                } else if (alreadyDismissed) {
+                    floatingBlob.classList.add('active');
+                } else {
+                    showPopup();
+                }
+            }, 3000);
         });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="auth.js?v=4"></script>
 </body>
 </html>
