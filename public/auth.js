@@ -1,7 +1,5 @@
 // ─── NANO SIGN SHARED AUTHENTICATION & CONFIGURATION ──────────────────────────
 
-let supabase = null;
-
 // Initialize Supabase Client dynamically from server config
 async function initSupabase() {
     try {
@@ -13,10 +11,10 @@ async function initSupabase() {
             if (!window.supabase || typeof window.supabase.createClient !== 'function') {
                 throw new Error('Supabase library (supabase-js) failed to load from the CDN. Please check your internet connection or ad-blocker.');
             }
-            supabase = window.supabase.createClient(config.supabaseUrl, config.supabaseKey);
-            window.supabase = supabase;
+            const client = window.supabase.createClient(config.supabaseUrl, config.supabaseKey);
+            window.supabase = client;
             console.log('✅ Supabase Client initialized successfully');
-            return supabase;
+            return client;
         } else {
             console.warn('⚠️ Supabase config incomplete or missing on server.');
             return null;
