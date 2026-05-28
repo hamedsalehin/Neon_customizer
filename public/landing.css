@@ -1296,11 +1296,11 @@ footer.site-footer {
 
 /* Liquid Morph and Collapse transition rules */
 .discount-modal-overlay.collapsing {
-    opacity: 1;
+    opacity: 1 !important;
+    pointer-events: none !important;
     background: rgba(6, 6, 8, 0);
     backdrop-filter: blur(0px);
     -webkit-backdrop-filter: blur(0px);
-    pointer-events: none;
     transition: background 0.8s cubic-bezier(0.25, 1, 0.5, 1), backdrop-filter 0.8s cubic-bezier(0.25, 1, 0.5, 1);
 }
 

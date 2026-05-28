@@ -763,7 +763,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const goToCartBtn    = document.getElementById('go-to-cart-btn');
 
     const updateCartUI = () => {
-        cart = JSON.parse(localStorage.getItem('neon_cart')) || [];
         const totalQty = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
         cartCountEl.textContent = totalQty;
         
@@ -833,7 +832,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             // Add remove listeners
             document.querySelectorAll('.remove-item-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
                     const idx = parseInt(btn.dataset.index);
                     cart.splice(idx, 1);
                     localStorage.setItem('neon_cart', JSON.stringify(cart));
@@ -918,23 +918,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         setTimeout(() => toast.remove(), 4000);
     }
 
-    let currentUser = null;
-    document.addEventListener('auth-state-changed', (e) => {
-        currentUser = e.detail.user;
-    });
-
     async function getActiveUser() {
-        if (currentUser) return currentUser;
         const supabase = await window.supabaseInitPromise;
         if (!supabase) return null;
-        try {
-            const { data: { user } } = await supabase.auth.getUser();
-            currentUser = user;
-            return user;
-        } catch (e) {
-            console.error('Error getting active user:', e);
-            return null;
-        }
+        const { data: { user } } = await supabase.auth.getUser();
+        return user;
     }
 
     const saveToAccountBtn = document.getElementById('save-to-account-btn');
@@ -1000,22 +988,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     if (loadDesignsBtn) {
-        loadDesignsBtn.addEventListener('click', async () => {
-            try {
-                const user = await getActiveUser();
-                if (!user) {
-                    showToast('🔑 Please sign in to view your saved designs.', '#ff007f');
-                    setTimeout(() => {
-                        window.location.href = 'login.html';
-                    }, 1500);
-                    return;
-                }
-                window.location.href = 'my-designs.html';
-            } catch (err) {
-                console.error('Error in load designs button handler:', err);
-                // Fail-safe redirect fallback
-                window.location.href = 'my-designs.html';
-            }
+        loadDesignsBtn.addEventListener('click', () => {
+            window.location.href = 'my-designs.html';
         });
     }
 

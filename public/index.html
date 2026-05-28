@@ -496,7 +496,7 @@
 
             // Hide popup and show floating blob with collapsing animation
             function hidePopup() {
-                // Remove active immediately to avoid active/transition override conflicts, and add collapsing class to keep visible and animate
+                // Remove active and add collapsing classes immediately
                 discountModal.classList.remove('active');
                 discountModal.classList.add('collapsing');
                 const card = document.getElementById('discount-modal-card');
