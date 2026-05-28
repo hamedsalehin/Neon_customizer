@@ -67,8 +67,7 @@ function updateHeaderAuthUI(user) {
             .substring(0, 2);
             
         authNavItem.innerHTML = `
-            <div class="user-nav-profile" style="display: flex; align-items: center; gap: 12px;">
-                <a href="my-designs.html" class="my-designs-nav-link" style="color: var(--text-primary, #fff); font-size: 0.95rem; font-weight: 600; text-decoration: none; transition: var(--transition); border-right: 1px solid rgba(255,255,255,0.15); padding-right: 10px;">My Designs</a>
+            <div class="user-nav-profile" style="display: flex; align-items: center; gap: 8px;">
                 <span class="user-avatar-badge" title="${fullName}" style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: linear-gradient(135deg, var(--neon-pink, #ff007f), var(--neon-cyan, #00c6fb)); color: white; font-weight: 700; border-radius: 50%; font-size: 0.85rem; border: 1px solid rgba(255,255,255,0.4); text-shadow: 0 1px 2px rgba(0,0,0,0.1);">${initials}</span>
                 <a href="#" id="auth-logout-btn" style="color: var(--text-muted); font-size: 0.9rem; font-weight: 500; text-decoration: none; padding: 4px 8px; transition: var(--transition);">Log Out</a>
             </div>

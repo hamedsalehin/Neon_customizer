@@ -100,10 +100,10 @@
 
                     <!-- Save / Load buttons under text area -->
                     <div class="account-actions-row" style="display: flex; gap: 8px; margin-top: 10px; margin-bottom: 5px;">
-                        <button type="button" class="panel-action-btn" id="save-to-account-btn" style="flex: 1; padding: 10px; border-radius: 10px; font-family: inherit; font-size: 0.85rem; font-weight: 600; border: 1px solid rgba(0,0,0,0.1); background: rgba(255,255,255,0.7); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s;">
+                        <button class="panel-action-btn" id="save-to-account-btn" style="flex: 1; padding: 10px; border-radius: 10px; font-family: inherit; font-size: 0.85rem; font-weight: 600; border: 1px solid rgba(0,0,0,0.1); background: rgba(255,255,255,0.7); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s;">
                             💾 Save Design
                         </button>
-                        <button type="button" class="panel-action-btn" id="load-designs-btn" style="flex: 1; padding: 10px; border-radius: 10px; font-family: inherit; font-size: 0.85rem; font-weight: 600; border: 1px solid rgba(0,0,0,0.1); background: rgba(255,255,255,0.7); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s;">
+                        <button class="panel-action-btn" id="load-designs-btn" style="flex: 1; padding: 10px; border-radius: 10px; font-family: inherit; font-size: 0.85rem; font-weight: 600; border: 1px solid rgba(0,0,0,0.1); background: rgba(255,255,255,0.7); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s;">
                             📂 My Designs
                         </button>
                     </div>
@@ -264,7 +264,19 @@
         </div>
     </div>
 
-
+    <!-- Saved Designs Side Panel -->
+    <div class="cart-sidebar" id="saved-designs-sidebar" style="transform: translateX(100%);">
+        <div class="cart-header">
+            <h2>Saved Designs</h2>
+            <button class="close-cart" id="close-saved-designs">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+        </div>
+        <div class="cart-items" id="saved-designs-list">
+            <!-- Saved designs injected via JS -->
+            <div class="empty-cart-msg">No saved designs found</div>
+        </div>
+    </div>
 
     <!-- opentype.js for TTF path extraction -->
     <script src="https://cdn.jsdelivr.net/npm/opentype.js@1.3.4/dist/opentype.min.js"></script>

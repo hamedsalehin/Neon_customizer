@@ -373,7 +373,7 @@
 
     <!-- ─── 15% MEMBER DISCOUNT POPUP MODAL ────────────────────────────────── -->
     <div id="discount-modal-overlay" class="discount-modal-overlay">
-        <div class="discount-modal-card" id="discount-modal-card">
+        <div class="discount-modal-card">
             <!-- Close X Button -->
             <button class="discount-modal-close" id="discount-modal-close-x" aria-label="Close Popup">&times;</button>
             
@@ -404,11 +404,7 @@
 
     <!-- Floating Liquid Glass Blob (Bottom-Left) -->
     <div id="discount-floating-blob" class="discount-floating-blob" title="Claim 15% Member Discount">
-        <span class="blob-text">
-            <span style="font-size: 1.35rem; margin-bottom: 2px;">🎁</span>
-            <span style="font-size: 0.72rem; opacity: 0.85; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;">Club</span>
-            <span style="font-size: 0.95rem; font-weight: 900;">15% OFF</span>
-        </span>
+        <span class="blob-text">🎁 15% Off</span>
         <span class="blob-glow"></span>
     </div>
 
@@ -530,48 +526,23 @@
             // Trigger Pop-up check after small delay
             setTimeout(async () => {
                 let user = null;
-                let hasDiscountUsed = false;
                 const supabase = await window.supabaseInitPromise;
                 if (supabase) {
-                    try {
-                        const { data: { user: authUser } } = await supabase.auth.getUser();
-                        user = authUser;
-                        if (user) {
-                            const { data: profile } = await supabase
-                                .from('profiles')
-                                .select('has_discount_used')
-                                .eq('id', user.id)
-                                .maybeSingle();
-                            if (profile) {
-                                hasDiscountUsed = profile.has_discount_used;
-                            }
-                        }
-                    } catch (e) {
-                        console.error('Error fetching user profile:', e);
-                    }
+                    user = (await supabase.auth.getUser()).data.user;
                 }
 
                 const alreadyDismissed = localStorage.getItem('discount_popup_dismissed') === 'true';
+                const memberEmail = localStorage.getItem('member_email');
 
-                if (user) {
-                    // For logged-in users, if they haven't used the discount, show the floating bubble (but not the popup)
-                    if (!hasDiscountUsed) {
-                        discountModal.classList.remove('active');
-                        floatingBlob.classList.add('active');
-                    } else {
-                        discountModal.classList.remove('active');
-                        floatingBlob.classList.remove('active');
-                    }
+                if (user || memberEmail) {
+                    discountModal.classList.remove('active');
+                    floatingBlob.classList.remove('active');
+                } else if (alreadyDismissed) {
+                    floatingBlob.classList.add('active');
                 } else {
-                    // For guests
-                    if (alreadyDismissed) {
-                        discountModal.classList.remove('active');
-                        floatingBlob.classList.add('active');
-                    } else {
-                        showPopup();
-                    }
+                    showPopup();
                 }
-            }, 2500);
+            }, 3000);
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

@@ -17,14 +17,12 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const totalQty = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-        countTitle.textContent = `You have ${totalQty} item${totalQty === 1 ? '' : 's'} in your cart.`;
+        countTitle.textContent = `You have ${cart.length} item${cart.length === 1 ? '' : 's'} in your cart.`;
         cartList.innerHTML = '';
         let subtotal = 0;
 
         cart.forEach((item, index) => {
-            const qty = item.quantity || 1;
-            subtotal += item.price * qty;
+            subtotal += item.price;
             const itemEl = document.createElement('div');
             itemEl.className = 'cart-page-item';
             itemEl.innerHTML = `
@@ -41,16 +39,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         <strong>Material:</strong> ${item.backingColor === 'black' ? 'Black Acrylic' : item.backingColor === 'white' ? 'White Acrylic' : 'Clear Glass'}<br>
                         <strong>Use:</strong> ${item.environment === 'outdoor' ? 'Outdoor (Waterproof)' : 'Indoor'}
                     </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px; max-width: 250px;">
-                        <div class="cart-page-item-price" style="margin-top: 0;">$${(item.price * qty).toFixed(2)}</div>
-                        <div class="qty-controller" style="display: flex; align-items: center; border: 1px solid rgba(0,0,0,0.12); border-radius: 8px; background: rgba(255,255,255,0.6); overflow: hidden; height: 30px;">
-                            <button class="qty-btn dec-qty" data-index="${index}" style="background: transparent; border: none; color: #1e1b4b; width: 28px; height: 100%; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; font-weight: 700; transition: background 0.2s;">−</button>
-                            <span class="qty-val" style="color: #1e1b4b; font-weight: 600; min-width: 24px; text-align: center; font-size: 0.9rem; user-select: none;">${qty}</span>
-                            <button class="qty-btn inc-qty" data-index="${index}" style="background: transparent; border: none; color: #1e1b4b; width: 28px; height: 100%; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; font-weight: 700; transition: background 0.2s;">+</button>
-                        </div>
-                    </div>
+                    <div class="cart-page-item-price">$${item.price.toFixed(2)}</div>
                 </div>
-                <button class="remove-item-btn" data-index="${index}" style="align-self: flex-start; margin-top: 10px; background: rgba(239,68,68,0.08); color: #ef4444; border: 1px solid rgba(239,68,68,0.15); border-radius: 8px; padding: 6px 12px; font-weight: 600; cursor: pointer; font-size: 0.85rem; transition: all 0.2s;">
+                <button class="remove-item-btn" data-index="${index}" style="align-self: flex-start; margin-top: 10px;">
                     Remove
                 </button>
             `;
@@ -59,29 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
         totalEl.textContent = `$${subtotal.toFixed(2)}`;
-
-        // Add quantity listeners
-        document.querySelectorAll('.dec-qty').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const idx = parseInt(btn.dataset.index);
-                if ((cart[idx].quantity || 1) > 1) {
-                    cart[idx].quantity = (cart[idx].quantity || 1) - 1;
-                } else {
-                    cart.splice(idx, 1);
-                }
-                localStorage.setItem('neon_cart', JSON.stringify(cart));
-                renderCart();
-            });
-        });
-
-        document.querySelectorAll('.inc-qty').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const idx = parseInt(btn.dataset.index);
-                cart[idx].quantity = (cart[idx].quantity || 1) + 1;
-                localStorage.setItem('neon_cart', JSON.stringify(cart));
-                renderCart();
-            });
-        });
 
         // Add remove listeners
         document.querySelectorAll('.remove-item-btn').forEach(btn => {
@@ -128,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            const subtotal = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
+            const subtotal = cart.reduce((sum, item) => sum + item.price, 0);
 
             try {
                 placeOrderBtn.disabled = true;
