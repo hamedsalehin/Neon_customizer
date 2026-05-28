@@ -610,12 +610,14 @@ app.post('/api/create-checkout', async (req, res) => {
         if (orderError) throw orderError;
 
         // 2. Save order items
-        const orderItems = items.map(item => {
+        const orderItems = [];
+        items.forEach(item => {
             let itemPrice = item.price;
             if (appliedDiscount) {
                 itemPrice = Math.round(itemPrice * 0.85 * 100) / 100;
             }
-            return {
+            const qty = item.quantity || 1;
+            const singleItem = {
                 order_id: order.id,
                 text: item.text,
                 font_name: item.fontName,
@@ -626,6 +628,9 @@ app.post('/api/create-checkout', async (req, res) => {
                 price: itemPrice,
                 svg_markup: item.svgMarkup
             };
+            for (let i = 0; i < qty; i++) {
+                orderItems.push({ ...singleItem });
+            }
         });
 
         const { error: itemsError } = await supabase
@@ -649,7 +654,7 @@ app.post('/api/create-checkout', async (req, res) => {
                     },
                     unit_amount: Math.round(unitPrice * 100) // Stripe expects cents
                 },
-                quantity: 1
+                quantity: item.quantity || 1
             };
         });
 
@@ -693,17 +698,24 @@ app.post('/api/orders', async (req, res) => {
 
         if (orderError) throw orderError;
 
-        const orderItems = items.map(item => ({
-            order_id: order.id,
-            text: item.text,
-            font_name: item.fontName,
-            color_name: item.colorName,
-            width_cm: item.widthCm,
-            height_cm: item.heightCm,
-            backing: item.backing,
-            price: item.price,
-            svg_markup: item.svgMarkup
-        }));
+        const orderItems = [];
+        items.forEach(item => {
+            const qty = item.quantity || 1;
+            const singleItem = {
+                order_id: order.id,
+                text: item.text,
+                font_name: item.fontName,
+                color_name: item.colorName,
+                width_cm: item.widthCm,
+                height_cm: item.heightCm,
+                backing: item.backing,
+                price: item.price,
+                svg_markup: item.svgMarkup
+            };
+            for (let i = 0; i < qty; i++) {
+                orderItems.push({ ...singleItem });
+            }
+        });
 
         const { error: itemsError } = await supabase.from('order_items').insert(orderItems);
         if (itemsError) throw itemsError;

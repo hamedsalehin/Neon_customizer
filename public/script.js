@@ -731,6 +731,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     await preloadAllFonts();
     neonContainer.innerHTML = '';
 
+    // Check for pending design loading from "My Designs" dashboard
+    const pendingLoad = sessionStorage.getItem('pending_load_design');
+    if (pendingLoad) {
+        try {
+            const designData = JSON.parse(pendingLoad);
+            sessionStorage.removeItem('pending_load_design'); // clear immediately
+            applySavedDesign(designData);
+            console.log('✨ Automatically loaded pending design from My Designs dashboard.');
+        } catch (e) {
+            console.error('Error parsing pending load design:', e);
+        }
+    }
+
     textInput.addEventListener('input', syncTextToCanvas);
     syncTextToCanvas();
 
@@ -750,7 +763,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const goToCartBtn    = document.getElementById('go-to-cart-btn');
 
     const updateCartUI = () => {
-        cartCountEl.textContent = cart.length;
+        const totalQty = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+        cartCountEl.textContent = totalQty;
         
         if (cart.length === 0) {
             cartItemsList.innerHTML = '<div class="empty-cart-msg">Your cart is empty</div>';
@@ -760,7 +774,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             let subtotal = 0;
             
             cart.forEach((item, index) => {
-                subtotal += item.price;
+                const qty = item.quantity || 1;
+                subtotal += item.price * qty;
                 const itemEl = document.createElement('div');
                 itemEl.className = 'cart-item';
                 itemEl.innerHTML = `
@@ -774,7 +789,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                             ${item.widthIn || Math.round(item.widthCm / 2.54)}in x ${item.heightIn || Math.round(item.heightCm / 2.54)}in / ${item.widthCm}cm x ${item.heightCm}cm • ${item.backing === 'cut-to-letter' ? 'Cut to Letter' : item.backing === 'rectangle' ? 'Rectangle' : 'Cut to Shape'}<br>
                             Material: ${item.backingColor === 'black' ? 'Black Acrylic' : item.backingColor === 'white' ? 'White Acrylic' : 'Clear Glass'} • Use: ${item.environment === 'outdoor' ? 'Outdoor Waterproof' : 'Indoor Use'}
                         </div>
-                        <div class="cart-item-price">$${item.price.toFixed(2)}</div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px;">
+                            <div class="cart-item-price">$${(item.price * qty).toFixed(2)}</div>
+                            <div class="qty-controller" style="display: flex; align-items: center; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; background: rgba(255,255,255,0.05); overflow: hidden; height: 26px;">
+                                <button class="qty-btn dec-qty" data-index="${index}" style="background: transparent; border: none; color: white; width: 24px; height: 100%; cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; font-weight: 700; transition: background 0.2s;">−</button>
+                                <span class="qty-val" style="color: white; font-weight: 600; min-width: 20px; text-align: center; font-size: 0.8rem; user-select: none;">${qty}</span>
+                                <button class="qty-btn inc-qty" data-index="${index}" style="background: transparent; border: none; color: white; width: 24px; height: 100%; cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; font-weight: 700; transition: background 0.2s;">+</button>
+                            </div>
+                        </div>
                     </div>
                     <button class="remove-item-btn" data-index="${index}">
                         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
@@ -784,6 +806,29 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
             
             cartSubtotalEl.textContent = `$${subtotal.toFixed(2)}`;
+            
+            // Add quantity listeners
+            document.querySelectorAll('.dec-qty').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const idx = parseInt(btn.dataset.index);
+                    if ((cart[idx].quantity || 1) > 1) {
+                        cart[idx].quantity = (cart[idx].quantity || 1) - 1;
+                    } else {
+                        cart.splice(idx, 1);
+                    }
+                    localStorage.setItem('neon_cart', JSON.stringify(cart));
+                    updateCartUI();
+                });
+            });
+
+            document.querySelectorAll('.inc-qty').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const idx = parseInt(btn.dataset.index);
+                    cart[idx].quantity = (cart[idx].quantity || 1) + 1;
+                    localStorage.setItem('neon_cart', JSON.stringify(cart));
+                    updateCartUI();
+                });
+            });
             
             // Add remove listeners
             document.querySelectorAll('.remove-item-btn').forEach(btn => {
@@ -881,9 +926,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const saveToAccountBtn = document.getElementById('save-to-account-btn');
     const loadDesignsBtn = document.getElementById('load-designs-btn');
-    const savedDesignsSidebar = document.getElementById('saved-designs-sidebar');
-    const closeSavedDesignsBtn = document.getElementById('close-saved-designs');
-    const savedDesignsList = document.getElementById('saved-designs-list');
 
     if (saveToAccountBtn) {
         saveToAccountBtn.addEventListener('click', async () => {
@@ -954,86 +996,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }, 1500);
                 return;
             }
-
-            savedDesignsSidebar.style.transform = 'translateX(0)';
-            await loadSavedDesignsList(user.id);
+            window.location.href = 'my-designs.html';
         });
-    }
-
-    if (closeSavedDesignsBtn) {
-        closeSavedDesignsBtn.addEventListener('click', () => {
-            savedDesignsSidebar.style.transform = 'translateX(100%)';
-        });
-    }
-
-    async function loadSavedDesignsList(userId) {
-        savedDesignsList.innerHTML = '<div class="empty-cart-msg">⏳ Loading designs...</div>';
-        
-        try {
-            const { data: designs, error } = await window.supabase
-                .from('saved_designs')
-                .select('*')
-                .eq('user_id', userId)
-                .order('created_at', { ascending: false });
-
-            if (error) throw error;
-
-            if (!designs || designs.length === 0) {
-                savedDesignsList.innerHTML = '<div class="empty-cart-msg">No saved designs found</div>';
-                return;
-            }
-
-            savedDesignsList.innerHTML = '';
-            designs.forEach(design => {
-                const item = design.design_data;
-                const card = document.createElement('div');
-                card.className = 'cart-item';
-                card.style.cssText = 'border-bottom:1px solid rgba(0,0,0,0.08); padding:15px; display:flex; flex-direction:column; gap:10px; position:relative; background:rgba(255,255,255,0.4); border-radius:12px; margin-bottom:12px;';
-                
-                card.innerHTML = `
-                    <div style="font-weight:700; color:var(--text-primary); font-size:0.95rem;">${item.text.replace(/\n/g, ' ')}</div>
-                    <div style="font-size:0.78rem; color:var(--text-secondary); line-height:1.4;">
-                        Font: ${item.fontName} • Color: ${item.colorName}<br>
-                        Size: ${item.targetWidthIn}in • Backing: ${item.backing}<br>
-                        Material: ${item.backingColor === 'black' ? 'Black Acrylic' : item.backingColor === 'white' ? 'White Acrylic' : 'Clear Glass'} • Use: ${item.environment === 'outdoor' ? 'Outdoor' : 'Indoor'}
-                    </div>
-                    <div style="display:flex; gap:10px;">
-                        <button class="load-btn" data-id="${design.id}" style="flex:1.2; padding:8px 12px; background:linear-gradient(135deg,#ff007f,#00c6fb); color:white; border:none; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.8rem;">Load</button>
-                        <button class="delete-btn" data-id="${design.id}" style="flex:0.8; padding:8px 12px; background:rgba(239,68,68,0.08); color:#ef4444; border:1px solid rgba(239,68,68,0.15); border-radius:8px; font-weight:600; cursor:pointer; font-size:0.8rem;">Delete</button>
-                    </div>
-                `;
-
-                // Load design event
-                card.querySelector('.load-btn').addEventListener('click', () => {
-                    applySavedDesign(item);
-                    savedDesignsSidebar.style.transform = 'translateX(100%)';
-                    showToast('✨ Design loaded successfully!', '#10b981');
-                });
-
-                // Delete design event
-                card.querySelector('.delete-btn').addEventListener('click', async () => {
-                    if (confirm('Are you sure you want to delete this design?')) {
-                        const { error: delErr } = await window.supabase
-                            .from('saved_designs')
-                            .delete()
-                            .eq('id', design.id);
-                        
-                        if (!delErr) {
-                            showToast('🗑️ Design deleted.');
-                            loadSavedDesignsList(userId);
-                        } else {
-                            showToast('❌ Failed to delete design.');
-                        }
-                    }
-                });
-
-                savedDesignsList.appendChild(card);
-            });
-
-        } catch (err) {
-            console.error('Error loading designs list:', err.message);
-            savedDesignsList.innerHTML = '<div class="empty-cart-msg" style="color:#ef4444;">❌ Failed to load designs.</div>';
-        }
     }
 
     function applySavedDesign(item) {
@@ -1131,4 +1095,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Initial UI Sync
     updateCartUI();
+
+    // Check for pending load design
+    const pendingLoad = sessionStorage.getItem('pending_load_design');
+    if (pendingLoad) {
+        try {
+            const parsed = JSON.parse(pendingLoad);
+            applySavedDesign(parsed);
+            sessionStorage.removeItem('pending_load_design');
+        } catch (e) {
+            console.error('Error parsing pending load design:', e);
+        }
+    }
 });

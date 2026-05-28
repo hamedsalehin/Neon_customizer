@@ -1294,3 +1294,47 @@ footer.site-footer {
     filter: blur(12px);
 }
 
+/* Liquid Morph and Collapse transition rules */
+.discount-modal-overlay.collapsing {
+    background: rgba(6, 6, 8, 0);
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+    pointer-events: none;
+    transition: background 0.8s cubic-bezier(0.25, 1, 0.5, 1), backdrop-filter 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.discount-modal-card.collapsing-blob {
+    animation: morphAndCollapse 0.8s cubic-bezier(0.6, -0.28, 0.735, 0.045) forwards;
+    transform-origin: center center;
+}
+
+@keyframes morphAndCollapse {
+    0% {
+        transform: translate(0, 0) scale(1);
+        border-radius: 32px;
+        opacity: 1;
+        filter: blur(0px);
+    }
+    30% {
+        transform: translate(calc(-15vw + 25px), calc(15vh - 15px)) scale(0.75);
+        /* Liquid-like wobbly organic morph stage 1 */
+        border-radius: 40% 60% 40% 60% / 60% 40% 60% 40%;
+        opacity: 0.9;
+        filter: blur(1px);
+    }
+    70% {
+        transform: translate(calc(-35vw + 60px), calc(35vh - 35px)) scale(0.4);
+        /* Liquid-like wobbly organic morph stage 2 */
+        border-radius: 60% 40% 60% 40% / 40% 60% 40% 60%;
+        opacity: 0.6;
+        filter: blur(2px);
+    }
+    100% {
+        /* Move card exactly to the floating blob's bottom-left location and scale to near 0 */
+        transform: translate(calc(-50vw + 85px), calc(50vh - 53px)) scale(0.05);
+        border-radius: 50%;
+        opacity: 0;
+        filter: blur(3px);
+    }
+}
+
