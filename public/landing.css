@@ -1232,25 +1232,27 @@ footer.site-footer {
     position: fixed;
     bottom: 30px;
     left: 30px;
+    width: 95px;
+    height: 95px;
     background: rgba(255, 255, 255, 0.45);
     border: 1px solid rgba(255, 255, 255, 0.6);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    padding: 12px 22px;
-    border-radius: 100px;
     box-shadow: 
         0 10px 25px rgba(0, 0, 0, 0.05),
         inset 0 1px 0 rgba(255, 255, 255, 0.5);
     z-index: 9999;
     cursor: pointer;
     display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    gap: 8px;
     opacity: 0;
     transform: scale(0.8) translateY(20px);
     pointer-events: none;
     transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-    animation: floatBlob 3s ease-in-out infinite;
+    /* Float and slowly morph shapes like a paint blob */
+    animation: floatBlob 3.5s ease-in-out infinite, blobMorph 10s ease-in-out infinite;
 }
 
 .discount-floating-blob.active {
@@ -1265,14 +1267,19 @@ footer.site-footer {
     box-shadow: 
         0 15px 30px rgba(255, 0, 127, 0.15),
         0 0 15px rgba(255, 0, 127, 0.1);
-    transform: scale(1.05);
+    transform: scale(1.08);
 }
 
 .blob-text {
-    font-size: 0.9rem;
-    font-weight: 700;
+    font-size: 0.95rem;
+    font-weight: 800;
     color: var(--text-primary);
     letter-spacing: -0.01em;
+    line-height: 1.2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .blob-glow {
@@ -1281,7 +1288,7 @@ footer.site-footer {
     left: -5px;
     right: -5px;
     bottom: -5px;
-    border-radius: 100px;
+    border-radius: inherit; /* Perfect morph alignment */
     background: linear-gradient(135deg, #ff007f 0%, #00c6fb 100%);
     z-index: -1;
     filter: blur(10px);
@@ -1290,52 +1297,29 @@ footer.site-footer {
 }
 
 .discount-floating-blob:hover .blob-glow {
-    opacity: 0.3;
+    opacity: 0.35;
     filter: blur(12px);
 }
 
-/* Liquid Morph and Collapse transition rules */
-.discount-modal-overlay.collapsing {
-    opacity: 1 !important;
-    pointer-events: none !important;
-    background: rgba(6, 6, 8, 0);
-    backdrop-filter: blur(0px);
-    -webkit-backdrop-filter: blur(0px);
-    transition: background 0.8s cubic-bezier(0.25, 1, 0.5, 1), backdrop-filter 0.8s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.discount-modal-card.collapsing-blob {
-    animation: morphAndCollapse 0.8s cubic-bezier(0.6, -0.28, 0.735, 0.045) forwards;
-    transform-origin: center center;
-}
-
-@keyframes morphAndCollapse {
+/* Slowly shape-changing blob of paint keyframes */
+@keyframes blobMorph {
     0% {
-        transform: translate(0, 0) scale(1);
-        border-radius: 32px;
-        opacity: 1;
-        filter: blur(0px);
-    }
-    30% {
-        transform: translate(calc(-15vw + 25px), calc(15vh - 15px)) scale(0.75);
-        /* Liquid-like wobbly organic morph stage 1 */
-        border-radius: 40% 60% 40% 60% / 60% 40% 60% 40%;
-        opacity: 0.9;
-        filter: blur(1px);
-    }
-    70% {
-        transform: translate(calc(-35vw + 60px), calc(35vh - 35px)) scale(0.4);
-        /* Liquid-like wobbly organic morph stage 2 */
         border-radius: 60% 40% 60% 40% / 40% 60% 40% 60%;
-        opacity: 0.6;
-        filter: blur(2px);
+    }
+    20% {
+        border-radius: 48% 52% 62% 38% / 55% 42% 58% 45%;
+    }
+    40% {
+        border-radius: 54% 46% 38% 62% / 45% 58% 42% 55%;
+    }
+    60% {
+        border-radius: 42% 58% 52% 48% / 62% 38% 62% 38%;
+    }
+    80% {
+        border-radius: 58% 42% 45% 55% / 38% 52% 48% 62%;
     }
     100% {
-        /* Move card exactly to the floating blob's bottom-left location and scale to near 0 */
-        transform: translate(calc(-50vw + 85px), calc(50vh - 53px)) scale(0.05);
-        border-radius: 50%;
-        opacity: 0;
-        filter: blur(3px);
+        border-radius: 60% 40% 60% 40% / 40% 60% 40% 60%;
     }
 }
 

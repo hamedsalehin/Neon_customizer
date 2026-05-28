@@ -832,8 +832,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             // Add remove listeners
             document.querySelectorAll('.remove-item-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
+                btn.addEventListener('click', () => {
                     const idx = parseInt(btn.dataset.index);
                     cart.splice(idx, 1);
                     localStorage.setItem('neon_cart', JSON.stringify(cart));
@@ -988,8 +987,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     if (loadDesignsBtn) {
-        loadDesignsBtn.addEventListener('click', () => {
-            window.location.href = 'my-designs.html';
+        loadDesignsBtn.addEventListener('click', async () => {
+            try {
+                const user = await getActiveUser();
+                if (!user) {
+                    showToast('🔑 Please sign in to view your saved designs.', '#ff007f');
+                    sessionStorage.setItem('redirect_after_login', 'my-designs.html');
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 1500);
+                    return;
+                }
+                window.location.href = 'my-designs.html';
+            } catch (err) {
+                console.error('Error in loadDesignsBtn click handler:', err);
+                window.location.href = 'my-designs.html'; // Fallback redirect
+            }
         });
     }
 
@@ -1042,7 +1055,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
 
         // Backings
-        document.querySelectorAll('.backing-card').forEach(card => {
+        document.querySelectorAll('.bb-card').forEach(card => {
             if (card.dataset.backing === currentSign.backing) {
                 card.classList.add('active');
             } else {
@@ -1051,7 +1064,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
 
         // Backing Colors
-        document.querySelectorAll('.backing-color-swatch').forEach(swatch => {
+        document.querySelectorAll('.color-swatch').forEach(swatch => {
             if (swatch.dataset.bcolor === currentSign.backingColor) {
                 swatch.classList.add('active');
             } else {

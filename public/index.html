@@ -404,7 +404,11 @@
 
     <!-- Floating Liquid Glass Blob (Bottom-Left) -->
     <div id="discount-floating-blob" class="discount-floating-blob" title="Claim 15% Member Discount">
-        <span class="blob-text">🎁 15% Off</span>
+        <span class="blob-text">
+            <span style="font-size: 1.35rem; margin-bottom: 2px;">🎁</span>
+            <span style="font-size: 0.72rem; opacity: 0.85; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;">Club</span>
+            <span style="font-size: 0.95rem; font-weight: 900;">15% OFF</span>
+        </span>
         <span class="blob-glow"></span>
     </div>
 
@@ -494,25 +498,11 @@
                 floatingBlob.classList.remove('active');
             }
 
-            // Hide popup and show floating blob with collapsing animation
+            // Hide popup and show floating blob
             function hidePopup() {
-                // Remove active and add collapsing classes immediately
                 discountModal.classList.remove('active');
-                discountModal.classList.add('collapsing');
-                const card = document.getElementById('discount-modal-card');
-                if (card) {
-                    card.classList.add('collapsing-blob');
-                }
-                
-                // Wait for the collapse animation to finish (800ms) before updating final states
-                setTimeout(() => {
-                    discountModal.classList.remove('collapsing');
-                    if (card) {
-                        card.classList.remove('collapsing-blob');
-                    }
-                    floatingBlob.classList.add('active');
-                    localStorage.setItem('discount_popup_dismissed', 'true');
-                }, 800);
+                floatingBlob.classList.add('active');
+                localStorage.setItem('discount_popup_dismissed', 'true');
             }
 
             // Bind closing events
