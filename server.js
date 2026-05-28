@@ -609,23 +609,27 @@ app.post('/api/create-checkout', async (req, res) => {
 
         if (orderError) throw orderError;
 
-        // 2. Save order items
-        const orderItems = items.map(item => {
+        // 2. Save order items (unrolling quantities into individual database rows)
+        const orderItems = [];
+        items.forEach(item => {
             let itemPrice = item.price;
             if (appliedDiscount) {
                 itemPrice = Math.round(itemPrice * 0.85 * 100) / 100;
             }
-            return {
-                order_id: order.id,
-                text: item.text,
-                font_name: item.fontName,
-                color_name: item.colorName,
-                width_cm: item.widthCm,
-                height_cm: item.heightCm,
-                backing: `${item.backing === 'cut-to-letter' ? 'Cut to Letter' : item.backing === 'rectangle' ? 'Rectangle' : 'Cut to Shape'} (${item.backingColor === 'black' ? 'Black Acrylic' : item.backingColor === 'white' ? 'White Acrylic' : 'Clear Glass'}, ${item.environment === 'outdoor' ? 'Outdoor Waterproof' : 'Indoor Use'})`,
-                price: itemPrice,
-                svg_markup: item.svgMarkup
-            };
+            const qty = item.quantity || 1;
+            for (let i = 0; i < qty; i++) {
+                orderItems.push({
+                    order_id: order.id,
+                    text: item.text,
+                    font_name: item.fontName,
+                    color_name: item.colorName,
+                    width_cm: item.widthCm,
+                    height_cm: item.heightCm,
+                    backing: `${item.backing === 'cut-to-letter' ? 'Cut to Letter' : item.backing === 'rectangle' ? 'Rectangle' : 'Cut to Shape'} (${item.backingColor === 'black' ? 'Black Acrylic' : item.backingColor === 'white' ? 'White Acrylic' : 'Clear Glass'}, ${item.environment === 'outdoor' ? 'Outdoor Waterproof' : 'Indoor Use'})`,
+                    price: itemPrice,
+                    svg_markup: item.svgMarkup
+                });
+            }
         });
 
         const { error: itemsError } = await supabase
@@ -649,7 +653,7 @@ app.post('/api/create-checkout', async (req, res) => {
                     },
                     unit_amount: Math.round(unitPrice * 100) // Stripe expects cents
                 },
-                quantity: 1
+                quantity: item.quantity || 1
             };
         });
 

@@ -770,7 +770,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const goToCartBtn    = document.getElementById('go-to-cart-btn');
 
     const updateCartUI = () => {
-        cartCountEl.textContent = cart.length;
+        const totalQty = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+        cartCountEl.textContent = totalQty;
         
         if (cart.length === 0) {
             cartItemsList.innerHTML = '<div class="empty-cart-msg">Your cart is empty</div>';
@@ -780,7 +781,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             let subtotal = 0;
             
             cart.forEach((item, index) => {
-                subtotal += item.price;
+                const qty = item.quantity || 1;
+                subtotal += item.price * qty;
                 const itemEl = document.createElement('div');
                 itemEl.className = 'cart-item';
                 itemEl.innerHTML = `
@@ -794,7 +796,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                             ${item.widthIn || Math.round(item.widthCm / 2.54)}in x ${item.heightIn || Math.round(item.heightCm / 2.54)}in / ${item.widthCm}cm x ${item.heightCm}cm • ${item.backing === 'cut-to-letter' ? 'Cut to Letter' : item.backing === 'rectangle' ? 'Rectangle' : 'Cut to Shape'}<br>
                             Material: ${item.backingColor === 'black' ? 'Black Acrylic' : item.backingColor === 'white' ? 'White Acrylic' : 'Clear Glass'} • Use: ${item.environment === 'outdoor' ? 'Outdoor Waterproof' : 'Indoor Use'}
                         </div>
-                        <div class="cart-item-price">$${item.price.toFixed(2)}</div>
+                        <div class="cart-item-price">$${(item.price * qty).toFixed(2)}</div>
+                        
+                        <div style="display: flex; align-items: center; gap: 6px; margin-top: 8px;">
+                            <span style="font-size: 0.72rem; color: var(--text-secondary);">Qty:</span>
+                            <div class="qty-control" style="display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 2px 4px;">
+                                <button class="qty-btn dec-qty-btn" data-index="${index}" style="background: transparent; border: none; color: #fff; cursor: pointer; width: 20px; height: 20px; font-weight: bold; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; padding: 0;">-</button>
+                                <span class="qty-val" style="font-size: 0.85rem; font-weight: 600; min-width: 20px; text-align: center; color: #fff;">${qty}</span>
+                                <button class="qty-btn inc-qty-btn" data-index="${index}" style="background: transparent; border: none; color: #fff; cursor: pointer; width: 20px; height: 20px; font-weight: bold; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; padding: 0;">+</button>
+                            </div>
+                        </div>
                     </div>
                     <button class="remove-item-btn" data-index="${index}">
                         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
@@ -807,9 +818,37 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             // Add remove listeners
             document.querySelectorAll('.remove-item-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
                     const idx = parseInt(btn.dataset.index);
                     cart.splice(idx, 1);
+                    localStorage.setItem('neon_cart', JSON.stringify(cart));
+                    updateCartUI();
+                });
+            });
+
+            // Add quantity listeners
+            document.querySelectorAll('.dec-qty-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const idx = parseInt(btn.dataset.index);
+                    const qty = cart[idx].quantity || 1;
+                    if (qty > 1) {
+                        cart[idx].quantity = qty - 1;
+                    } else {
+                        cart.splice(idx, 1);
+                    }
+                    localStorage.setItem('neon_cart', JSON.stringify(cart));
+                    updateCartUI();
+                });
+            });
+
+            document.querySelectorAll('.inc-qty-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const idx = parseInt(btn.dataset.index);
+                    const qty = cart[idx].quantity || 1;
+                    cart[idx].quantity = qty + 1;
                     localStorage.setItem('neon_cart', JSON.stringify(cart));
                     updateCartUI();
                 });
@@ -850,7 +889,24 @@ document.addEventListener('DOMContentLoaded', async () => {
                 timestamp: Date.now()
             };
 
-            cart.push(cartItem);
+            const isSameCartItem = (a, b) => {
+                return a.text === b.text &&
+                       a.fontName === b.fontName &&
+                       a.colorName === b.colorName &&
+                       a.widthCm === b.widthCm &&
+                       a.heightCm === b.heightCm &&
+                       a.backing === b.backing &&
+                       a.backingColor === b.backingColor &&
+                       a.environment === b.environment;
+            };
+
+            const existingIndex = cart.findIndex(item => isSameCartItem(item, cartItem));
+            if (existingIndex > -1) {
+                cart[existingIndex].quantity = (cart[existingIndex].quantity || 1) + 1;
+            } else {
+                cartItem.quantity = 1;
+                cart.push(cartItem);
+            }
             localStorage.setItem('neon_cart', JSON.stringify(cart));
             updateCartUI();
             openCart();

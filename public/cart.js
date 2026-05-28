@@ -17,12 +17,14 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        countTitle.textContent = `You have ${cart.length} item${cart.length === 1 ? '' : 's'} in your cart.`;
+        const totalQty = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+        countTitle.textContent = `You have ${totalQty} item${totalQty === 1 ? '' : 's'} in your cart.`;
         cartList.innerHTML = '';
         let subtotal = 0;
 
         cart.forEach((item, index) => {
-            subtotal += item.price;
+            const qty = item.quantity || 1;
+            subtotal += item.price * qty;
             const itemEl = document.createElement('div');
             itemEl.className = 'cart-page-item';
             itemEl.innerHTML = `
@@ -39,9 +41,21 @@ document.addEventListener('DOMContentLoaded', () => {
                         <strong>Material:</strong> ${item.backingColor === 'black' ? 'Black Acrylic' : item.backingColor === 'white' ? 'White Acrylic' : 'Clear Glass'}<br>
                         <strong>Use:</strong> ${item.environment === 'outdoor' ? 'Outdoor (Waterproof)' : 'Indoor'}
                     </div>
-                    <div class="cart-page-item-price">$${item.price.toFixed(2)}</div>
+                    <div class="cart-page-item-price" style="display: flex; align-items: baseline; gap: 8px; margin-top: 8px;">
+                        <span style="font-size: 1.25rem; font-weight: 700; color: #10b981;">$${(item.price * qty).toFixed(2)}</span>
+                        ${qty > 1 ? `<span style="font-size: 0.8rem; color: #64748b; font-weight: normal;">($${item.price.toFixed(2)} each)</span>` : ''}
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; gap: 8px; margin-top: 14px;">
+                        <span style="font-size: 0.85rem; color: #475569; font-weight: 500;">Quantity:</span>
+                        <div class="qty-control" style="display: flex; align-items: center; gap: 6px; background: rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.1); border-radius: 6px; padding: 2px 6px; width: fit-content;">
+                            <button class="qty-btn dec-qty-btn" data-index="${index}" style="background: transparent; border: none; color: #1e1b4b; cursor: pointer; width: 22px; height: 22px; font-weight: bold; display: flex; align-items: center; justify-content: center; font-size: 1rem; padding: 0;">-</button>
+                            <span class="qty-val" style="font-size: 0.9rem; font-weight: 600; min-width: 20px; text-align: center; color: #1e1b4b;">${qty}</span>
+                            <button class="qty-btn inc-qty-btn" data-index="${index}" style="background: transparent; border: none; color: #1e1b4b; cursor: pointer; width: 22px; height: 22px; font-weight: bold; display: flex; align-items: center; justify-content: center; font-size: 1rem; padding: 0;">+</button>
+                        </div>
+                    </div>
                 </div>
-                <button class="remove-item-btn" data-index="${index}" style="align-self: flex-start; margin-top: 10px;">
+                <button class="remove-item-btn" data-index="${index}">
                     Remove
                 </button>
             `;
@@ -56,6 +70,31 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.addEventListener('click', () => {
                 const idx = parseInt(btn.dataset.index);
                 cart.splice(idx, 1);
+                localStorage.setItem('neon_cart', JSON.stringify(cart));
+                renderCart();
+            });
+        });
+
+        // Add quantity listeners
+        document.querySelectorAll('.dec-qty-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const idx = parseInt(btn.dataset.index);
+                const qty = cart[idx].quantity || 1;
+                if (qty > 1) {
+                    cart[idx].quantity = qty - 1;
+                } else {
+                    cart.splice(idx, 1);
+                }
+                localStorage.setItem('neon_cart', JSON.stringify(cart));
+                renderCart();
+            });
+        });
+
+        document.querySelectorAll('.inc-qty-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const idx = parseInt(btn.dataset.index);
+                const qty = cart[idx].quantity || 1;
+                cart[idx].quantity = qty + 1;
                 localStorage.setItem('neon_cart', JSON.stringify(cart));
                 renderCart();
             });
@@ -96,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            const subtotal = cart.reduce((sum, item) => sum + item.price, 0);
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
 
             try {
                 placeOrderBtn.disabled = true;
