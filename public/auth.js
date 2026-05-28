@@ -67,13 +67,34 @@ function updateHeaderAuthUI(user) {
             .substring(0, 2);
             
         authNavItem.innerHTML = `
-            <div class="user-nav-profile" style="display: flex; align-items: center; gap: 8px;">
-                <span class="user-avatar-badge" title="${fullName}" style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: linear-gradient(135deg, var(--neon-pink, #ff007f), var(--neon-cyan, #00c6fb)); color: white; font-weight: 700; border-radius: 50%; font-size: 0.85rem; border: 1px solid rgba(255,255,255,0.4); text-shadow: 0 1px 2px rgba(0,0,0,0.1);">${initials}</span>
-                <a href="#" id="auth-logout-btn" style="color: var(--text-muted); font-size: 0.9rem; font-weight: 500; text-decoration: none; padding: 4px 8px; transition: var(--transition);">Log Out</a>
+            <div class="user-nav-profile" style="position: relative; display: inline-block; line-height: 1;">
+                <span class="user-avatar-badge" title="${fullName}" style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: linear-gradient(135deg, var(--neon-pink, #ff007f), var(--neon-cyan, #00c6fb)); color: white; font-weight: 700; border-radius: 50%; font-size: 0.85rem; border: 1px solid rgba(255,255,255,0.4); text-shadow: 0 1px 2px rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.2s ease;">${initials}</span>
+                <div id="auth-dropdown" style="display: none; position: absolute; top: 38px; right: 0; background: rgba(15, 15, 18, 0.95); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 8px 16px; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5); z-index: 1000; min-width: 100px; text-align: center;">
+                    <a href="#" id="auth-logout-btn" style="color: #ef4444; font-size: 0.85rem; font-weight: 600; text-decoration: none; display: block; padding: 4px 0; transition: color 0.2s ease; white-space: nowrap;">Sign Out</a>
+                </div>
             </div>
         `;
         
+        const avatarBadge = authNavItem.querySelector('.user-avatar-badge');
+        const authDropdown = document.getElementById('auth-dropdown');
         const logoutBtn = document.getElementById('auth-logout-btn');
+        
+        if (avatarBadge && authDropdown) {
+            avatarBadge.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const isVisible = authDropdown.style.display === 'block';
+                authDropdown.style.display = isVisible ? 'none' : 'block';
+            });
+            
+            // Hover effect on the avatar badge for tactile feedback
+            avatarBadge.addEventListener('mouseenter', () => {
+                avatarBadge.style.transform = 'scale(1.05)';
+            });
+            avatarBadge.addEventListener('mouseleave', () => {
+                avatarBadge.style.transform = 'scale(1)';
+            });
+        }
+        
         if (logoutBtn) {
             logoutBtn.addEventListener('click', async (e) => {
                 e.preventDefault();
@@ -84,7 +105,25 @@ function updateHeaderAuthUI(user) {
                     console.error('Logout error:', error.message);
                 }
             });
+            
+            logoutBtn.addEventListener('mouseenter', () => {
+                logoutBtn.style.color = '#ff6b6b';
+            });
+            logoutBtn.addEventListener('mouseleave', () => {
+                logoutBtn.style.color = '#ef4444';
+            });
         }
+        
+        // Close dropdown when clicking outside (using capture phase to bypass stopPropagation)
+        const closeDropdown = (e) => {
+            if (authDropdown && !authNavItem.contains(e.target)) {
+                authDropdown.style.display = 'none';
+            }
+        };
+        document.removeEventListener('click', window._closeAuthDropdown, { capture: true });
+        window._closeAuthDropdown = closeDropdown;
+        document.addEventListener('click', window._closeAuthDropdown, { capture: true });
+        
     } else {
         // Logged out state
         authNavItem.innerHTML = `
