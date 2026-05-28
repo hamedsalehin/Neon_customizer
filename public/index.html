@@ -496,7 +496,8 @@
 
             // Hide popup and show floating blob with collapsing animation
             function hidePopup() {
-                // Add collapsing classes to trigger the liquid morph animation
+                // Remove active immediately to avoid active/transition override conflicts, and add collapsing class to keep visible and animate
+                discountModal.classList.remove('active');
                 discountModal.classList.add('collapsing');
                 const card = document.getElementById('discount-modal-card');
                 if (card) {
@@ -505,7 +506,6 @@
                 
                 // Wait for the collapse animation to finish (800ms) before updating final states
                 setTimeout(() => {
-                    discountModal.classList.remove('active');
                     discountModal.classList.remove('collapsing');
                     if (card) {
                         card.classList.remove('collapsing-blob');

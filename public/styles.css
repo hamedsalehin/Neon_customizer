@@ -1021,6 +1021,10 @@ textarea::placeholder { color: rgba(255,255,255,0.25); }
     color: rgba(255, 255, 255, 0.2);
     cursor: pointer;
     transition: color 0.2s;
+    z-index: 10;
+}
+.remove-item-btn svg {
+    pointer-events: none;
 }
 .remove-item-btn:hover { color: #ff4b4b; }
 
