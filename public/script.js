@@ -422,6 +422,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         neonContainer.innerHTML = '';
         if (!result) return;
 
+        const currentPxWidth  = result.vw;
+        const currentPxHeight = result.vh;
+
         const signNode = document.createElement('div');
         signNode.className = 'unified-sign';
         signNode.style.position = 'absolute';
@@ -432,13 +435,22 @@ document.addEventListener('DOMContentLoaded', async () => {
         const svgWrapper = document.createElement('div');
         svgWrapper.className = 'interaction-wrapper';
         svgWrapper.style.position = 'relative';
-        svgWrapper.style.transform = `scale(${currentSign.visualScale || 1.0})`;
+
+        // Calculate auto-scale factor to fit the preview section boundaries
+        const containerWidth = neonContainer.clientWidth || window.innerWidth * 0.6;
+        const containerHeight = neonContainer.clientHeight || window.innerHeight * 0.5;
+
+        // Apply a safety margin (e.g. 60px padding)
+        const horizontalScale = (containerWidth - 60) / currentPxWidth;
+        const verticalScale = (containerHeight - 80) / currentPxHeight;
+        const autoScale = Math.min(horizontalScale, verticalScale, 1.0);
+
+        const finalScale = autoScale * (currentSign.visualScale || 1.0);
+        svgWrapper.style.transform = `scale(${finalScale})`;
         svgWrapper.appendChild(result.svg);
         signNode.appendChild(svgWrapper);
 
         // 3. Dimension Logic (Decoupled: Visual scale vs Physical Inches)
-        const currentPxWidth  = result.vw;
-        const currentPxHeight = result.vh;
         
         // Calibration factor: how many Inches is 1 PX for this specific setup?
         const currentInPerPx = currentSign.targetWidthIn / currentPxWidth;
@@ -533,8 +545,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const dist = Math.hypot(e.clientX - centerX, e.clientY - centerY);
                 const visualFactor = Math.max(0.2, Math.min(5.0, (dist / startDist) * startScale));
                 
+                // Recalculate autoScale to keep dragging smooth relative to autoScale
+                const containerWidth = neonContainer.clientWidth || window.innerWidth * 0.6;
+                const containerHeight = neonContainer.clientHeight || window.innerHeight * 0.5;
+                const horizontalScale = (containerWidth - 60) / currentPxWidth;
+                const verticalScale = (containerHeight - 80) / currentPxHeight;
+                const autoScale = Math.min(horizontalScale, verticalScale, 1.0);
+
                 // Pure CSS visual scale — no effect on physical metrics or price
-                svgWrapper.style.transform = `scale(${visualFactor})`;
+                svgWrapper.style.transform = `scale(${autoScale * visualFactor})`;
                 currentSign.visualScale = visualFactor;
             });
 
@@ -732,6 +751,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     neonContainer.innerHTML = '';
 
     textInput.addEventListener('input', syncTextToCanvas);
+    window.addEventListener('resize', syncTextToCanvas);
     syncTextToCanvas();
 
     // ============================================================
