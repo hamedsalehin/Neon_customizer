@@ -1060,22 +1060,27 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
 
             savedDesignsList.innerHTML = '';
-            designs.forEach(design => {
+            designs.forEach(async design => {
                 const item = design.design_data;
                 const card = document.createElement('div');
                 card.className = 'cart-item';
-                card.style.cssText = 'border-bottom:1px solid rgba(0,0,0,0.08); padding:15px; display:flex; flex-direction:column; gap:10px; position:relative; background:rgba(255,255,255,0.4); border-radius:12px; margin-bottom:12px;';
+                card.style.cssText = 'border-bottom:1px solid rgba(0,0,0,0.08); padding:15px; display:flex; gap:16px; position:relative; background:rgba(255,255,255,0.45); border-radius:12px; margin-bottom:12px;';
                 
                 card.innerHTML = `
-                    <div style="font-weight:700; color:var(--text-primary); font-size:0.95rem;">${item.text.replace(/\n/g, ' ')}</div>
-                    <div style="font-size:0.78rem; color:var(--text-secondary); line-height:1.4;">
-                        Font: ${item.fontName} • Color: ${item.colorName}<br>
-                        Size: ${item.targetWidthIn}in • Backing: ${item.backing}<br>
-                        Material: ${item.backingColor === 'black' ? 'Black Acrylic' : item.backingColor === 'white' ? 'White Acrylic' : 'Clear Glass'} • Use: ${item.environment === 'outdoor' ? 'Outdoor' : 'Indoor'}
+                    <div class="cart-item-img" style="background:#050507; flex-shrink:0; width:80px; height:80px; display:flex; justify-content:center; align-items:center; border:1px solid rgba(0,0,0,0.08); border-radius:8px; overflow:hidden;">
+                        <div class="preview-loading" style="font-size:0.65rem; color:rgba(255,255,255,0.35); font-weight:600; font-family:inherit;">⏳ Preview</div>
                     </div>
-                    <div style="display:flex; gap:10px;">
-                        <button class="load-btn" data-id="${design.id}" style="flex:1.2; padding:8px 12px; background:linear-gradient(135deg,#ff007f,#00c6fb); color:white; border:none; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.8rem;">Load</button>
-                        <button class="delete-btn" data-id="${design.id}" style="flex:0.8; padding:8px 12px; background:rgba(239,68,68,0.08); color:#ef4444; border:1px solid rgba(239,68,68,0.15); border-radius:8px; font-weight:600; cursor:pointer; font-size:0.8rem;">Delete</button>
+                    <div style="flex:1; display:flex; flex-direction:column; gap:6px;">
+                        <div style="font-weight:700; color:var(--text-primary); font-size:0.95rem; line-height:1.2;">${item.text.replace(/\n/g, ' ')}</div>
+                        <div style="font-size:0.75rem; color:var(--text-secondary); line-height:1.4;">
+                            Font: ${item.fontName} • Color: ${item.colorName}<br>
+                            Size: ${item.targetWidthIn}in • Backing: ${item.backing}<br>
+                            Material: ${item.backingColor === 'black' ? 'Black Acrylic' : item.backingColor === 'white' ? 'White Acrylic' : 'Clear Glass'} • Use: ${item.environment === 'outdoor' ? 'Outdoor' : 'Indoor'}
+                        </div>
+                        <div style="display:flex; gap:10px; margin-top:4px;">
+                            <button class="load-btn" data-id="${design.id}" style="flex:1.2; padding:8px 12px; background:linear-gradient(135deg,#ff007f,#00c6fb); color:white; border:none; border-radius:8px; font-weight:700; cursor:pointer; font-size:0.8rem;">Load</button>
+                            <button class="delete-btn" data-id="${design.id}" style="flex:0.8; padding:8px 12px; background:rgba(239,68,68,0.08); color:#ef4444; border:1px solid rgba(239,68,68,0.15); border-radius:8px; font-weight:600; cursor:pointer; font-size:0.8rem;">Delete</button>
+                        </div>
                     </div>
                 `;
 
@@ -1104,6 +1109,38 @@ document.addEventListener('DOMContentLoaded', async () => {
                 });
 
                 savedDesignsList.appendChild(card);
+
+                // Render dynamic SVG preview in the background
+                try {
+                    const font = await loadFont(item.fontName);
+                    const mockSign = {
+                        text: item.text,
+                        fontName: item.fontName,
+                        colorId: item.colorId,
+                        scale: 0.35, // Scale down for thumbnail
+                        lineSpacing: item.lineSpacing || 1.2,
+                        x: 0,
+                        y: 0,
+                        targetWidthIn: item.targetWidthIn,
+                        environment: item.environment,
+                        backingColor: item.backingColor,
+                        backing: item.backing
+                    };
+                    const result = buildSignSVG(mockSign, font, item.backing);
+                    if (result && result.svg) {
+                        const imgContainer = card.querySelector('.cart-item-img');
+                        imgContainer.innerHTML = '';
+                        result.svg.setAttribute('width', '100%');
+                        result.svg.setAttribute('height', '100%');
+                        result.svg.style.maxWidth = '90%';
+                        result.svg.style.maxHeight = '90%';
+                        result.svg.style.display = 'block';
+                        result.svg.style.margin = 'auto';
+                        imgContainer.appendChild(result.svg);
+                    }
+                } catch (previewErr) {
+                    console.warn('Failed to render preview for saved design:', previewErr);
+                }
             });
 
         } catch (err) {
