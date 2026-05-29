@@ -1031,14 +1031,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                 return;
             }
 
-            savedDesignsSidebar.style.transform = 'translateX(0)';
+            savedDesignsSidebar.classList.add('open');
             await loadSavedDesignsList(user.id);
         });
     }
 
     if (closeSavedDesignsBtn) {
         closeSavedDesignsBtn.addEventListener('click', () => {
-            savedDesignsSidebar.style.transform = 'translateX(100%)';
+            savedDesignsSidebar.classList.remove('open');
         });
     }
 
@@ -1082,7 +1082,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 // Load design event
                 card.querySelector('.load-btn').addEventListener('click', () => {
                     applySavedDesign(item);
-                    savedDesignsSidebar.style.transform = 'translateX(100%)';
+                    savedDesignsSidebar.classList.remove('open');
                     showToast('✨ Design loaded successfully!', '#10b981');
                 });
 
