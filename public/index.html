@@ -523,7 +523,7 @@
                 window.location.href = `login.html?signup=true&email=${encodeURIComponent(email)}`;
             });
 
-            // Trigger Pop-up check after small delay
+            // Trigger Pop-up check after 40 seconds delay
             setTimeout(async () => {
                 let user = null;
                 const supabase = await window.supabaseInitPromise;
@@ -542,7 +542,7 @@
                 } else {
                     showPopup();
                 }
-            }, 3000);
+            }, 40000);
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

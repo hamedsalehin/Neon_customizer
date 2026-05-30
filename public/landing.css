@@ -1049,8 +1049,8 @@ footer.site-footer {
     backdrop-filter: blur(30px);
     -webkit-backdrop-filter: blur(30px);
     width: 90%;
-    max-width: 500px;
-    border-radius: 32px;
+    max-width: 420px;
+    border-radius: 24px;
     box-shadow: 
         0 30px 60px rgba(0, 0, 0, 0.15),
         inset 0 1px 0 rgba(255, 255, 255, 0.5);
@@ -1088,7 +1088,7 @@ footer.site-footer {
 
 .discount-modal-banner {
     background: linear-gradient(135deg, #ff007f 0%, #00c6fb 100%);
-    padding: 40px 30px;
+    padding: 30px 20px;
     text-align: center;
     color: white;
     position: relative;
@@ -1109,16 +1109,16 @@ footer.site-footer {
     border: 1px solid rgba(255, 255, 255, 0.35);
     padding: 6px 16px;
     border-radius: 100px;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     display: inline-block;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 }
 
 .discount-modal-banner h2 {
-    font-size: 3rem;
+    font-size: 2.4rem;
     font-weight: 900;
     margin: 0;
     letter-spacing: -0.03em;
@@ -1127,14 +1127,14 @@ footer.site-footer {
 }
 
 .discount-modal-banner h3 {
-    font-size: 1.35rem;
+    font-size: 1.15rem;
     font-weight: 600;
     margin: 4px 0 0 0;
     opacity: 0.95;
 }
 
 .discount-modal-body {
-    padding: 40px 35px 35px;
+    padding: 30px 25px 25px;
     text-align: center;
     display: flex;
     flex-direction: column;
