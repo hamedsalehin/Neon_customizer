@@ -497,18 +497,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 // ─── API: Expose Client Supabase Config ───────────────────────────────────────
 app.get('/api/config', (req, res) => {
     res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
-    const fs = require('fs');
-    const path = require('path');
     res.json({
         supabaseUrl: process.env.SUPABASE_URL || null,
-        supabaseKey: process.env.SUPABASE_KEY || null,
-        debug: {
-            dirname: __dirname,
-            cwd: process.cwd(),
-            envInDirname: fs.existsSync(path.join(__dirname, '.env')),
-            envInCwd: fs.existsSync(path.join(process.cwd(), '.env')),
-            filesInDirname: fs.readdirSync(__dirname).filter(f => f.startsWith('.') || f.endsWith('.js') || f.endsWith('.json'))
-        }
+        supabaseKey: process.env.SUPABASE_KEY || null
     });
 });
 
