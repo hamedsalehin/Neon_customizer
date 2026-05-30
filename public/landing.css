@@ -383,7 +383,7 @@ nav.main-nav a:hover::after {
 /* ─── Section Title Layout ──────────────────────────────────────────────── */
 .section-title-area {
     text-align: center;
-    margin-bottom: 60px;
+    margin-bottom: 35px;
 }
 
 .section-tag {
@@ -392,7 +392,7 @@ nav.main-nav a:hover::after {
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--neon-pink);
-    margin-bottom: 12px;
+    margin-bottom: 6px;
     display: block;
 }
 
@@ -412,7 +412,7 @@ nav.main-nav a:hover::after {
 
 /* ─── Category Sections ─────────────────────────────────────────────────── */
 .categories-section {
-    padding: 50px 0;
+    padding: 35px 0;
     position: relative;
 }
 
@@ -508,7 +508,7 @@ nav.main-nav a:hover::after {
     background: rgba(255, 255, 255, 0.2);
     border-top: 1px solid rgba(255, 255, 255, 0.4);
     border-bottom: 1px solid rgba(255, 255, 255, 0.4);
-    padding: 50px 0;
+    padding: 35px 0;
 }
 
 .color-panel-layout {
@@ -653,7 +653,7 @@ nav.main-nav a:hover::after {
 
 /* ─── Past Works Gallery ────────────────────────────────────────────────── */
 .tech-section {
-    padding: 50px 0;
+    padding: 35px 0;
 }
 
 .marquee-wrapper {
@@ -721,7 +721,7 @@ nav.main-nav a:hover::after {
     background: rgba(255, 255, 255, 0.2);
     border-top: 1px solid rgba(255, 255, 255, 0.4);
     border-bottom: 1px solid rgba(255, 255, 255, 0.4);
-    padding: 50px 0;
+    padding: 35px 0;
 }
 
 .faq-list {
@@ -789,7 +789,7 @@ nav.main-nav a:hover::after {
 
 /* ─── Pre-Footer Newsletter Banner ──────────────────────────────────────── */
 .cta-banner-section {
-    padding: 60px 0;
+    padding: 40px 0;
     text-align: center;
     position: relative;
 }
@@ -1026,9 +1026,9 @@ footer.site-footer {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(6, 6, 8, 0.4);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    background: rgba(6, 6, 8, 0.2);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     z-index: 10000;
     display: flex;
     justify-content: center;
