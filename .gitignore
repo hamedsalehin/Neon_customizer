@@ -22,3 +22,8 @@ skills_extracted/
 
 # VS Code
 .vscode/
+
+# Backups and scripts
+public/images_backup/
+compress-images.js
+scratch/
