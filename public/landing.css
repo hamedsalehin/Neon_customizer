@@ -1454,3 +1454,118 @@ footer.site-footer {
     margin-top: 4px;
 }
 
+/* ─── RELATED PRODUCTS HORIZONTAL CAROUSEL ──────────────────────────────── */
+.related-products-section {
+    padding: 60px 0 80px;
+    background: #f8fafc;
+    border-top: 1px solid rgba(200, 200, 220, 0.3);
+}
+
+.related-products-section h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    color: #1e1b4b;
+    text-align: center;
+}
+
+.horizontal-scroll-container {
+    display: flex;
+    gap: 24px;
+    overflow-x: auto;
+    padding: 10px 4px 30px;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--neon-pink) rgba(0,0,0,0.05);
+}
+
+.horizontal-scroll-container::-webkit-scrollbar {
+    height: 6px;
+}
+
+.horizontal-scroll-container::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.05);
+    border-radius: 10px;
+}
+
+.horizontal-scroll-container::-webkit-scrollbar-thumb {
+    background: var(--neon-pink);
+    border-radius: 10px;
+}
+
+.related-product-card {
+    flex: 0 0 280px;
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px solid rgba(200, 200, 220, 0.3);
+    padding: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.02);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+}
+
+.related-product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
+}
+
+.related-product-img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    border-radius: 12px;
+    object-fit: cover;
+    background: #09090b;
+    margin-bottom: 16px;
+}
+
+.related-product-category {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--neon-pink);
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+
+.related-product-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #1e1b4b;
+    margin-bottom: 8px;
+    flex-grow: 1;
+}
+
+.related-product-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.related-product-price {
+    font-weight: 800;
+    color: #1e1b4b;
+    font-size: 1.1rem;
+}
+
+.view-btn-mini {
+    background: rgba(255, 0, 127, 0.05);
+    color: var(--neon-pink);
+    border: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    transition: background 0.3s ease;
+}
+
+.related-product-card:hover .view-btn-mini {
+    background: var(--neon-pink);
+    color: #ffffff;
+}
+
+
