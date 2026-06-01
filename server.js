@@ -430,7 +430,7 @@ function normalizeEmail(email) {
 }
 
 // Helper to mark order as paid and trigger email notifications once
-async function markOrderAsPaid(orderId, sessionId, customerEmail) {
+async function markOrderAsPaid(orderId, sessionId, customerEmail, shippingAddress) {
     if (!supabase || !orderId) return false;
 
     try {
@@ -453,13 +453,19 @@ async function markOrderAsPaid(orderId, sessionId, customerEmail) {
         }
 
         // Update to paid
+        const updateData = {
+            payment_status: 'paid',
+            stripe_session_id: sessionId,
+            customer_email: customerEmail || undefined
+        };
+
+        if (shippingAddress) {
+            updateData.shipping_address = shippingAddress;
+        }
+
         const { error: updateError } = await supabase
             .from('orders')
-            .update({
-                payment_status: 'paid',
-                stripe_session_id: sessionId,
-                customer_email: customerEmail || undefined
-            })
+            .update(updateData)
             .eq('id', orderId);
 
         if (updateError) {
@@ -511,9 +517,17 @@ app.post('/webhook/stripe', express.raw({ type: 'application/json' }), async (re
 
         console.log(`💰 Payment confirmed for order: ${orderId}`);
 
+        // Extract validated shipping address from Stripe Checkout
+        let shippingAddress = null;
+        if (session.shipping_details && session.shipping_details.address) {
+            const s = session.shipping_details;
+            const a = s.address;
+            shippingAddress = `${s.name}\n${a.line1}${a.line2 ? ', ' + a.line2 : ''}\n${a.city}, ${a.state} ${a.postal_code}\n${a.country}`;
+        }
+
         // Mark order as paid in Supabase
         if (supabase && orderId) {
-            await markOrderAsPaid(orderId, session.id, customerEmail);
+            await markOrderAsPaid(orderId, session.id, customerEmail, shippingAddress);
         }
     }
 
@@ -556,7 +570,15 @@ app.get('/api/verify-payment', async (req, res) => {
         const paid = session.payment_status === 'paid';
 
         if (paid && supabase && order_id) {
-            await markOrderAsPaid(order_id, session_id, session.customer_details?.email);
+            // Extract validated shipping address from Stripe Checkout
+            let shippingAddress = null;
+            if (session.shipping_details && session.shipping_details.address) {
+                const s = session.shipping_details;
+                const a = s.address;
+                shippingAddress = `${s.name}\n${a.line1}${a.line2 ? ', ' + a.line2 : ''}\n${a.city}, ${a.state} ${a.postal_code}\n${a.country}`;
+            }
+
+            await markOrderAsPaid(order_id, session_id, session.customer_details?.email, shippingAddress);
             console.log(`✅ Order ${order_id} verified and checked for payment mark`);
         }
 
@@ -707,6 +729,12 @@ app.post('/api/create-checkout', async (req, res) => {
             line_items: lineItems,
             mode: 'payment',
             customer_email: customer_email || undefined,
+            shipping_address_collection: {
+                allowed_countries: ['US']
+            },
+            automatic_tax: {
+                enabled: true
+            },
             metadata: {
                 order_id: order.id,
                 customer_name: customer_name || '',
