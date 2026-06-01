@@ -33,7 +33,6 @@
                 <ul>
                     <li><a href="#hero">Home</a></li>
                     <li><a href="customizer.html">Customizer <span style="background: var(--neon-pink); color: #fff; font-size: 0.65rem; padding: 2px 6px; border-radius: 10px; font-weight: 700; vertical-align: middle; margin-left: 2px;">NEW</span></a></li>
-                    <li><a href="commercial-signs.html">Commercial Signs</a></li>
                     <li><a href="#shop">Shop</a></li>
                     <li><a href="#gallery">Gallery</a></li>
                     <li><a href="#colors">Colors</a></li>
@@ -367,7 +366,7 @@
                 <ul>
                     <li><a href="customizer.html">Custom Text Signs</a></li>
                     <li><a href="#shop">Ready-Made Designs</a></li>
-                    <li><a href="commercial-signs.html">Commercial Signs</a></li>
+                    <li><a href="#shop">Commercial Signs</a></li>
                     <li><a href="customizer.html">Wedding Backdrops</a></li>
                     <li><a href="quote.html">UV Printed Logos / Quote</a></li>
                 </ul>
@@ -591,7 +590,8 @@
                     heightCm: 30,
                     rating: 4.9,
                     reviewsCount: 16,
-                    imgUrl: 'images/shop/programmable_led.png'
+                    imgUrl: 'images/shop/programmable_led.png',
+                    linkUrl: 'programmable-led-sign'
                 },
                 {
                     id: 'shop_channel_letters',
@@ -605,7 +605,8 @@
                     heightCm: 46,
                     rating: 5.0,
                     reviewsCount: 12,
-                    imgUrl: 'images/shop/channel_letters.png'
+                    imgUrl: 'images/shop/channel_letters.png',
+                    linkUrl: 'channel-letters'
                 },
                 {
                     id: 'shop_storefront_sign',
@@ -619,7 +620,8 @@
                     heightCm: 61,
                     rating: 4.9,
                     reviewsCount: 20,
-                    imgUrl: 'images/shop/storefront_sign.png'
+                    imgUrl: 'images/shop/storefront_sign.png',
+                    linkUrl: 'storefront-signs'
                 },
                 {
                     id: 'shop_backlit_sign',
@@ -633,7 +635,8 @@
                     heightCm: 61,
                     rating: 4.8,
                     reviewsCount: 14,
-                    imgUrl: 'images/shop/backlit_sign.png'
+                    imgUrl: 'images/shop/backlit_sign.png',
+                    linkUrl: 'backlit-sign'
                 },
                 {
                     id: 'shop_good_vibes',
@@ -852,21 +855,24 @@
                 shopProducts.forEach(product => {
                     const card = document.createElement('div');
                     card.className = 'product-card';
+                    const isClickable = product.linkUrl ? `style="cursor: pointer;" onclick="window.location.href='${product.linkUrl}'"` : '';
                     card.innerHTML = `
-                        <div class="product-img-wrapper">
+                        <div class="product-img-wrapper" ${isClickable}>
                             <span class="product-badge">Popular</span>
                             <img src="${product.imgUrl}" alt="${product.title}" loading="lazy">
                         </div>
                         <div class="product-info">
                             <span class="product-category">${product.category}</span>
-                            <h3 class="product-title">${product.title}</h3>
+                            <h3 class="product-title" ${isClickable}>${product.title}</h3>
                             <div class="product-rating">
                                 <span class="stars" style="color: #f59e0b; font-size: 0.85rem;">${'★'.repeat(Math.round(product.rating))}${'☆'.repeat(5 - Math.round(product.rating))}</span>
                                 <span class="rating-val" style="font-size: 0.8rem; margin-left: 4px;">${product.rating} (${product.reviewsCount})</span>
                             </div>
                             <div class="product-footer">
                                 <span class="product-price">$${product.price.toFixed(2)}</span>
-                                <button class="buy-now-btn" data-id="${product.id}">Buy Now</button>
+                                <button class="buy-now-btn" data-id="${product.id}">
+                                    ${product.linkUrl ? 'View Details' : 'Buy Now'}
+                                </button>
                             </div>
                         </div>
                     `;
@@ -879,6 +885,11 @@
                         const prodId = btn.dataset.id;
                         const product = shopProducts.find(p => p.id === prodId);
                         if (!product) return;
+
+                        if (product.linkUrl) {
+                            window.location.href = product.linkUrl;
+                            return;
+                        }
 
                         let cart = JSON.parse(localStorage.getItem('neon_cart')) || [];
                         

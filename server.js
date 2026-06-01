@@ -538,6 +538,20 @@ app.post('/webhook/stripe', express.raw({ type: 'application/json' }), async (re
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
+// Serve clean SEO URLs locally
+app.get('/programmable-led-sign', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'programmable-led-sign.html'));
+});
+app.get('/channel-letters', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'channel-letters.html'));
+});
+app.get('/storefront-signs', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'storefront-signs.html'));
+});
+app.get('/backlit-sign', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'backlit-sign.html'));
+});
+
 // ─── Static files (with cache headers for performance) ────────────────────────
 app.use(express.static(path.join(__dirname, 'public'), {
     maxAge: '1y',
