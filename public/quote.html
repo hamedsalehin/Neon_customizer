@@ -679,6 +679,18 @@
 
     <!-- ─── SCRIPTS ────────────────────────────────────────────────────────── -->
     <script>
+        // Auto-populate from URL parameter 'ref_sign' (e.g. from gallery lightbox)
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const refSign = urlParams.get('ref_sign');
+            if (refSign) {
+                const notesField = document.getElementById('quote-notes');
+                if (notesField) {
+                    notesField.value = `Hi, I am interested in getting a quote for a custom sign similar to the gallery creation: "${refSign}".`;
+                }
+            }
+        });
+
         const uploadZone = document.getElementById('upload-zone');
         const fileInput = document.getElementById('design-upload');
         const filePreview = document.getElementById('file-preview');
