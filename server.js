@@ -551,6 +551,9 @@ app.get('/storefront-signs', (req, res) => {
 app.get('/backlit-sign', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'backlit-sign.html'));
 });
+app.get('/gallery', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'gallery.html'));
+});
 
 // ─── Static files (with cache headers for performance) ────────────────────────
 app.use(express.static(path.join(__dirname, 'public'), {
