@@ -544,9 +544,14 @@ app.use(express.static(path.join(__dirname, 'public'), {
     etag: true,
     lastModified: true,
     setHeaders: (res, filePath) => {
+        const basename = path.basename(filePath);
         // HTML files should never be cached so updates are picked up immediately
         if (filePath.endsWith('.html')) {
             res.setHeader('Cache-Control', 'public, max-age=0, must-revalidate');
+        }
+        // SEO-critical files should be short-cached so crawlers always get fresh versions
+        if (basename === 'robots.txt' || basename === 'sitemap.xml' || basename === 'llms.txt') {
+            res.setHeader('Cache-Control', 'public, max-age=3600, must-revalidate');
         }
     }
 }));
