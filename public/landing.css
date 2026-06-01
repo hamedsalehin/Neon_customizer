@@ -1456,18 +1456,19 @@ footer.site-footer {
 
 /* ─── RELATED PRODUCTS HORIZONTAL CAROUSEL ──────────────────────────────── */
 .related-products-section {
-    padding: 60px 0 80px;
-    background: #f8fafc;
-    border-top: 1px solid rgba(200, 200, 220, 0.3);
+    padding: 80px 0;
+    background: #ffffff;
+    border-top: 1px solid rgba(200, 200, 220, 0.2);
 }
 
 .related-products-section h3 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.8rem;
+    font-family: 'Outfit', 'Space Grotesk', sans-serif;
+    font-size: 2.2rem;
     font-weight: 700;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     color: #1e1b4b;
     text-align: center;
+    letter-spacing: -0.5px;
 }
 
 .carousel-wrapper-relative {
@@ -1477,7 +1478,7 @@ footer.site-footer {
 
 .horizontal-scroll-container {
     display: flex;
-    gap: 24px;
+    gap: 30px;
     overflow-x: auto;
     padding: 10px 4px 20px;
     scroll-behavior: smooth;
@@ -1491,30 +1492,30 @@ footer.site-footer {
 
 .carousel-arrow {
     position: absolute;
-    top: 50%;
+    top: 140px; /* Centered exactly on the 280px tall image */
     transform: translateY(-50%);
-    width: 48px;
-    height: 48px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     background: #ffffff;
-    border: 1px solid rgba(200, 200, 220, 0.5);
+    border: 1px solid rgba(0, 0, 0, 0.1);
     color: #1e1b4b;
-    font-size: 1.2rem;
+    font-size: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
     transition: all 0.3s ease;
     z-index: 10;
     user-select: none;
 }
 
 .carousel-arrow:hover {
-    background: var(--neon-pink);
-    color: #ffffff;
-    border-color: var(--neon-pink);
-    box-shadow: 0 4px 16px rgba(255, 0, 127, 0.25);
+    background: #ffffff;
+    border-color: rgba(0, 0, 0, 0.2);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+    transform: translateY(-50%) scale(1.05);
 }
 
 .carousel-arrow:active {
@@ -1522,35 +1523,37 @@ footer.site-footer {
 }
 
 .carousel-arrow.prev {
-    left: -24px;
+    left: 15px;
 }
 
 .carousel-arrow.next {
-    right: -24px;
+    right: 15px;
 }
 
 @media (max-width: 768px) {
     .carousel-arrow {
         display: none; /* Mobile/tablet users scroll/swipe natively */
     }
+    .horizontal-scroll-container {
+        gap: 16px;
+    }
 }
 
 .related-product-card {
     flex: 0 0 280px;
-    background: #ffffff;
-    border-radius: 16px;
-    border: 1px solid rgba(200, 200, 220, 0.3);
-    padding: 20px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.02);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: transparent;
+    border-radius: 0;
+    border: none;
+    padding: 0;
+    box-shadow: none;
+    transition: transform 0.3s ease;
     cursor: pointer;
     display: flex;
     flex-direction: column;
 }
 
 .related-product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
+    transform: translateY(-4px);
 }
 
 .related-product-img {
@@ -1560,53 +1563,28 @@ footer.site-footer {
     object-fit: cover;
     background: #09090b;
     margin-bottom: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    transition: box-shadow 0.3s ease;
 }
 
-.related-product-category {
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    font-weight: 700;
-    color: var(--neon-pink);
-    letter-spacing: 1px;
-    margin-bottom: 4px;
+.related-product-card:hover .related-product-img {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
 .related-product-title {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.15rem;
+    font-size: 0.95rem;
     font-weight: 700;
     color: #1e1b4b;
-    margin-bottom: 8px;
-    flex-grow: 1;
-}
-
-.related-product-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
 }
 
 .related-product-price {
-    font-weight: 800;
-    color: #1e1b4b;
-    font-size: 1.1rem;
-}
-
-.view-btn-mini {
-    background: rgba(255, 0, 127, 0.05);
-    color: var(--neon-pink);
-    border: none;
-    padding: 6px 12px;
-    border-radius: 8px;
-    font-size: 0.8rem;
-    font-weight: 700;
-    transition: background 0.3s ease;
-}
-
-.related-product-card:hover .view-btn-mini {
-    background: var(--neon-pink);
-    color: #ffffff;
+    font-weight: 500;
+    color: #4b5563;
+    font-size: 0.95rem;
 }
 
 
