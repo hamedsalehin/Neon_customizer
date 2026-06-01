@@ -1470,28 +1470,69 @@ footer.site-footer {
     text-align: center;
 }
 
+.carousel-wrapper-relative {
+    position: relative;
+    width: 100%;
+}
+
 .horizontal-scroll-container {
     display: flex;
     gap: 24px;
     overflow-x: auto;
-    padding: 10px 4px 30px;
+    padding: 10px 4px 20px;
     scroll-behavior: smooth;
-    scrollbar-width: thin;
-    scrollbar-color: var(--neon-pink) rgba(0,0,0,0.05);
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 }
 
 .horizontal-scroll-container::-webkit-scrollbar {
-    height: 6px;
+    display: none; /* Hide scrollbar for Chrome, Safari, Opera */
 }
 
-.horizontal-scroll-container::-webkit-scrollbar-track {
-    background: rgba(0,0,0,0.05);
-    border-radius: 10px;
+.carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 1px solid rgba(200, 200, 220, 0.5);
+    color: #1e1b4b;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    z-index: 10;
+    user-select: none;
 }
 
-.horizontal-scroll-container::-webkit-scrollbar-thumb {
+.carousel-arrow:hover {
     background: var(--neon-pink);
-    border-radius: 10px;
+    color: #ffffff;
+    border-color: var(--neon-pink);
+    box-shadow: 0 4px 16px rgba(255, 0, 127, 0.25);
+}
+
+.carousel-arrow:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+.carousel-arrow.prev {
+    left: -24px;
+}
+
+.carousel-arrow.next {
+    right: -24px;
+}
+
+@media (max-width: 768px) {
+    .carousel-arrow {
+        display: none; /* Mobile/tablet users scroll/swipe natively */
+    }
 }
 
 .related-product-card {

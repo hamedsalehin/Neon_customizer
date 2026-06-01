@@ -330,43 +330,47 @@
     <section class="related-products-section">
         <div class="container">
             <h3>Other Products You Might Like</h3>
-            <div class="horizontal-scroll-container">
-                <div class="related-product-card" onclick="window.location.href='programmable-led-sign'">
-                    <img class="related-product-img" src="images/shop/programmable_led.png" alt="Programmable LED Sign Display Close-up" loading="lazy">
-                    <span class="related-product-category">Commercial</span>
-                    <h4 class="related-product-title">Programmable LED Sign</h4>
-                    <div class="related-product-footer">
-                        <span class="related-product-price">$299.00</span>
-                        <button class="view-btn-mini">View Details</button>
+            <div class="carousel-wrapper-relative">
+                <button class="carousel-arrow prev" onclick="scrollCarousel(this, -1)">&#10094;</button>
+                <div class="horizontal-scroll-container">
+                    <div class="related-product-card" onclick="window.location.href='programmable-led-sign'">
+                        <img class="related-product-img" src="images/shop/programmable_led.png" alt="Programmable LED Sign Display Close-up" loading="lazy">
+                        <span class="related-product-category">Commercial</span>
+                        <h4 class="related-product-title">Programmable LED Sign</h4>
+                        <div class="related-product-footer">
+                            <span class="related-product-price">$299.00</span>
+                            <button class="view-btn-mini">View Details</button>
+                        </div>
+                    </div>
+                    <div class="related-product-card" onclick="window.location.href='channel-letters'">
+                        <img class="related-product-img" src="images/shop/channel_letters.png" alt="LED Channel Letters Sign Face-Lit" loading="lazy">
+                        <span class="related-product-category">Commercial</span>
+                        <h4 class="related-product-title">LED Channel Letters</h4>
+                        <div class="related-product-footer">
+                            <span class="related-product-price">$499.00</span>
+                            <button class="view-btn-mini">View Details</button>
+                        </div>
+                    </div>
+                    <div class="related-product-card" onclick="window.location.href='backlit-sign'">
+                        <img class="related-product-img" src="images/shop/backlit_sign.png" alt="Backlit LED Circular Sign Halo Effect" loading="lazy">
+                        <span class="related-product-category">Commercial</span>
+                        <h4 class="related-product-title">Backlit LED Sign</h4>
+                        <div class="related-product-footer">
+                            <span class="related-product-price">$349.00</span>
+                            <button class="view-btn-mini">View Details</button>
+                        </div>
+                    </div>
+                    <div class="related-product-card" onclick="window.location.href='index.html#shop'">
+                        <img class="related-product-img" src="images/shop/good_vibes_neon.png" alt="Good Vibes Only Neon Sign" loading="lazy">
+                        <span class="related-product-category">Inspirational</span>
+                        <h4 class="related-product-title">Good Vibes Only</h4>
+                        <div class="related-product-footer">
+                            <span class="related-product-price">$169.00</span>
+                            <button class="view-btn-mini">View Details</button>
+                        </div>
                     </div>
                 </div>
-                <div class="related-product-card" onclick="window.location.href='channel-letters'">
-                    <img class="related-product-img" src="images/shop/channel_letters.png" alt="LED Channel Letters Sign Face-Lit" loading="lazy">
-                    <span class="related-product-category">Commercial</span>
-                    <h4 class="related-product-title">LED Channel Letters</h4>
-                    <div class="related-product-footer">
-                        <span class="related-product-price">$499.00</span>
-                        <button class="view-btn-mini">View Details</button>
-                    </div>
-                </div>
-                <div class="related-product-card" onclick="window.location.href='backlit-sign'">
-                    <img class="related-product-img" src="images/shop/backlit_sign.png" alt="Backlit LED Circular Sign Halo Effect" loading="lazy">
-                    <span class="related-product-category">Commercial</span>
-                    <h4 class="related-product-title">Backlit LED Sign</h4>
-                    <div class="related-product-footer">
-                        <span class="related-product-price">$349.00</span>
-                        <button class="view-btn-mini">View Details</button>
-                    </div>
-                </div>
-                <div class="related-product-card" onclick="window.location.href='index.html#shop'">
-                    <img class="related-product-img" src="images/shop/good_vibes_neon.png" alt="Good Vibes Only Neon Sign" loading="lazy">
-                    <span class="related-product-category">Inspirational</span>
-                    <h4 class="related-product-title">Good Vibes Only</h4>
-                    <div class="related-product-footer">
-                        <span class="related-product-price">$169.00</span>
-                        <button class="view-btn-mini">View Details</button>
-                    </div>
-                </div>
+                <button class="carousel-arrow next" onclick="scrollCarousel(this, 1)">&#10095;</button>
             </div>
         </div>
     </section>
@@ -419,6 +423,18 @@
 
     <!-- Buy Button Logic -->
     <script>
+        function scrollCarousel(button, direction) {
+            const container = button.parentElement.querySelector('.horizontal-scroll-container');
+            if (container) {
+                const card = container.querySelector('.related-product-card');
+                const scrollAmount = card ? card.offsetWidth + 24 : 304;
+                container.scrollBy({
+                    left: direction * scrollAmount,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             const buyBtn = document.getElementById('buy-now-btn');
             if (buyBtn) {
