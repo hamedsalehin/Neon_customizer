@@ -8,6 +8,39 @@ const { Resend } = require('resend');
 // Restart trigger to reload Hostinger environment variables: 2026-05-27-01
 const app = express();
 
+// ─── SEO Canonicalization Redirect Middleware ──────────────────────────────
+app.use((req, res, next) => {
+    const host = req.headers.host || '';
+    const url = req.url || '';
+    
+    let redirectNeeded = false;
+    let targetHost = host;
+    let targetUrl = url;
+
+    // 1. Strip www. subdomain prefix
+    if (host.startsWith('www.')) {
+        targetHost = host.slice(4);
+        redirectNeeded = true;
+    }
+
+    // 2. Redirect index.html to root path /
+    const cleanUrl = url.split('?')[0];
+    const query = url.split('?')[1] ? '?' + url.split('?')[1] : '';
+    if (cleanUrl.endsWith('/index.html') || cleanUrl === '/index.html') {
+        const base = cleanUrl.slice(0, -10); // strip 'index.html'
+        targetUrl = (base || '/') + query;
+        redirectNeeded = true;
+    }
+
+    if (redirectNeeded) {
+        const protocol = req.headers['x-forwarded-proto'] || req.protocol || 'https';
+        return res.redirect(301, `${protocol}://${targetHost}${targetUrl}`);
+    }
+
+    next();
+});
+
+
 // ─── Resend API Client Setup ──────────────────────────────────────────────────
 let resend;
 if (process.env.RESEND_API_KEY) {
