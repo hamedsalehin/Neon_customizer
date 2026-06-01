@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- SEO canonicalization: redirect www to non-www -->
+    <script>
+      if (window.location.hostname.startsWith('www.')) {
+        window.location.replace(window.location.href.replace('://www.', '://'));
+      }
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="canonical" href="https://neonfl.com/cart.html">
