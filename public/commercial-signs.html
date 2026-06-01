@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- SEO canonicalization: redirect www to non-www -->
+    <script>
+      if (window.location.hostname.startsWith('www.')) {
+        window.location.replace(window.location.href.replace('://www.', '://'));
+      }
+    </script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BWHV4G49TR"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-BWHV4G49TR');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://neonfl.com/commercial-signs.html">
+    <title>Commercial LED Signs & Custom Storefront Signage | Nano Sign</title>
+    <!-- Description for SEO -->
+    <meta name="description" content="Shop premium commercial LED signs, custom 3D channel letters, backlit storefront signs, and programmable scrolling LED displays. Florida's expert custom signage manufacturer.">
+    <!-- Google Fonts Outfit & Space Grotesk -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="landing.css?v=4">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <style>
+        body {
+            background-color: var(--bg-light, #f8fafc);
+            color: #1e1b4b;
+            font-family: 'Outfit', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        .header-spacer {
+            height: 90px;
+        }
+
+        .commercial-hero {
+            padding: 80px 0 60px;
+            text-align: center;
+            position: relative;
+            background: linear-gradient(180deg, rgba(248, 250, 252, 1) 0%, rgba(241, 245, 249, 0.6) 100%);
+        }
+
+        .commercial-hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+
+        .commercial-hero p {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            max-width: 800px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        .products-showcase {
+            padding: 40px 0 80px;
+        }
+
+        .product-detail-card {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 60px;
+            box-shadow: 0 20px 40px rgba(31, 38, 135, 0.03);
+            border: 1px solid rgba(200, 200, 220, 0.4);
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        @media (max-width: 992px) {
+            .product-detail-card {
+                grid-template-columns: 1fr;
+                padding: 30px;
+                gap: 30px;
+            }
+        }
+
+        .product-detail-img {
+            width: 100%;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+            object-fit: cover;
+            aspect-ratio: 1 / 1;
+            background: #09090b;
+        }
+
+        .product-detail-content h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.2rem;
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        .product-specs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .spec-badge {
+            background: #f1f5f9;
+            color: #475569;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            font-weight: 500;
+        }
+
+        .spec-badge.price {
+            background: rgba(255, 0, 127, 0.08);
+            color: var(--neon-pink);
+            font-weight: 700;
+        }
+
+        .product-detail-content p {
+            line-height: 1.7;
+            color: #475569;
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+        }
+
+        .tech-explain-box {
+            background: #f8fafc;
+            border-left: 4px solid var(--neon-cyan);
+            padding: 20px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 24px;
+        }
+
+        .tech-explain-box h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1e1b4b;
+        }
+
+        .tech-explain-box p {
+            font-size: 0.95rem;
+            margin-bottom: 0;
+            line-height: 1.6;
+        }
+
+        .buy-action-area {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .seo-rich-content {
+            background: #f1f5f9;
+            padding: 80px 0;
+            border-top: 1px solid rgba(200, 200, 220, 0.3);
+        }
+
+        .seo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .seo-grid {
+                grid-template-columns: 1fr;
+            }
+            .commercial-hero h1 {
+                font-size: 2.2rem;
+            }
+        }
+
+        .seo-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+        }
+
+        .seo-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+            color: #1e1b4b;
+            font-weight: 700;
+        }
+
+        .seo-card p {
+            font-size: 0.98rem;
+            line-height: 1.65;
+            color: #475569;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ─── HEADER / NAVIGATION ────────────────────────────────────────────── -->
+    <header class="site-header site-header-scrolled" id="site-header" style="background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(20px);">
+        <div class="container nav-wrapper">
+            <a href="index.html" class="logo">
+                <img src="logo.png" alt="Nano Neons" style="height: 58px;">
+            </a>
+            
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html#hero">Home</a></li>
+                    <li><a href="customizer.html">Customizer</a></li>
+                    <li><a href="commercial-signs.html" class="active">Commercial Signs</a></li>
+                    <li><a href="index.html#shop">Shop</a></li>
+                    <li><a href="index.html#gallery">Gallery</a></li>
+                    <li><a href="index.html#colors">Colors</a></li>
+                    <li><a href="index.html#faq">FAQ</a></li>
+                </ul>
+            </nav>
+            
+            <div class="nav-actions" style="display: flex; gap: 12px; align-items: center;">
+                <a href="quote.html" class="glow-btn outline" style="padding: 10px 24px; font-size: 0.9rem; border-color: rgba(0,0,0,0.1);">
+                    Upload Logo / Get Quote
+                </a>
+            </div>
+            
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Navigation Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <div class="header-spacer"></div>
+
+    <!-- ─── HERO SECTION ───────────────────────────────────────────────────── -->
+    <section class="commercial-hero">
+        <div class="container">
+            <span class="section-tag">High-End Architectural Signage</span>
+            <h1>Commercial LED Signs & Displays</h1>
+            <p>Elevate your storefront, corporate office, or event space with state-of-the-art illumination systems. Engineered for durability, maximum visual reach, and extreme energy efficiency. We handle the production, design proofing, and electrical safety standards.</p>
+        </div>
+    </section>
+
+    <!-- ─── PRODUCTS SHOWCASE SECTION ──────────────────────────────────────── -->
+    <section class="products-showcase">
+        <div class="container">
+            
+            <!-- PRODUCT 1: Programmable LED Sign -->
+            <div class="product-detail-card" id="programmable-led">
+                <img class="product-detail-img" src="images/shop/programmable_led.png" alt="Programmable LED Sign Display Close-up" loading="lazy">
+                <div class="product-detail-content">
+                    <h2>Programmable LED Signs</h2>
+                    <div class="product-specs">
+                        <span class="spec-badge price">$299.00</span>
+                        <span class="spec-badge">Size: 32" x 12"</span>
+                        <span class="spec-badge">Color: RGB Multicolor</span>
+                        <span class="spec-badge">Voltage: 110V / 220V</span>
+                        <span class="spec-badge">Control: Wi-Fi / App</span>
+                    </div>
+                    <p>Grab the attention of passing foot and vehicle traffic with high-brightness programmable scrolling LED signs. Perfect for updating hours, highlighting current promotions, and featuring active branding text. These signs are fully customizable on the fly using a simple smartphone application or local desktop software.</p>
+                    
+                    <div class="tech-explain-box">
+                        <h4>How It Works: Matrix Hardware & Controllers</h4>
+                        <p>Our programmable LED displays utilize dense grids of surface-mounted diodes (SMD 2121 or SMD 3535 LEDs) assembled on modular receiver boards (typically P10 or P5 pixel pitch profiles). An onboard asynchronous microprocessor receiving card (such as a Huidu controller) manages frame buffers, text animations, and color cycles. Using the software, text data is serialized and multiplexed across columns and rows at scan rates exceeding 1/16s, ensuring flicker-free rendering on video. Power is regulated via continuous-duty Mean Well switching transformers converting line voltage down to a stabilized 5V DC output.</p>
+                    </div>
+
+                    <div class="buy-action-area">
+                        <button class="glow-btn pink-glow buy-commercial-btn" data-id="shop_programmable_led" data-title="Programmable LED Sign" data-price="299.00" data-img="images/shop/programmable_led.png" data-width="32" data-height="12" data-color="RGB Multicolor">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRODUCT 2: Channel Letters -->
+            <div class="product-detail-card" id="channel-letters">
+                <img class="product-detail-img" src="images/shop/channel_letters.png" alt="LED Channel Letters Sign Face-Lit" loading="lazy">
+                <div class="product-detail-content">
+                    <h2>LED Channel Letters</h2>
+                    <div class="product-specs">
+                        <span class="spec-badge price">$499.00</span>
+                        <span class="spec-badge">Size: 48" x 18"</span>
+                        <span class="spec-badge">Color: Custom Choice</span>
+                        <span class="spec-badge">Material: Aluminum & Acrylic</span>
+                        <span class="spec-badge">Mount: Flush / Raceway</span>
+                    </div>
+                    <p>Upgrade your building facade with professional, three-dimensional LED channel letters. Individually molded, structured, and illuminated, these letters provide an exceptionally premium, high-contrast presentation that represents the gold standard of retail storefront branding.</p>
+                    
+                    <div class="tech-explain-box">
+                        <h4>How It Works: CNC Returns & Module Clusters</h4>
+                        <p>Channel letters are custom structural letters fabricated from high-grade aluminum coils sheet (the return walls, typically 0.040" thick, bent using precise automated CNC routing machines) and a flat aluminum backing panel. The face is routed from translucent 3/16" thick acrylic and held in place by a durable plastic trim cap. Inside, we apply clusters of high-efficiency 12V LED modules (featuring Samsung chips with integrated 160-degree optic lenses to prevent hot-spots and ensure uniform brightness). The entire assembly is wired in parallel to UL Class 2 waterproof power modules, drawing low current while delivering up to 10,000 lumens.</p>
+                    </div>
+
+                    <div class="buy-action-area">
+                        <button class="glow-btn pink-glow buy-commercial-btn" data-id="shop_channel_letters" data-title="LED Channel Letters" data-price="499.00" data-img="images/shop/channel_letters.png" data-width="48" data-height="18" data-color="Custom Color">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRODUCT 3: Storefront Signs -->
+            <div class="product-detail-card" id="storefront-sign">
+                <img class="product-detail-img" src="images/shop/storefront_sign.png" alt="Storefront LED Sign Cabinet Lightbox" loading="lazy">
+                <div class="product-detail-content">
+                    <h2>Storefront LED Signs</h2>
+                    <div class="product-specs">
+                        <span class="spec-badge price">$399.00</span>
+                        <span class="spec-badge">Size: 36" x 24"</span>
+                        <span class="spec-badge">Color: Warm White</span>
+                        <span class="spec-badge">Protection: IP65 Outdoor</span>
+                        <span class="spec-badge">Frame: Powdercoated Steel</span>
+                    </div>
+                    <p>Make a lasting first impression with heavy-duty backlit storefront box signs and lightboxes. These systems combine high-impact graphic prints with edge-to-edge bright LED backlighting, making your business location visually prominent from hundreds of yards away, even during poor weather conditions.</p>
+                    
+                    <div class="tech-explain-box">
+                        <h4>How It Works: Cabinet Illumination & Optics</h4>
+                        <p>A storefront cabinet or lightbox utilizes an aluminum extrusion outer profile powder-coated to resist corrosion. The interior backing consists of high-luminance LED strips or grid-mounted backlights engineered to cast light forward. The face is either heavy-duty impact-resistant polycarbonate or acrylic wrapped with UV-cured translucent graphics. By spacing the LED grids precisely relative to the cabinet depth (typically a 4:5 depth-to-pitch ratio) and utilizing wide-angle 170° lenses on the internal LED modules, the face material scatters and diffuses the light beams. This eliminates shadows, creating a smooth, glowing billboard effect.</p>
+                    </div>
+
+                    <div class="buy-action-area">
+                        <button class="glow-btn pink-glow buy-commercial-btn" data-id="shop_storefront_sign" data-title="Storefront LED Sign" data-price="399.00" data-img="images/shop/storefront_sign.png" data-width="36" data-height="24" data-color="Warm White">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRODUCT 4: Backlit Signs -->
+            <div class="product-detail-card" id="backlit-sign">
+                <img class="product-detail-img" src="images/shop/backlit_sign.png" alt="Backlit LED Circular Sign Halo Effect" loading="lazy">
+                <div class="product-detail-content">
+                    <h2>Backlit LED Signs</h2>
+                    <div class="product-specs">
+                        <span class="spec-badge price">$349.00</span>
+                        <span class="spec-badge">Size: 24" x 24"</span>
+                        <span class="spec-badge">Color: Ice Blue Glow</span>
+                        <span class="spec-badge">Style: Circular Halo</span>
+                        <span class="spec-badge">Standoffs: 1.5" Aluminum</span>
+                    </div>
+                    <p>Add a modern, artistic touch to your restaurant, lobby, boutique, or office with an architectural backlit halo sign. By projecting soft LED light backward onto the mounting surface, these signs float off the wall and frame your brand logo in a premium, high-end glow.</p>
+                    
+                    <div class="tech-explain-box">
+                        <h4>How It Works: Standoff Spacers & Halo Glow</h4>
+                        <p>Also known as reverse-lit signs, backlit signs utilize a metal or opaque face panel (such as precision laser-cut steel, brass, or aluminum) lined internally with backward-facing waterproof flex LED strips. Instead of flush-mounting, the sign is installed using aluminum standoff spacers that elevate it 1 to 2 inches away from the wall. When the LEDs are powered, the light shines directly onto the wall behind the sign, creating a silhouette effect. The wall surface itself acts as a natural diffuser, reflecting the bounce-light outward to produce a soft, atmospheric glowing ring (halo glow) that outlines the contours of the sign.</p>
+                    </div>
+
+                    <div class="buy-action-area">
+                        <button class="glow-btn pink-glow buy-commercial-btn" data-id="shop_backlit_sign" data-title="Backlit LED Sign" data-price="349.00" data-img="images/shop/backlit_sign.png" data-width="24" data-height="24" data-color="Ice Blue">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ─── SEO ARTICLE: HOW THESE PRODUCTS WORK ────────────────────────────── -->
+    <section class="seo-rich-content">
+        <div class="container">
+            <div class="section-title-area" style="text-align: center; margin-bottom: 50px;">
+                <span class="section-tag">Technology & Integration</span>
+                <h2 class="section-title">The Engineering Behind Commercial Signage</h2>
+                <p class="section-desc" style="max-width: 750px; margin: 8px auto 0;">Understanding the electrical components, weatherproofing, and design features that differentiate premium commercial displays from standard consumer lights.</p>
+            </div>
+
+            <div class="seo-grid">
+                <div class="seo-card">
+                    <h3>LED Drivers & Electrical Engineering</h3>
+                    <p>Every professional storefront display or channel letter set relies on stable power conversion. Standard home alternating current (AC, usually 110V to 240V at 60Hz) is highly volatile and can easily degrade low-voltage diodes. We utilize industrial-grade switched-mode power supplies (SMPS) to transform input AC into constant-voltage 12V or 24V direct current (DC). This driver circuitry monitors load demand and stabilizes power outputs, preventing voltage surges, thermal runaway, and premature diode burnout, while maintaining an electrical efficiency rating of over 88%.</p>
+                </div>
+
+                <div class="seo-card">
+                    <h3>IP Ratings & Weatherproofing</h3>
+                    <p>For outdoor commercial signs in humid, storm-prone, or tropical environments (like Florida), water ingress protection is paramount. Our storefront and channel letter signs are sealed to IP65 or IP67 standards. An IP65 rating signifies complete protection against dust particles and resistance to low-pressure water jets from all angles. An IP67 rating increases protection to withstand temporary immersion in water up to 1 meter deep. We achieve this by fully potting the internal LED modules in transparent silicone gel and utilizing weatherproof rubber grommets at all cable entry points.</p>
+                </div>
+
+                <div class="seo-card">
+                    <h3>Color Temperature & Saturation</h3>
+                    <p>Human eyes perceive light temperature and color rendering index (CRI) immediately, which influences brand perception. Our commercial products utilize high-output LEDs with color temperatures ranging from warm white (3000K) to cool daylight (6500K), or programmable RGB nodes capable of mixing up to 16.7 million colors. Translucent acrylic diffuser faces are optimized to scatter specific wavelengths, preventing visual hot-spots (uneven dots of light) and ensuring that logo colors remain saturated, bright, and legible from distances exceeding 300 feet.</p>
+                </div>
+
+                <div class="seo-card">
+                    <h3>Matrix Control & Programming Software</h3>
+                    <p>Programmable LED signs stand out due to their ability to display dynamic content. These signs utilize microcontrollers embedded with flash memory. The microcontroller reads compiled text files or bitmap images uploaded over Wi-Fi or USB connection. It then sends coordinate instructions to rows and columns of LEDs. By shifting the active signals on the matrix grid at a high refresh rate (usually 1920Hz or higher), the display renders smooth scrolling text, high-definition animations, and custom borders without showing latency, lag, or digital scan lines on camera screens.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── FOOTER ─────────────────────────────────────────────────────────── -->
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <a href="index.html" class="logo">
+                    <img src="logo.png" alt="Nano Neons" style="height: 58px;">
+                </a>
+                <p>Premium handcrafted LED neon signs lighting up businesses, events, and homes worldwide. Designed by you, built to perfection.</p>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Products</h4>
+                <ul>
+                    <li><a href="customizer.html">Custom Text Signs</a></li>
+                    <li><a href="index.html#shop">Ready-Made Designs</a></li>
+                    <li><a href="commercial-signs.html">Commercial Signs</a></li>
+                    <li><a href="customizer.html">Wedding Backdrops</a></li>
+                    <li><a href="quote.html">UV Printed Logos / Quote</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Information</h4>
+                <ul>
+                    <li><a href="index.html#shop">Shop Popular Neons</a></li>
+                    <li><a href="index.html#gallery">Gallery</a></li>
+                    <li><a href="index.html#colors">Color Panel</a></li>
+                    <li><a href="index.html#faq">Frequently Asked Questions</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Contact & Support</h4>
+                <ul>
+                    <li><a href="mailto:nanosign1@gmail.com">nanosign1@gmail.com</a></li>
+                    <li><a href="tel:+13059671005">305 967 1005</a> / <a href="tel:+13059679654">305 967 9654</a></li>
+                    <li><p style="font-size:0.85rem; color:var(--text-muted); line-height:1.4;">4567 Powerline Rd,<br>Oakland Park, FL 33309</p></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="container footer-bottom">
+            <p>&copy; 2026 Nano Sign. All rights reserved. Handcrafted with love.</p>
+        </div>
+    </footer>
+
+    <!-- Buy Buttons Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const buttons = document.querySelectorAll('.buy-commercial-btn');
+            buttons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = btn.dataset.id;
+                    const title = btn.dataset.title;
+                    const price = parseFloat(btn.dataset.price);
+                    const imgUrl = btn.dataset.img;
+                    const color = btn.dataset.color;
+                    const widthIn = parseInt(btn.dataset.width);
+                    const heightIn = parseInt(btn.dataset.height);
+                    
+                    // Standard conversion helper
+                    const widthCm = Math.round(widthIn * 2.54);
+                    const heightCm = Math.round(heightIn * 2.54);
+
+                    let cart = JSON.parse(localStorage.getItem('neon_cart')) || [];
+                    
+                    const cartItem = {
+                        text: title,
+                        fontName: 'Commercial LED',
+                        colorName: color,
+                        widthIn: widthIn,
+                        heightIn: heightIn,
+                        widthCm: widthCm,
+                        heightCm: heightCm,
+                        backing: 'cut-to-shape',
+                        backingColor: 'acrylic',
+                        environment: 'outdoor',
+                        price: price,
+                        svgMarkup: `<img src="${imgUrl}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">`,
+                        timestamp: Date.now(),
+                        quantity: 1
+                    };
+
+                    const isSameCartItem = (a, b) => {
+                        return a.text === b.text &&
+                               a.fontName === b.fontName &&
+                               a.colorName === b.colorName &&
+                               a.widthCm === b.widthCm &&
+                               a.heightCm === b.heightCm &&
+                               a.backing === b.backing &&
+                               a.backingColor === b.backingColor &&
+                               a.environment === b.environment;
+                    };
+
+                    const existingIndex = cart.findIndex(item => isSameCartItem(item, cartItem));
+                    if (existingIndex > -1) {
+                        cart[existingIndex].quantity = (cart[existingIndex].quantity || 1) + 1;
+                    } else {
+                        cart.push(cartItem);
+                    }
+
+                    localStorage.setItem('neon_cart', JSON.stringify(cart));
+                    window.location.href = 'cart.html';
+                });
+            });
+
+            // Mobile Nav Logic
+            const menuToggle = document.getElementById('menu-toggle');
+            const mainNav = document.querySelector('.main-nav');
+            if (menuToggle && mainNav) {
+                menuToggle.addEventListener('click', () => {
+                    menuToggle.classList.toggle('active');
+                    mainNav.classList.toggle('active');
+                });
+            }
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="auth.js?v=8"></script>
+</body>
+</html>
