@@ -31,6 +31,7 @@
                 <ul>
                     <li><a href="#hero">Home</a></li>
                     <li><a href="customizer.html">Customizer <span style="background: var(--neon-pink); color: #fff; font-size: 0.65rem; padding: 2px 6px; border-radius: 10px; font-weight: 700; vertical-align: middle; margin-left: 2px;">NEW</span></a></li>
+                    <li><a href="#shop">Shop</a></li>
                     <li><a href="#gallery">Gallery</a></li>
                     <li><a href="#colors">Colors</a></li>
                     <li><a href="#faq">FAQ</a></li>
@@ -128,7 +129,6 @@
             <div class="section-title-area">
                 <span class="section-tag">Our Past Works</span>
                 <h2 class="section-title">Vibrant Creations From Our Clients</h2>
-                <p class="section-desc">See how our custom neon signs illuminate and transform real spaces.</p>
             </div>
             
             <div class="marquee-wrapper">
@@ -164,6 +164,21 @@
         </div>
     </section>
 
+    <!-- ─── READY-MADE SHOP SECTION ────────────────────────────────────────── -->
+    <section class="shop-section" id="shop">
+        <div class="container">
+            <div class="section-title-area" style="margin-bottom: 20px;">
+                <span class="section-tag">Ready-Made Designs</span>
+                <h2 class="section-title">Shop Our Most Popular Neons</h2>
+                <p class="section-desc" style="margin-top: 4px;">Choose from our curated collection of famous handcrafted designs, ready to ship.</p>
+            </div>
+            
+            <div class="shop-grid" id="shop-products-grid">
+                <!-- Products will be dynamically populated by JS -->
+            </div>
+        </div>
+    </section>
+
     <!-- ─── INTERACTIVE COLOR PANEL SECTION ────────────────────────────────── -->
     <section class="color-panel-section" id="colors">
         <div class="container">
@@ -180,8 +195,8 @@
                 
                 <div class="color-selector-controls">
                     <div>
-                        <h3 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 8px;">Pick a color:</h3>
-                        <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px;">We use standard dual jacket flex LED nodes for premium saturation.</p>
+                        <h3 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 4px;">Pick a color:</h3>
+                        <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 12px;">We use standard dual jacket flex LED nodes for premium saturation.</p>
                         
                         <div class="swatch-group">
                             <div class="swatch active" data-image="images/colors/ice_blue_preview.jpeg?v=4" data-name="Ice Blue">
@@ -348,6 +363,7 @@
                 <h4>Products</h4>
                 <ul>
                     <li><a href="customizer.html">Custom Text Signs</a></li>
+                    <li><a href="#shop">Ready-Made Designs</a></li>
                     <li><a href="customizer.html">Business Signs</a></li>
                     <li><a href="customizer.html">Wedding Backdrops</a></li>
                     <li><a href="quote.html">UV Printed Logos / Quote</a></li>
@@ -357,6 +373,7 @@
             <div class="footer-links">
                 <h4>Information</h4>
                 <ul>
+                    <li><a href="#shop">Shop Popular Neons</a></li>
                     <li><a href="#gallery">Gallery</a></li>
                     <li><a href="#colors">Color Panel</a></li>
                     <li><a href="#faq">Frequently Asked Questions</a></li>
@@ -556,6 +573,296 @@
                     showPopup();
                 }
             }, 20000);
+
+            // ─── READY-MADE PRODUCTS SHOP LOGIC ──────────────────────────────────
+            const shopProducts = [
+                {
+                    id: 'shop_good_vibes',
+                    title: 'Good Vibes Only',
+                    category: 'Inspirational',
+                    price: 169.00,
+                    colorName: 'Pink & Blue',
+                    widthIn: 24,
+                    heightIn: 16,
+                    widthCm: 61,
+                    heightCm: 41,
+                    rating: 4.9,
+                    reviewsCount: 38,
+                    imgUrl: 'images/shop/good_vibes_neon.png'
+                },
+                {
+                    id: 'shop_lets_party',
+                    title: "Let's Party",
+                    category: 'Bar & Party',
+                    price: 189.00,
+                    colorName: 'Warm White',
+                    widthIn: 30,
+                    heightIn: 12,
+                    widthCm: 76,
+                    heightCm: 30,
+                    rating: 5.0,
+                    reviewsCount: 24,
+                    imgUrl: 'images/shop/lets_party_neon.png'
+                },
+                {
+                    id: 'shop_game_on',
+                    title: 'Game On',
+                    category: 'Gaming',
+                    price: 159.00,
+                    colorName: 'Cyan & Pink',
+                    widthIn: 20,
+                    heightIn: 15,
+                    widthCm: 51,
+                    heightCm: 38,
+                    rating: 4.8,
+                    reviewsCount: 19,
+                    imgUrl: 'images/shop/game_controller_neon.png'
+                },
+                {
+                    id: 'shop_dream_big',
+                    title: 'Dream Big',
+                    category: 'Inspirational',
+                    price: 149.00,
+                    colorName: 'Ice Blue',
+                    widthIn: 24,
+                    heightIn: 10,
+                    widthCm: 61,
+                    heightCm: 25,
+                    rating: 4.9,
+                    reviewsCount: 32,
+                    imgUrl: 'images/shop/dream_big_neon.png'
+                },
+                {
+                    id: 'shop_bar_open',
+                    title: 'Bar Open',
+                    category: 'Bar & Party',
+                    price: 179.00,
+                    colorName: 'Pink & Orange',
+                    widthIn: 22,
+                    heightIn: 18,
+                    widthCm: 56,
+                    heightCm: 46,
+                    rating: 5.0,
+                    reviewsCount: 15,
+                    imgUrl: 'images/shop/bar_neon.png'
+                },
+                {
+                    id: 'shop_hustle',
+                    title: 'Hustle',
+                    category: 'Inspirational',
+                    price: 139.00,
+                    colorName: 'Hot Pink',
+                    widthIn: 20,
+                    heightIn: 8,
+                    widthCm: 51,
+                    heightCm: 20,
+                    rating: 4.9,
+                    reviewsCount: 41,
+                    imgUrl: 'images/shop/hustle_neon.png'
+                },
+                {
+                    id: 'shop_open_24_7',
+                    title: 'Open 24/7',
+                    category: 'Business',
+                    price: 169.00,
+                    colorName: 'Red & Blue',
+                    widthIn: 24,
+                    heightIn: 14,
+                    widthCm: 61,
+                    heightCm: 36,
+                    rating: 4.8,
+                    reviewsCount: 22,
+                    imgUrl: 'images/shop/open_neon.png'
+                },
+                {
+                    id: 'shop_stay_wild',
+                    title: 'Stay Wild',
+                    category: 'Inspirational',
+                    price: 159.00,
+                    colorName: 'Warm White',
+                    widthIn: 26,
+                    heightIn: 12,
+                    widthCm: 66,
+                    heightCm: 30,
+                    rating: 4.9,
+                    reviewsCount: 18,
+                    imgUrl: 'images/shop/stay_wild_neon.png'
+                },
+                {
+                    id: 'shop_love_wild',
+                    title: 'Love Her Wild',
+                    category: 'Home Decor',
+                    price: 179.00,
+                    colorName: 'Hot Pink',
+                    widthIn: 28,
+                    heightIn: 14,
+                    widthCm: 71,
+                    heightCm: 36,
+                    rating: 5.0,
+                    reviewsCount: 27,
+                    imgUrl: 'images/shop/love_wild_neon.png'
+                },
+                {
+                    id: 'shop_glow_getter',
+                    title: 'Glow Getter',
+                    category: 'Inspirational',
+                    price: 149.00,
+                    colorName: 'Purple',
+                    widthIn: 22,
+                    heightIn: 10,
+                    widthCm: 56,
+                    heightCm: 25,
+                    rating: 4.7,
+                    reviewsCount: 14,
+                    imgUrl: 'images/shop/glow_getter_neon.png'
+                },
+                {
+                    id: 'shop_man_cave',
+                    title: 'Man Cave',
+                    category: 'Home Decor',
+                    price: 169.00,
+                    colorName: 'Yellow & Blue',
+                    widthIn: 24,
+                    heightIn: 16,
+                    widthCm: 61,
+                    heightCm: 41,
+                    rating: 4.9,
+                    reviewsCount: 29,
+                    imgUrl: 'images/shop/man_cave_neon.png'
+                },
+                {
+                    id: 'shop_adventure',
+                    title: 'Adventure Awaits',
+                    category: 'Home Decor',
+                    price: 179.00,
+                    colorName: 'Lime Green',
+                    widthIn: 26,
+                    heightIn: 16,
+                    widthCm: 66,
+                    heightCm: 41,
+                    rating: 5.0,
+                    reviewsCount: 11,
+                    imgUrl: 'images/shop/adventure_neon.png'
+                },
+                {
+                    id: 'shop_coffee_bar',
+                    title: 'Coffee Bar',
+                    category: 'Business',
+                    price: 149.00,
+                    colorName: 'Warm White & Red',
+                    widthIn: 20,
+                    heightIn: 14,
+                    widthCm: 51,
+                    heightCm: 36,
+                    rating: 4.8,
+                    reviewsCount: 25,
+                    imgUrl: 'images/shop/coffee_neon.png'
+                },
+                {
+                    id: 'shop_cocktails',
+                    title: 'Cocktails & Dreams',
+                    category: 'Bar & Party',
+                    price: 199.00,
+                    colorName: 'Pink & Cyan',
+                    widthIn: 28,
+                    heightIn: 16,
+                    widthCm: 71,
+                    heightCm: 41,
+                    rating: 4.9,
+                    reviewsCount: 31,
+                    imgUrl: 'images/shop/cocktails_neon.png'
+                },
+                {
+                    id: 'shop_angel_wings',
+                    title: 'Angel Wings',
+                    category: 'Home Decor',
+                    price: 249.00,
+                    colorName: 'White & Ice Blue',
+                    widthIn: 32,
+                    heightIn: 24,
+                    widthCm: 81,
+                    heightCm: 61,
+                    rating: 5.0,
+                    reviewsCount: 43,
+                    imgUrl: 'images/shop/angel_wings_neon.png'
+                }
+            ];
+
+            const productsGrid = document.getElementById('shop-products-grid');
+            if (productsGrid) {
+                shopProducts.forEach(product => {
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+                    card.innerHTML = `
+                        <div class="product-img-wrapper">
+                            <span class="product-badge">Popular</span>
+                            <img src="${product.imgUrl}" alt="${product.title}" loading="lazy">
+                        </div>
+                        <div class="product-info">
+                            <span class="product-category">${product.category}</span>
+                            <h3 class="product-title">${product.title}</h3>
+                            <div class="product-rating">
+                                <span class="stars" style="color: #f59e0b; font-size: 0.85rem;">${'★'.repeat(Math.round(product.rating))}${'☆'.repeat(5 - Math.round(product.rating))}</span>
+                                <span class="rating-val" style="font-size: 0.8rem; margin-left: 4px;">${product.rating} (${product.reviewsCount})</span>
+                            </div>
+                            <div class="product-footer">
+                                <span class="product-price">$${product.price.toFixed(2)}</span>
+                                <button class="buy-now-btn" data-id="${product.id}">Buy Now</button>
+                            </div>
+                        </div>
+                    `;
+                    productsGrid.appendChild(card);
+                });
+
+                // Buy Now button listeners
+                productsGrid.querySelectorAll('.buy-now-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const prodId = btn.dataset.id;
+                        const product = shopProducts.find(p => p.id === prodId);
+                        if (!product) return;
+
+                        let cart = JSON.parse(localStorage.getItem('neon_cart')) || [];
+                        
+                        const cartItem = {
+                            text: product.title,
+                            fontName: 'Classic Neon',
+                            colorName: product.colorName,
+                            widthIn: product.widthIn,
+                            heightIn: product.heightIn,
+                            widthCm: product.widthCm,
+                            heightCm: product.heightCm,
+                            backing: 'cut-to-shape',
+                            backingColor: 'acrylic',
+                            environment: 'indoor',
+                            price: product.price,
+                            svgMarkup: `<img src="${product.imgUrl}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">`,
+                            timestamp: Date.now(),
+                            quantity: 1
+                        };
+
+                        const isSameCartItem = (a, b) => {
+                            return a.text === b.text &&
+                                   a.fontName === b.fontName &&
+                                   a.colorName === b.colorName &&
+                                   a.widthCm === b.widthCm &&
+                                   a.heightCm === b.heightCm &&
+                                   a.backing === b.backing &&
+                                   a.backingColor === b.backingColor &&
+                                   a.environment === b.environment;
+                        };
+
+                        const existingIndex = cart.findIndex(item => isSameCartItem(item, cartItem));
+                        if (existingIndex > -1) {
+                            cart[existingIndex].quantity = (cart[existingIndex].quantity || 1) + 1;
+                        } else {
+                            cart.push(cartItem);
+                        }
+
+                        localStorage.setItem('neon_cart', JSON.stringify(cart));
+                        window.location.href = 'cart.html';
+                    });
+                });
+            }
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

@@ -383,7 +383,7 @@ nav.main-nav a:hover::after {
 /* ─── Section Title Layout ──────────────────────────────────────────────── */
 .section-title-area {
     text-align: center;
-    margin-bottom: 35px;
+    margin-bottom: 24px;
 }
 
 .section-tag {
@@ -392,7 +392,7 @@ nav.main-nav a:hover::after {
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--neon-pink);
-    margin-bottom: 6px;
+    margin-bottom: 2px;
     display: block;
 }
 
@@ -406,7 +406,7 @@ nav.main-nav a:hover::after {
 .section-desc {
     color: var(--text-secondary);
     max-width: 600px;
-    margin: 12px auto 0;
+    margin: 6px auto 0;
     font-size: 1.05rem;
 }
 
@@ -714,6 +714,151 @@ nav.main-nav a:hover::after {
     100% {
         transform: translateX(0);
     }
+}
+
+/* ─── Ready-Made Shop Section ────────────────────────────────────────────── */
+.shop-section {
+    padding: 35px 0;
+}
+
+.shop-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+    padding-top: 10px;
+}
+
+.product-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    backdrop-filter: blur(var(--blur-amount));
+    -webkit-backdrop-filter: blur(var(--blur-amount));
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--glass-shadow);
+    transition: var(--transition);
+}
+
+.product-card:hover {
+    transform: translateY(-8px);
+    background: var(--glass-bg-hover);
+    border-color: rgba(255, 0, 127, 0.35); /* Pink neon border on hover */
+    box-shadow: 
+        0 20px 40px rgba(255, 0, 127, 0.12),
+        0 0 15px rgba(255, 0, 127, 0.05);
+}
+
+.product-img-wrapper {
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+    position: relative;
+    background: #000; /* Black background to make neon sign pop */
+}
+
+.product-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.product-card:hover .product-img-wrapper img {
+    transform: scale(1.06);
+}
+
+.product-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 4px 10px;
+    border-radius: 100px;
+    z-index: 2;
+    box-shadow: 0 4px 10px rgba(255, 42, 133, 0.25);
+}
+
+.product-info {
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.product-category {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--neon-pink);
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+}
+
+.product-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    line-height: 1.35;
+}
+
+.product-rating {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+.product-rating .stars {
+    font-size: 0.8rem;
+    letter-spacing: -1.5px;
+}
+
+.product-rating .rating-val {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.product-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+}
+
+.product-price {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+}
+
+.buy-now-btn {
+    background: linear-gradient(135deg, var(--neon-pink) 0%, var(--neon-purple) 100%);
+    border: none;
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 10px 22px;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: 0 4px 12px rgba(255, 42, 133, 0.25);
+}
+
+.buy-now-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 6px 16px rgba(255, 42, 133, 0.35),
+        0 0 10px rgba(255, 42, 133, 0.15);
 }
 
 /* ─── FAQ Accordions ────────────────────────────────────────────────────── */
@@ -1292,5 +1437,20 @@ footer.site-footer {
 .discount-floating-blob:hover .blob-glow {
     opacity: 0.3;
     filter: blur(12px);
+}
+
+/* ─── Spacing Adjustments for Gallery & Color Spectrum ───────────────────── */
+#gallery .section-title-area,
+#colors .section-title-area {
+    margin-bottom: 16px;
+}
+
+#gallery .section-title-area .section-title,
+#colors .section-title-area .section-title {
+    margin-bottom: 4px;
+}
+
+#colors .section-title-area .section-desc {
+    margin-top: 4px;
 }
 
