@@ -914,6 +914,11 @@ app.post('/api/quote', async (req, res) => {
     }
 });
 
+// ─── 404 NOT FOUND HANDLER ───────────────────────────────────────────────────
+app.use((req, res) => {
+    res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
+});
+
 if (require.main === module) {
     app.listen(PORT, () => {
         console.log(`\n🚀 Neon Sign Creator running at http://localhost:${PORT}\n`);
