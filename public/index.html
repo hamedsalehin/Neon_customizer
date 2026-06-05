@@ -187,6 +187,25 @@
         </div>
     </section>
 
+    <!-- ─── WORLD CUP LIMITED EDITION SECTION ──────────────────────────────── -->
+    <section class="world-cup-section" id="world-cup">
+        <div class="world-cup-badge-container">
+            <span class="world-cup-badge">🏆 World Cup Edition</span>
+            <span class="limit-badge">Limited Time Offer</span>
+        </div>
+        <div class="container">
+            <div class="section-title-area" style="margin-bottom: 40px; text-align: center;">
+                <span class="section-tag" style="background: rgba(16,185,129,0.15); color: #10b981; padding: 6px 16px; border-radius: 100px; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; display: inline-block;">Limited Release</span>
+                <h2 class="section-title" style="color: #ffd700; text-shadow: 0 0 20px rgba(255, 215, 0, 0.4); font-family: 'Space Grotesk', sans-serif; font-size: 2.5rem; font-weight: 800; margin-top: 15px;">World Cup Celebration Neons</h2>
+                <p class="section-desc" style="color: rgba(255,255,255,0.8); font-size: 1.05rem; line-height: 1.6; max-width: 700px; margin: 10px auto 0;">Bring the stadium atmosphere home with our exclusive, discounted World Cup neon collection. <strong>Up to 25% OFF</strong> for a limited time!</p>
+            </div>
+            
+            <div class="shop-grid" id="world-cup-products-grid">
+                <!-- World Cup products will be populated dynamically by JS -->
+            </div>
+        </div>
+    </section>
+
     <!-- ─── READY-MADE SHOP SECTION ────────────────────────────────────────── -->
     <section class="shop-section" id="shop">
         <div class="container">
@@ -996,6 +1015,331 @@
 
                         let cart = JSON.parse(localStorage.getItem('neon_cart')) || [];
                         
+                        const cartItem = {
+                            text: product.title,
+                            fontName: 'Classic Neon',
+                            colorName: product.colorName,
+                            widthIn: product.widthIn,
+                            heightIn: product.heightIn,
+                            widthCm: product.widthCm,
+                            heightCm: product.heightCm,
+                            backing: 'cut-to-shape',
+                            backingColor: 'acrylic',
+                            environment: 'indoor',
+                            price: product.price,
+                            svgMarkup: `<img src="${product.imgUrl}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">`,
+                            timestamp: Date.now(),
+                            quantity: 1
+                        };
+
+                        const isSameCartItem = (a, b) => {
+                            return a.text === b.text &&
+                                   a.fontName === b.fontName &&
+                                   a.colorName === b.colorName &&
+                                   a.widthCm === b.widthCm &&
+                                   a.heightCm === b.heightCm &&
+                                   a.backing === b.backing &&
+                                   a.backingColor === b.backingColor &&
+                                   a.environment === b.environment;
+                        };
+
+                        const existingIndex = cart.findIndex(item => isSameCartItem(item, cartItem));
+                        if (existingIndex > -1) {
+                            cart[existingIndex].quantity = (cart[existingIndex].quantity || 1) + 1;
+                        } else {
+                            cart.push(cartItem);
+                        }
+
+                        localStorage.setItem('neon_cart', JSON.stringify(cart));
+                        window.location.href = 'cart.html';
+                    });
+                });
+            }
+
+            // ─── WORLD CUP PRODUCTS RENDERER ─────────────────────────────────────
+            const worldCupProducts = [
+                {
+                    id: 'wc_ball_classic',
+                    title: 'World Cup Ball Classic',
+                    category: 'World Cup',
+                    originalPrice: 149.00,
+                    price: 119.00,
+                    colorName: 'Green & White',
+                    widthIn: 18,
+                    heightIn: 18,
+                    widthCm: 46,
+                    heightCm: 46,
+                    rating: 4.9,
+                    reviewsCount: 18,
+                    imgUrl: 'images/worldcup/Turn_this_logo_into_a_202606042148.jpeg'
+                },
+                {
+                    id: 'wc_trophy_glow',
+                    title: 'Champion Trophy Glow',
+                    category: 'World Cup',
+                    originalPrice: 199.00,
+                    price: 149.00,
+                    colorName: 'Gold Yellow',
+                    widthIn: 24,
+                    heightIn: 16,
+                    widthCm: 61,
+                    heightCm: 41,
+                    rating: 5.0,
+                    reviewsCount: 22,
+                    imgUrl: 'images/worldcup/Turn_this_logo_into_a_202606042148 (1).jpeg'
+                },
+                {
+                    id: 'wc_pitch_emblem',
+                    title: 'Soccer Pitch Emblem',
+                    category: 'World Cup',
+                    originalPrice: 169.00,
+                    price: 129.00,
+                    colorName: 'Green & Yellow',
+                    widthIn: 20,
+                    heightIn: 14,
+                    widthCm: 51,
+                    heightCm: 36,
+                    rating: 4.9,
+                    reviewsCount: 15,
+                    imgUrl: 'images/worldcup/Turn_this_logo_into_a_202606042149.jpeg'
+                },
+                {
+                    id: 'wc_goal_burst',
+                    title: 'GOAL! Neon Burst',
+                    category: 'World Cup',
+                    originalPrice: 129.00,
+                    price: 99.00,
+                    colorName: 'Lime Green & White',
+                    widthIn: 20,
+                    heightIn: 12,
+                    widthCm: 51,
+                    heightCm: 31,
+                    rating: 4.8,
+                    reviewsCount: 14,
+                    imgUrl: 'images/worldcup/Turn_this_logo_into_a_202606042150.jpeg'
+                },
+                {
+                    id: 'wc_national_crest',
+                    title: 'National Crest Neon',
+                    category: 'World Cup',
+                    originalPrice: 179.00,
+                    price: 139.00,
+                    colorName: 'Yellow & Red',
+                    widthIn: 22,
+                    heightIn: 20,
+                    widthCm: 56,
+                    heightCm: 51,
+                    rating: 4.9,
+                    reviewsCount: 26,
+                    imgUrl: 'images/worldcup/Turn_this_logo_into_a_202606042150 (1).jpeg'
+                },
+                {
+                    id: 'wc_stadium_jersey',
+                    title: 'Stadium Jersey Light',
+                    category: 'World Cup',
+                    originalPrice: 159.00,
+                    price: 129.00,
+                    colorName: 'Blue & White',
+                    widthIn: 20,
+                    heightIn: 18,
+                    widthCm: 51,
+                    heightCm: 46,
+                    rating: 4.8,
+                    reviewsCount: 19,
+                    imgUrl: 'images/worldcup/Turn_this_logo_into_a_202606042150 (2).jpeg'
+                },
+                {
+                    id: 'wc_victory_shield',
+                    title: 'Victory Shield Glow',
+                    category: 'World Cup',
+                    originalPrice: 199.00,
+                    price: 159.00,
+                    colorName: 'Gold Yellow & Blue',
+                    widthIn: 24,
+                    heightIn: 22,
+                    widthCm: 61,
+                    heightCm: 56,
+                    rating: 5.0,
+                    reviewsCount: 30,
+                    imgUrl: 'images/worldcup/Turn_this_logo_into_a_202606042150 (3).jpeg'
+                },
+                {
+                    id: 'wc_soccer_boot',
+                    title: 'Elite Soccer Boot Neon',
+                    category: 'World Cup',
+                    originalPrice: 149.00,
+                    price: 119.00,
+                    colorName: 'Orange & Pink',
+                    widthIn: 18,
+                    heightIn: 12,
+                    widthCm: 46,
+                    heightCm: 31,
+                    rating: 4.9,
+                    reviewsCount: 17,
+                    imgUrl: 'images/worldcup/Turn_this_logo_into_a_202606051448.jpeg'
+                },
+                {
+                    id: 'wc_dynamic_football',
+                    title: 'Dynamic Football Neon',
+                    category: 'World Cup',
+                    originalPrice: 139.00,
+                    price: 109.00,
+                    colorName: 'White & Cyan',
+                    widthIn: 16,
+                    heightIn: 16,
+                    widthCm: 41,
+                    heightCm: 41,
+                    rating: 4.8,
+                    reviewsCount: 12,
+                    imgUrl: 'images/worldcup/make_it_a_little_less_202606042148.jpeg'
+                },
+                {
+                    id: 'wc_striker_target',
+                    title: 'Striker Target Sign',
+                    category: 'World Cup',
+                    originalPrice: 169.00,
+                    price: 129.00,
+                    colorName: 'Red & Yellow',
+                    widthIn: 22,
+                    heightIn: 16,
+                    widthCm: 56,
+                    heightCm: 41,
+                    rating: 4.9,
+                    reviewsCount: 21,
+                    imgUrl: 'images/worldcup/remove_the_extra_highlighted_pieces_202606042144.jpeg'
+                },
+                {
+                    id: 'wc_kickoff_glow',
+                    title: 'Kickoff Glow Emblem',
+                    category: 'World Cup',
+                    originalPrice: 129.00,
+                    price: 99.00,
+                    colorName: 'Lime Green & Gold',
+                    widthIn: 20,
+                    heightIn: 12,
+                    widthCm: 51,
+                    heightCm: 31,
+                    rating: 4.8,
+                    reviewsCount: 13,
+                    imgUrl: 'images/worldcup/remove_the_text,_and_the_202606042148.jpeg'
+                },
+                {
+                    id: 'wc_stadium_arc',
+                    title: 'Stadium Arc Light',
+                    category: 'World Cup',
+                    originalPrice: 179.00,
+                    price: 139.00,
+                    colorName: 'Cool White',
+                    widthIn: 24,
+                    heightIn: 18,
+                    widthCm: 61,
+                    heightCm: 46,
+                    rating: 4.9,
+                    reviewsCount: 16,
+                    imgUrl: 'images/worldcup/remove_the_text_and_change_202606051449.jpeg'
+                },
+                {
+                    id: 'wc_wreath_sign',
+                    title: 'Championship Wreath Sign',
+                    category: 'World Cup',
+                    originalPrice: 189.00,
+                    price: 149.00,
+                    colorName: 'Warm White & Green',
+                    widthIn: 22,
+                    heightIn: 22,
+                    widthCm: 56,
+                    heightCm: 56,
+                    rating: 5.0,
+                    reviewsCount: 27,
+                    imgUrl: 'images/worldcup/remove_the_white_wheat_pices_202606042158.jpeg'
+                },
+                {
+                    id: 'wc_corner_flag',
+                    title: 'Corner Flag Sign',
+                    category: 'World Cup',
+                    originalPrice: 119.00,
+                    price: 89.00,
+                    colorName: 'Red & Yellow',
+                    widthIn: 18,
+                    heightIn: 10,
+                    widthCm: 46,
+                    heightCm: 25,
+                    rating: 4.8,
+                    reviewsCount: 11,
+                    imgUrl: 'images/worldcup/remove_those_too_2K_202606042148.jpeg'
+                },
+                {
+                    id: 'wc_matchday_neon',
+                    title: 'Soccer Matchday Neon',
+                    category: 'World Cup',
+                    originalPrice: 199.00,
+                    price: 159.00,
+                    colorName: 'Cyan & Magenta',
+                    widthIn: 24,
+                    heightIn: 20,
+                    widthCm: 61,
+                    heightCm: 51,
+                    rating: 4.9,
+                    reviewsCount: 31,
+                    imgUrl: 'images/worldcup/the_acrylic_contour_cut_out_202606042158.jpeg'
+                },
+                {
+                    id: 'wc_club_stripes',
+                    title: 'Athletic Club Stripes Sign',
+                    category: 'World Cup',
+                    originalPrice: 159.00,
+                    price: 129.00,
+                    colorName: 'Red & White',
+                    widthIn: 20,
+                    heightIn: 18,
+                    widthCm: 51,
+                    heightCm: 46,
+                    rating: 4.8,
+                    reviewsCount: 22,
+                    imgUrl: 'images/worldcup/the_red_stripes_needs_to_202606042158.jpeg'
+                }
+            ];
+
+            const wcGrid = document.getElementById('world-cup-products-grid');
+            if (wcGrid) {
+                worldCupProducts.forEach(product => {
+                    const card = document.createElement('div');
+                    card.className = 'product-card world-cup-card';
+                    const savings = product.originalPrice - product.price;
+                    const pct = Math.round((savings / product.originalPrice) * 100);
+                    card.innerHTML = `
+                        <div class="product-img-wrapper">
+                            <span class="product-badge wc-badge">SAVE ${pct}%</span>
+                            <img src="${product.imgUrl}" alt="${product.title}" loading="lazy">
+                        </div>
+                        <div class="product-info">
+                            <span class="product-category wc-cat-badge">🏆 World Cup Edition</span>
+                            <h3 class="product-title" style="color: #ffffff;">${product.title}</h3>
+                            <div class="product-rating">
+                                <span class="stars" style="color: #ffd700; font-size: 0.85rem;">${'★'.repeat(Math.round(product.rating))}${'☆'.repeat(5 - Math.round(product.rating))}</span>
+                                <span class="rating-val" style="font-size: 0.8rem; margin-left: 4px; color: rgba(255,255,255,0.7);">${product.rating} (${product.reviewsCount})</span>
+                            </div>
+                            <div class="product-footer">
+                                <div class="wc-price-container" style="display: flex; flex-direction: column;">
+                                    <span class="wc-original-price" style="text-decoration: line-through; color: rgba(255,255,255,0.4); font-size: 0.85rem;">$${product.originalPrice.toFixed(2)}</span>
+                                    <span class="product-price wc-discount-price" style="color: #ffd700; font-size: 1.25rem;">$${product.price.toFixed(2)}</span>
+                                </div>
+                                <button class="buy-now-btn wc-btn" data-id="${product.id}">
+                                    Buy Now
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    wcGrid.appendChild(card);
+                });
+
+                wcGrid.querySelectorAll('.buy-now-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const prodId = btn.dataset.id;
+                        const product = worldCupProducts.find(p => p.id === prodId);
+                        if (!product) return;
+
+                        let cart = JSON.parse(localStorage.getItem('neon_cart')) || [];
                         const cartItem = {
                             text: product.title,
                             fontName: 'Classic Neon',
