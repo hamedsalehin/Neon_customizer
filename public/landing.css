@@ -1587,4 +1587,97 @@ footer.site-footer {
     font-size: 0.95rem;
 }
 
+/* ─── About SEO & Video Showcase Section ────────────────────────────────── */
+.about-seo-section {
+    position: relative;
+    padding: 100px 0;
+    background: linear-gradient(180deg, rgba(10, 10, 12, 0.4) 0%, rgba(18, 14, 36, 0.7) 50%, rgba(10, 10, 12, 0.4) 100%);
+    overflow: hidden;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.seo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 80px;
+    align-items: center;
+}
+
+.seo-video-col {
+    position: relative;
+}
+
+.video-container-wrapper {
+    position: relative;
+    width: 100%;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    background: #09090b;
+}
+
+.video-container-wrapper video {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    aspect-ratio: 16/10;
+}
+
+.video-overlay-glow {
+    position: absolute;
+    top: -10%;
+    left: -10%;
+    width: 120%;
+    height: 120%;
+    background: radial-gradient(circle, rgba(236, 72, 153, 0.15) 0%, rgba(59, 130, 246, 0.1) 40%, transparent 70%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+.seo-content-col {
+    text-align: left;
+}
+
+.section-title-left {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2.6rem;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+    color: #ffffff;
+}
+
+.seo-text-content p {
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 20px;
+}
+
+.seo-text-content p:last-child {
+    margin-bottom: 0;
+}
+
+.seo-text-content strong {
+    color: #ffffff;
+    font-weight: 600;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.15);
+}
+
+@media (max-width: 991px) {
+    .seo-grid {
+        grid-template-columns: 1fr;
+        gap: 50px;
+    }
+    
+    .section-title-left {
+        font-size: 2.2rem;
+    }
+}
+
+
 
