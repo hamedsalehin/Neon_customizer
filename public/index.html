@@ -189,19 +189,48 @@
 
     <!-- ─── WORLD CUP LIMITED EDITION SECTION ──────────────────────────────── -->
     <section class="world-cup-section" id="world-cup">
+        <!-- Video Background Container -->
+        <div class="wc-video-bg-container">
+            <video autoplay muted loop playsinline id="wc-bg-video">
+                <source src="images/worldcup/background video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="wc-video-overlay"></div>
+        </div>
+
         <div class="world-cup-badge-container">
             <span class="world-cup-badge">🏆 World Cup Edition</span>
             <span class="limit-badge">Limited Time Offer</span>
         </div>
-        <div class="container">
+        <div class="container" style="position: relative; z-index: 2;">
             <div class="section-title-area" style="margin-bottom: 40px; text-align: center;">
                 <span class="section-tag" style="background: rgba(16,185,129,0.15); color: #10b981; padding: 6px 16px; border-radius: 100px; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; display: inline-block;">Limited Release</span>
-                <h2 class="section-title" style="color: #ffd700; text-shadow: 0 0 20px rgba(255, 215, 0, 0.4); font-family: 'Space Grotesk', sans-serif; font-size: 2.5rem; font-weight: 800; margin-top: 15px;">World Cup Celebration Neons</h2>
+                <h2 class="section-title" style="color: #ffffff; text-shadow: 0 0 20px rgba(255, 255, 255, 0.4); font-family: 'Space Grotesk', sans-serif; font-size: 2.5rem; font-weight: 800; margin-top: 15px;">World Cup Celebration Neons</h2>
                 <p class="section-desc" style="color: rgba(255,255,255,0.8); font-size: 1.05rem; line-height: 1.6; max-width: 700px; margin: 10px auto 0;">Bring the stadium atmosphere home with our exclusive, discounted World Cup neon collection. <strong>Up to 25% OFF</strong> for a limited time!</p>
             </div>
             
             <div class="shop-grid" id="world-cup-products-grid">
                 <!-- World Cup products will be populated dynamically by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── WORLD CUP SEO EXPLAINER SECTION ────────────────────────────────── -->
+    <section class="world-cup-seo-section" id="world-cup-seo">
+        <div class="container">
+            <div class="wc-seo-card">
+                <h3 class="wc-seo-title">The Power of the World Cup: Lighting Up Team Spirit and Brand Pride</h3>
+                <div class="wc-seo-content">
+                    <p>
+                        The **World Cup** represents the pinnacle of global sportsmanship, uniting millions of fans across continents in a shared passion for soccer. During this historic tournament, businesses, sports bars, and fans look for dynamic ways to express their loyalty and stand out. Custom **World Cup neon signs** and personalized **custom soccer neons** provide the ultimate branding tool, transforming simple backdrops into vibrant, glowing stadiums.
+                    </p>
+                    <p>
+                        Our limited-edition collection offers custom designs of national crests and country logos. Crafted using modern, low-voltage **neon led** flex tubing and mounted on durable acrylic backers, these signs are much safer and more energy-efficient than traditional glass **metal signs**. Every sign comes complete with a professional **sign hanging kit**, making them incredibly **easy to install** on any brick, wood, or storefront glass surface.
+                    </p>
+                    <p>
+                        Integrating premium **led neon lights** into your establishment or home decor does more than just show team spirit—it creates a highly shareable, instagrammable aesthetic that boosts physical foot traffic and online backlinks. Whether you prefer a flush storefront display or an **led backlit** halo glow, our customized signs are engineered to provide maximum visibility, durable performance, and unmatched visual excellence.
+                    </p>
+                </div>
             </div>
         </div>
     </section>
@@ -1059,233 +1088,173 @@
             // ─── WORLD CUP PRODUCTS RENDERER ─────────────────────────────────────
             const worldCupProducts = [
                 {
-                    id: 'wc_ball_classic',
-                    title: 'World Cup Ball Classic',
+                    id: 'wc_argentina',
+                    title: 'Argentina Neon Sign',
                     category: 'World Cup',
                     originalPrice: 149.00,
                     price: 119.00,
-                    colorName: 'Green & White',
-                    widthIn: 18,
-                    heightIn: 18,
-                    widthCm: 46,
-                    heightCm: 46,
-                    rating: 4.9,
-                    reviewsCount: 18,
-                    imgUrl: 'images/worldcup/Turn_this_logo_into_a_202606042148.jpeg'
-                },
-                {
-                    id: 'wc_trophy_glow',
-                    title: 'Champion Trophy Glow',
-                    category: 'World Cup',
-                    originalPrice: 199.00,
-                    price: 149.00,
-                    colorName: 'Gold Yellow',
-                    widthIn: 24,
-                    heightIn: 16,
-                    widthCm: 61,
-                    heightCm: 41,
-                    rating: 5.0,
-                    reviewsCount: 22,
-                    imgUrl: 'images/worldcup/Turn_this_logo_into_a_202606042148 (1).jpeg'
-                },
-                {
-                    id: 'wc_pitch_emblem',
-                    title: 'Soccer Pitch Emblem',
-                    category: 'World Cup',
-                    originalPrice: 169.00,
-                    price: 129.00,
-                    colorName: 'Green & Yellow',
-                    widthIn: 20,
-                    heightIn: 14,
-                    widthCm: 51,
-                    heightCm: 36,
-                    rating: 4.9,
-                    reviewsCount: 15,
-                    imgUrl: 'images/worldcup/Turn_this_logo_into_a_202606042149.jpeg'
-                },
-                {
-                    id: 'wc_goal_burst',
-                    title: 'GOAL! Neon Burst',
-                    category: 'World Cup',
-                    originalPrice: 129.00,
-                    price: 99.00,
-                    colorName: 'Lime Green & White',
-                    widthIn: 20,
-                    heightIn: 12,
-                    widthCm: 51,
-                    heightCm: 31,
-                    rating: 4.8,
-                    reviewsCount: 14,
-                    imgUrl: 'images/worldcup/Turn_this_logo_into_a_202606042150.jpeg'
-                },
-                {
-                    id: 'wc_national_crest',
-                    title: 'National Crest Neon',
-                    category: 'World Cup',
-                    originalPrice: 179.00,
-                    price: 139.00,
-                    colorName: 'Yellow & Red',
-                    widthIn: 22,
-                    heightIn: 20,
-                    widthCm: 56,
-                    heightCm: 51,
-                    rating: 4.9,
-                    reviewsCount: 26,
-                    imgUrl: 'images/worldcup/Turn_this_logo_into_a_202606042150 (1).jpeg'
-                },
-                {
-                    id: 'wc_stadium_jersey',
-                    title: 'Stadium Jersey Light',
-                    category: 'World Cup',
-                    originalPrice: 159.00,
-                    price: 129.00,
-                    colorName: 'Blue & White',
-                    widthIn: 20,
-                    heightIn: 18,
-                    widthCm: 51,
-                    heightCm: 46,
-                    rating: 4.8,
-                    reviewsCount: 19,
-                    imgUrl: 'images/worldcup/Turn_this_logo_into_a_202606042150 (2).jpeg'
-                },
-                {
-                    id: 'wc_victory_shield',
-                    title: 'Victory Shield Glow',
-                    category: 'World Cup',
-                    originalPrice: 199.00,
-                    price: 159.00,
-                    colorName: 'Gold Yellow & Blue',
-                    widthIn: 24,
-                    heightIn: 22,
-                    widthCm: 61,
-                    heightCm: 56,
-                    rating: 5.0,
-                    reviewsCount: 30,
-                    imgUrl: 'images/worldcup/Turn_this_logo_into_a_202606042150 (3).jpeg'
-                },
-                {
-                    id: 'wc_soccer_boot',
-                    title: 'Elite Soccer Boot Neon',
-                    category: 'World Cup',
-                    originalPrice: 149.00,
-                    price: 119.00,
-                    colorName: 'Orange & Pink',
-                    widthIn: 18,
-                    heightIn: 12,
-                    widthCm: 46,
-                    heightCm: 31,
-                    rating: 4.9,
-                    reviewsCount: 17,
-                    imgUrl: 'images/worldcup/Turn_this_logo_into_a_202606051448.jpeg'
-                },
-                {
-                    id: 'wc_dynamic_football',
-                    title: 'Dynamic Football Neon',
-                    category: 'World Cup',
-                    originalPrice: 139.00,
-                    price: 109.00,
-                    colorName: 'White & Cyan',
-                    widthIn: 16,
-                    heightIn: 16,
-                    widthCm: 41,
-                    heightCm: 41,
-                    rating: 4.8,
-                    reviewsCount: 12,
-                    imgUrl: 'images/worldcup/make_it_a_little_less_202606042148.jpeg'
-                },
-                {
-                    id: 'wc_striker_target',
-                    title: 'Striker Target Sign',
-                    category: 'World Cup',
-                    originalPrice: 169.00,
-                    price: 129.00,
-                    colorName: 'Red & Yellow',
-                    widthIn: 22,
-                    heightIn: 16,
-                    widthCm: 56,
-                    heightCm: 41,
-                    rating: 4.9,
-                    reviewsCount: 21,
-                    imgUrl: 'images/worldcup/remove_the_extra_highlighted_pieces_202606042144.jpeg'
-                },
-                {
-                    id: 'wc_kickoff_glow',
-                    title: 'Kickoff Glow Emblem',
-                    category: 'World Cup',
-                    originalPrice: 129.00,
-                    price: 99.00,
-                    colorName: 'Lime Green & Gold',
-                    widthIn: 20,
-                    heightIn: 12,
-                    widthCm: 51,
-                    heightCm: 31,
-                    rating: 4.8,
-                    reviewsCount: 13,
-                    imgUrl: 'images/worldcup/remove_the_text,_and_the_202606042148.jpeg'
-                },
-                {
-                    id: 'wc_stadium_arc',
-                    title: 'Stadium Arc Light',
-                    category: 'World Cup',
-                    originalPrice: 179.00,
-                    price: 139.00,
-                    colorName: 'Cool White',
-                    widthIn: 24,
-                    heightIn: 18,
-                    widthCm: 61,
-                    heightCm: 46,
-                    rating: 4.9,
-                    reviewsCount: 16,
-                    imgUrl: 'images/worldcup/remove_the_text_and_change_202606051449.jpeg'
-                },
-                {
-                    id: 'wc_wreath_sign',
-                    title: 'Championship Wreath Sign',
-                    category: 'World Cup',
-                    originalPrice: 189.00,
-                    price: 149.00,
-                    colorName: 'Warm White & Green',
+                    colorName: 'Ice Blue & White',
                     widthIn: 22,
                     heightIn: 22,
                     widthCm: 56,
                     heightCm: 56,
                     rating: 5.0,
                     reviewsCount: 27,
-                    imgUrl: 'images/worldcup/remove_the_white_wheat_pices_202606042158.jpeg'
+                    imgUrl: 'images/worldcup/argentina.jpeg'
                 },
                 {
-                    id: 'wc_corner_flag',
-                    title: 'Corner Flag Sign',
+                    id: 'wc_australia',
+                    title: 'Australia Neon Sign',
                     category: 'World Cup',
                     originalPrice: 119.00,
                     price: 89.00,
-                    colorName: 'Red & Yellow',
+                    colorName: 'Green & Gold',
                     widthIn: 18,
                     heightIn: 10,
                     widthCm: 46,
                     heightCm: 25,
                     rating: 4.8,
                     reviewsCount: 11,
-                    imgUrl: 'images/worldcup/remove_those_too_2K_202606042148.jpeg'
+                    imgUrl: 'images/worldcup/austrialia.jpeg'
                 },
                 {
-                    id: 'wc_matchday_neon',
-                    title: 'Soccer Matchday Neon',
+                    id: 'wc_belgium',
+                    title: 'Belgium Neon Sign',
+                    category: 'World Cup',
+                    originalPrice: 179.00,
+                    price: 139.00,
+                    colorName: 'Red, Black & Yellow',
+                    widthIn: 24,
+                    heightIn: 18,
+                    widthCm: 61,
+                    heightCm: 46,
+                    rating: 4.9,
+                    reviewsCount: 16,
+                    imgUrl: 'images/worldcup/belgium.jpeg'
+                },
+                {
+                    id: 'wc_brazil',
+                    title: 'Brazil Neon Sign',
                     category: 'World Cup',
                     originalPrice: 199.00,
                     price: 159.00,
-                    colorName: 'Cyan & Magenta',
+                    colorName: 'Yellow & Green',
+                    widthIn: 24,
+                    heightIn: 22,
+                    widthCm: 61,
+                    heightCm: 56,
+                    rating: 5.0,
+                    reviewsCount: 30,
+                    imgUrl: 'images/worldcup/Brazil.jpeg'
+                },
+                {
+                    id: 'wc_canada',
+                    title: 'Canada Neon Sign',
+                    category: 'World Cup',
+                    originalPrice: 129.00,
+                    price: 99.00,
+                    colorName: 'Red & White',
+                    widthIn: 20,
+                    heightIn: 12,
+                    widthCm: 51,
+                    heightCm: 31,
+                    rating: 4.8,
+                    reviewsCount: 14,
+                    imgUrl: 'images/worldcup/Canada.jpeg'
+                },
+                {
+                    id: 'wc_colombia',
+                    title: 'Colombia Neon Sign',
+                    category: 'World Cup',
+                    originalPrice: 169.00,
+                    price: 129.00,
+                    colorName: 'Yellow, Blue & Red',
+                    widthIn: 22,
+                    heightIn: 16,
+                    widthCm: 56,
+                    heightCm: 41,
+                    rating: 4.9,
+                    reviewsCount: 21,
+                    imgUrl: 'images/worldcup/colombia.jpeg'
+                },
+                {
+                    id: 'wc_croatia',
+                    title: 'Croatia Neon Sign',
+                    category: 'World Cup',
+                    originalPrice: 149.00,
+                    price: 119.00,
+                    colorName: 'Red & White',
+                    widthIn: 18,
+                    heightIn: 18,
+                    widthCm: 46,
+                    heightCm: 46,
+                    rating: 4.9,
+                    reviewsCount: 18,
+                    imgUrl: 'images/worldcup/Croatia.jpeg'
+                },
+                {
+                    id: 'wc_ecuador',
+                    title: 'Ecuador Neon Sign',
+                    category: 'World Cup',
+                    originalPrice: 169.00,
+                    price: 129.00,
+                    colorName: 'Yellow & Blue',
+                    widthIn: 20,
+                    heightIn: 14,
+                    widthCm: 51,
+                    heightCm: 36,
+                    rating: 4.9,
+                    reviewsCount: 15,
+                    imgUrl: 'images/worldcup/Ecuador.jpeg'
+                },
+                {
+                    id: 'wc_england',
+                    title: 'England Neon Sign',
+                    category: 'World Cup',
+                    originalPrice: 199.00,
+                    price: 159.00,
+                    colorName: 'Red & White',
                     widthIn: 24,
                     heightIn: 20,
                     widthCm: 61,
                     heightCm: 51,
                     rating: 4.9,
                     reviewsCount: 31,
-                    imgUrl: 'images/worldcup/the_acrylic_contour_cut_out_202606042158.jpeg'
+                    imgUrl: "images/worldcup/england, it's coming home.jpeg"
                 },
                 {
-                    id: 'wc_club_stripes',
-                    title: 'Athletic Club Stripes Sign',
+                    id: 'wc_france',
+                    title: 'France Neon Sign',
+                    category: 'World Cup',
+                    originalPrice: 149.00,
+                    price: 119.00,
+                    colorName: 'Blue, White & Red',
+                    widthIn: 18,
+                    heightIn: 12,
+                    widthCm: 46,
+                    heightCm: 31,
+                    rating: 4.9,
+                    reviewsCount: 17,
+                    imgUrl: 'images/worldcup/France.jpeg'
+                },
+                {
+                    id: 'wc_netherlands',
+                    title: 'Netherlands Neon Sign',
+                    category: 'World Cup',
+                    originalPrice: 139.00,
+                    price: 109.00,
+                    colorName: 'Orange',
+                    widthIn: 16,
+                    heightIn: 16,
+                    widthCm: 41,
+                    heightCm: 41,
+                    rating: 4.8,
+                    reviewsCount: 12,
+                    imgUrl: 'images/worldcup/netherlands.jpeg'
+                },
+                {
+                    id: 'wc_poland',
+                    title: 'Poland Neon Sign',
                     category: 'World Cup',
                     originalPrice: 159.00,
                     price: 129.00,
@@ -1295,8 +1264,53 @@
                     widthCm: 51,
                     heightCm: 46,
                     rating: 4.8,
+                    reviewsCount: 19,
+                    imgUrl: 'images/worldcup/Poland.jpeg'
+                },
+                {
+                    id: 'wc_sweden',
+                    title: 'Sweden Neon Sign',
+                    category: 'World Cup',
+                    originalPrice: 129.00,
+                    price: 99.00,
+                    colorName: 'Blue & Yellow',
+                    widthIn: 20,
+                    heightIn: 12,
+                    widthCm: 51,
+                    heightCm: 31,
+                    rating: 4.8,
+                    reviewsCount: 13,
+                    imgUrl: 'images/worldcup/sweeden.jpeg'
+                },
+                {
+                    id: 'wc_switzerland',
+                    title: 'Switzerland Neon Sign',
+                    category: 'World Cup',
+                    originalPrice: 199.00,
+                    price: 149.00,
+                    colorName: 'Red & White',
+                    widthIn: 24,
+                    heightIn: 16,
+                    widthCm: 61,
+                    heightCm: 41,
+                    rating: 5.0,
                     reviewsCount: 22,
-                    imgUrl: 'images/worldcup/the_red_stripes_needs_to_202606042158.jpeg'
+                    imgUrl: 'images/worldcup/Switzerland.jpeg'
+                },
+                {
+                    id: 'wc_usa',
+                    title: 'USA Neon Sign',
+                    category: 'World Cup',
+                    originalPrice: 159.00,
+                    price: 129.00,
+                    colorName: 'Red, White & Blue',
+                    widthIn: 20,
+                    heightIn: 18,
+                    widthCm: 51,
+                    heightCm: 46,
+                    rating: 4.8,
+                    reviewsCount: 22,
+                    imgUrl: 'images/worldcup/USA.jpeg'
                 }
             ];
 
@@ -1314,15 +1328,15 @@
                         </div>
                         <div class="product-info">
                             <span class="product-category wc-cat-badge">🏆 World Cup Edition</span>
-                            <h3 class="product-title" style="color: #ffffff;">${product.title}</h3>
+                            <h3 class="product-title wc-product-title">${product.title}</h3>
                             <div class="product-rating">
-                                <span class="stars" style="color: #ffd700; font-size: 0.85rem;">${'★'.repeat(Math.round(product.rating))}${'☆'.repeat(5 - Math.round(product.rating))}</span>
-                                <span class="rating-val" style="font-size: 0.8rem; margin-left: 4px; color: rgba(255,255,255,0.7);">${product.rating} (${product.reviewsCount})</span>
+                                <span class="stars wc-stars">${'★'.repeat(Math.round(product.rating))}${'☆'.repeat(5 - Math.round(product.rating))}</span>
+                                <span class="rating-val wc-rating-val">${product.rating} (${product.reviewsCount})</span>
                             </div>
                             <div class="product-footer">
                                 <div class="wc-price-container" style="display: flex; flex-direction: column;">
-                                    <span class="wc-original-price" style="text-decoration: line-through; color: rgba(255,255,255,0.4); font-size: 0.85rem;">$${product.originalPrice.toFixed(2)}</span>
-                                    <span class="product-price wc-discount-price" style="color: #ffd700; font-size: 1.25rem;">$${product.price.toFixed(2)}</span>
+                                    <span class="wc-original-price">$${product.originalPrice.toFixed(2)}</span>
+                                    <span class="product-price wc-discount-price">$${product.price.toFixed(2)}</span>
                                 </div>
                                 <button class="buy-now-btn wc-btn" data-id="${product.id}">
                                     Buy Now

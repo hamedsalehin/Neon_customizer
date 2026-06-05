@@ -1682,25 +1682,35 @@ footer.site-footer {
 /* ─── World Cup Limited Edition Section ──────────────────────────────────── */
 .world-cup-section {
     position: relative;
-    padding: 100px 0;
-    background: linear-gradient(135deg, #064e3b 0%, #022c22 100%); /* Pitch green gradient */
-    border-top: 2px solid #ffd700;
-    border-bottom: 2px solid #ffd700;
+    padding: 120px 0;
+    background: #000000; /* Deep black base */
     overflow: hidden;
 }
 
-/* Stadium lines overlay */
-.world-cup-section::before {
-    content: '';
+/* Video Background Layering */
+.wc-video-bg-container {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: radial-gradient(circle at 50% 50%, transparent 60%, rgba(0,0,0,0.4) 100%),
-                      linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
-                      linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
-    background-size: cover, 40px 40px, 40px 40px;
+    z-index: 1;
+    overflow: hidden;
+}
+
+#wc-bg-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.wc-video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.9) 100%);
     pointer-events: none;
 }
 
@@ -1717,7 +1727,7 @@ footer.site-footer {
 
 .world-cup-badge {
     background: linear-gradient(90deg, #ffd700, #f59e0b);
-    color: #000;
+    color: #000000;
     padding: 8px 16px;
     border-radius: 50px;
     font-size: 0.9rem;
@@ -1730,7 +1740,7 @@ footer.site-footer {
 
 .limit-badge {
     background: #ef4444;
-    color: #fff;
+    color: #ffffff;
     padding: 4px 10px;
     border-radius: 100px;
     font-size: 0.75rem;
@@ -1740,42 +1750,134 @@ footer.site-footer {
     letter-spacing: 0.5px;
 }
 
+/* World Cup Specific Cards & Readability overrides */
 .world-cup-card {
-    border: 1px solid rgba(255, 215, 0, 0.15) !important;
-    background: rgba(2, 44, 34, 0.6) !important;
-    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    background: rgba(0, 0, 0, 0.85) !important;
+    backdrop-filter: blur(12px);
     transition: all 0.3s ease;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5) !important;
 }
 
 .world-cup-card:hover {
-    border-color: #ffd700 !important;
-    box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2) !important;
+    border-color: #3b82f6 !important; /* Blue glow on hover */
+    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.25) !important;
     transform: translateY(-5px);
 }
 
 .wc-badge {
     background: #ffd700 !important;
-    color: #000 !important;
+    color: #000000 !important;
     font-weight: 800 !important;
     box-shadow: 0 0 10px rgba(255, 215, 0, 0.4) !important;
 }
 
 .wc-cat-badge {
+    color: #3b82f6 !important; /* Vibrant neon blue */
+    font-weight: 700 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.wc-product-title {
+    color: #ffffff !important;
+    font-weight: 700 !important;
+}
+
+.wc-stars {
     color: #ffd700 !important;
-    font-weight: 600 !important;
+}
+
+.wc-rating-val {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.wc-original-price {
+    text-decoration: line-through;
+    color: rgba(255, 255, 255, 0.4) !important;
+    font-size: 0.85rem;
+}
+
+.wc-discount-price {
+    color: #10b981 !important; /* Glowing green price */
+    font-size: 1.3rem;
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
 }
 
 .wc-btn {
-    background: linear-gradient(90deg, #ffd700, #f59e0b) !important;
-    color: #000 !important;
+    background: linear-gradient(90deg, #3b82f6, #10b981) !important; /* Blue to green gradient */
+    color: #ffffff !important;
     border: none !important;
-    box-shadow: 0 0 15px rgba(255, 215, 0, 0.4) !important;
+    font-weight: 700 !important;
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.3) !important;
+    transition: all 0.3s ease;
 }
 
 .wc-btn:hover {
-    background: #fff !important;
-    color: #000 !important;
-    box-shadow: 0 0 25px rgba(255, 255, 255, 0.8) !important;
+    background: linear-gradient(90deg, #ef4444, #3b82f6) !important; /* Red to blue on hover */
+    color: #ffffff !important;
+    box-shadow: 0 0 25px rgba(239, 68, 68, 0.5) !important;
+}
+
+/* ─── World Cup SEO Section ─────────────────────────────────────────────── */
+.world-cup-seo-section {
+    position: relative;
+    padding: 80px 0;
+    background: #000000;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.wc-seo-card {
+    position: relative;
+    background: #050505;
+    border-radius: 16px;
+    padding: 40px;
+    z-index: 1;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+}
+
+/* Red, green, and blue gradient glowing border */
+.wc-seo-card::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(90deg, #ef4444, #10b981, #3b82f6);
+    z-index: -1;
+    border-radius: 18px;
+    opacity: 0.8;
+    box-shadow: 0 0 25px rgba(239, 68, 68, 0.2), 
+                0 0 25px rgba(16, 185, 129, 0.2), 
+                0 0 25px rgba(59, 130, 246, 0.2);
+}
+
+.wc-seo-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: #ffffff !important;
+    margin-bottom: 24px;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+.wc-seo-content p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.8) !important;
+    margin-bottom: 20px;
+}
+
+.wc-seo-content p:last-child {
+    margin-bottom: 0;
+}
+
+.wc-seo-content strong {
+    color: #ffffff !important;
+    font-weight: 700;
 }
 
 @keyframes pulseGlow {
@@ -1795,6 +1897,7 @@ footer.site-footer {
         width: 100%;
     }
 }
+
 
 
 
