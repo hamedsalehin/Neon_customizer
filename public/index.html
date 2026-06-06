@@ -187,15 +187,30 @@
         </div>
     </section>
 
+    <!-- ─── READY-MADE SHOP SECTION ────────────────────────────────────────── -->
+    <section class="shop-section" id="shop">
+        <div class="container">
+            <div class="section-title-area" style="margin-bottom: 20px;">
+                <span class="section-tag">Ready-Made Designs</span>
+                <h2 class="section-title">Shop Our Most Popular Neons</h2>
+                <p class="section-desc" style="margin-top: 4px;">Choose from our curated collection of famous handcrafted designs, ready to ship.</p>
+            </div>
+            
+            <div class="shop-grid" id="shop-products-grid">
+                <!-- Products will be dynamically populated by JS -->
+            </div>
+        </div>
+    </section>
+
     <!-- ─── WORLD CUP LIMITED EDITION SECTION ──────────────────────────────── -->
-    <section class="world-cup-section" id="world-cup">
+    <section class="world-cup-section" id="world-cup" style="position: relative; overflow: hidden; background: #000000; padding: 120px 0;">
         <!-- Video Background Container -->
-        <div class="wc-video-bg-container">
-            <video autoplay muted loop playsinline id="wc-bg-video">
-                <source src="images/worldcup/background video.mp4" type="video/mp4">
+        <div class="wc-video-bg-container" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; overflow: hidden;">
+            <video autoplay muted loop playsinline id="wc-bg-video" style="width: 100%; height: 100%; object-fit: cover;">
+                <source src="images/worldcup/background_video.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
-            <div class="wc-video-overlay"></div>
+            <div class="wc-video-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.75); pointer-events: none;"></div>
         </div>
 
         <div class="world-cup-badge-container">
@@ -231,21 +246,6 @@
                         Integrating premium **led neon lights** into your establishment or home decor does more than just show team spirit—it creates a highly shareable, instagrammable aesthetic that boosts physical foot traffic and online backlinks. Whether you prefer a flush storefront display or an **led backlit** halo glow, our customized signs are engineered to provide maximum visibility, durable performance, and unmatched visual excellence.
                     </p>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ─── READY-MADE SHOP SECTION ────────────────────────────────────────── -->
-    <section class="shop-section" id="shop">
-        <div class="container">
-            <div class="section-title-area" style="margin-bottom: 20px;">
-                <span class="section-tag">Ready-Made Designs</span>
-                <h2 class="section-title">Shop Our Most Popular Neons</h2>
-                <p class="section-desc" style="margin-top: 4px;">Choose from our curated collection of famous handcrafted designs, ready to ship.</p>
-            </div>
-            
-            <div class="shop-grid" id="shop-products-grid">
-                <!-- Products will be dynamically populated by JS -->
             </div>
         </div>
     </section>
