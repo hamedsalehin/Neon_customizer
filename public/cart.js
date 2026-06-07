@@ -126,6 +126,11 @@ document.addEventListener('DOMContentLoaded', () => {
         placeOrderBtn.addEventListener('click', async () => {
             if (cart.length === 0) return;
 
+            if (window.location.protocol === 'file:') {
+                alert('⚠️ Local server connection error:\n\nYou are accessing this page directly via the file:// protocol. Checkout operations require a running local server.\n\nPlease open your browser and navigate to:\nhttp://localhost:3000/cart.html');
+                return;
+            }
+
             const name = document.getElementById('cust-name').value.trim();
             const email = document.getElementById('cust-email').value.trim();
             const address = document.getElementById('cust-address').value.trim();

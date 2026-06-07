@@ -3,6 +3,9 @@
 // Initialize Supabase Client dynamically from server config
 async function initSupabase() {
     try {
+        if (window.location.protocol === 'file:') {
+            throw new Error('You are running the site directly via the file:// protocol. Please open your browser and navigate to http://localhost:3000/ to enable database and authentication features.');
+        }
         const res = await fetch('/api/config');
         if (!res.ok) throw new Error('Failed to fetch config');
         const config = await res.json();

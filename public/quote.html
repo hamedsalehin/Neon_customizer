@@ -776,6 +776,11 @@
         quoteForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
+            if (window.location.protocol === 'file:') {
+                alert('⚠️ Local server connection error:\n\nYou are accessing this page directly via the file:// protocol. Authentication, quote submissions, and checkouts require a running local server.\n\nPlease open your browser and navigate to:\nhttp://localhost:3000/quote.html');
+                return;
+            }
+
             // Validate that either a design file is uploaded OR custom text is entered
             const textValue = document.getElementById('quote-text').value.trim();
             if (!uploadedFileBase64 && !textValue) {
