@@ -33,7 +33,7 @@ async function runTest() {
         });
 
         console.log('🌐 Navigating to login.html...');
-        await page.goto('https://neon.rgbsigns.com/login.html', { waitUntil: 'networkidle2' });
+        await page.goto('https://neonfl.com/login.html', { waitUntil: 'networkidle2' });
 
         console.log('🔍 Page loaded. Verifying Supabase initialization status...');
         
