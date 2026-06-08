@@ -1870,6 +1870,7 @@ footer.site-footer {
 .wc-seo-content p {
     font-size: 1.05rem;
     line-height: 1.8;
+    font-weight: 500;
     color: #ffffff !important;
     margin-bottom: 20px;
 }
