@@ -1006,7 +1006,11 @@
                 shopProducts.forEach(product => {
                     const card = document.createElement('div');
                     card.className = 'product-card';
-                    const isClickable = product.linkUrl ? `style="cursor: pointer;" onclick="window.location.href='${product.linkUrl}'"` : '';
+                    let destLink = product.linkUrl;
+                    if (destLink && window.location.protocol === 'file:') {
+                        destLink = destLink + '.html';
+                    }
+                    const isClickable = destLink ? `style="cursor: pointer;" onclick="window.location.href='${destLink}'"` : '';
                     card.innerHTML = `
                         <div class="product-img-wrapper" ${isClickable}>
                             <span class="product-badge">Popular</span>
@@ -1038,7 +1042,11 @@
                         if (!product) return;
 
                         if (product.linkUrl) {
-                            window.location.href = product.linkUrl;
+                            let dest = product.linkUrl;
+                            if (window.location.protocol === 'file:') {
+                                dest = dest + '.html';
+                            }
+                            window.location.href = dest;
                             return;
                         }
 
@@ -1304,6 +1312,7 @@
                 worldCupProducts.forEach(product => {
                     const card = document.createElement('div');
                     card.className = 'product-card world-cup-card';
+                    card.style.cursor = 'pointer';
                     const savings = product.originalPrice - product.price;
                     const pct = Math.round((savings / product.originalPrice) * 100);
                     const countryId = product.id.replace('wc_', '');
@@ -1338,6 +1347,20 @@
                             </div>
                         </div>
                     `;
+                    
+                    card.addEventListener('click', (e) => {
+                        // Exclude action buttons
+                        if (e.target.closest('.buy-now-btn') || e.target.closest('.wc-custom-btn')) {
+                            return;
+                        }
+                        
+                        const isFileProtocol = window.location.protocol === 'file:';
+                        const targetLink = isFileProtocol 
+                            ? `world-cup-${countryId}.html` 
+                            : `/world-cup/${countryId}`;
+                        window.location.href = targetLink;
+                    });
+                    
                     wcGrid.appendChild(card);
                 });
 
