@@ -1,6 +1,7 @@
 require('dotenv').config({ path: require('path').join(__dirname, '.env') });
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 const { createClient } = require('@supabase/supabase-js');
 const Stripe = require('stripe');
 const { Resend } = require('resend');
@@ -553,6 +554,17 @@ app.get('/backlit-sign', (req, res) => {
 });
 app.get('/gallery', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'gallery.html'));
+});
+
+// Dynamic routing for World Cup country SEO pages
+app.get('/world-cup/:country', (req, res) => {
+    const country = req.params.country.toLowerCase();
+    const filePath = path.join(__dirname, 'public', `world-cup-${country}.html`);
+    if (fs.existsSync(filePath)) {
+        res.sendFile(filePath);
+    } else {
+        res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
+    }
 });
 
 // ─── Static files (with cache headers for performance) ────────────────────────

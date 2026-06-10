@@ -1,29 +1,29 @@
 /* ─── NANO SIGN LIQUID GLASS & LIGHT THEME STYLES ────────────────────────── */
 
 :root {
-    /* Lighter Palette */
-    --bg-light: #f8fafc;
-    --bg-mesh-1: rgba(0, 198, 251, 0.08); /* Light Blue mesh */
-    --bg-mesh-2: rgba(255, 0, 127, 0.06);   /* Pink mesh */
-    --bg-mesh-3: rgba(157, 78, 221, 0.05);  /* Purple mesh */
+    /* Dark Theme Palette */
+    --bg-light: #030303;
+    --bg-mesh-1: rgba(0, 240, 255, 0.08); /* Cyan mesh */
+    --bg-mesh-2: rgba(255, 34, 34, 0.06);   /* Red mesh */
+    --bg-mesh-3: rgba(57, 255, 20, 0.05);  /* Lime Green mesh */
     
-    /* Transparent White Glass */
-    --glass-bg: rgba(255, 255, 255, 0.45);
-    --glass-bg-hover: rgba(255, 255, 255, 0.65);
-    --glass-border: rgba(255, 255, 255, 0.55);
-    --glass-border-hover: rgba(255, 255, 255, 0.8);
-    --glass-shadow: 0 10px 30px rgba(31, 38, 135, 0.04);
-    --glass-shadow-hover: 0 15px 35px rgba(31, 38, 135, 0.08);
+    /* Transparent Dark Glass */
+    --glass-bg: rgba(15, 15, 20, 0.7);
+    --glass-bg-hover: rgba(25, 25, 30, 0.9);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-border-hover: rgba(255, 255, 255, 0.18);
+    --glass-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    --glass-shadow-hover: 0 15px 35px rgba(0, 0, 0, 0.7);
     
-    /* Neon Accents (used for lighting states) */
-    --neon-cyan: #00c6fb;
-    --neon-pink: #ff007f;
-    --neon-purple: #9d4edd;
+    /* Neon Accents (World Cup Theme: Red, Cyan, Lime Green) */
+    --neon-cyan: #00f0ff;
+    --neon-pink: #ff2222;
+    --neon-purple: #39ff14;
     
-    /* Light Theme Typography */
-    --text-primary: #1e1b4b;   /* Deep Slate/Indigo */
-    --text-secondary: #475569; /* Soft Charcoal */
-    --text-muted: #64748b;
+    /* Dark Theme Typography */
+    --text-primary: #ffffff;   /* Pure White */
+    --text-secondary: #e2e8f0; /* Soft Gray */
+    --text-muted: #94a3b8;
     
     --blur-amount: 25px;
     --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -1900,6 +1900,158 @@ footer.site-footer {
         align-items: center;
         width: 100%;
     }
+}
+
+/* ─── Global Dark Mode Overrides ────────────────────────────────────────── */
+body, html {
+    background-color: #030303 !important;
+    color: #ffffff !important;
+}
+
+header.site-header {
+    background: rgba(10, 10, 10, 0.8) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+}
+
+header.site-header.scrolled {
+    background: rgba(10, 10, 10, 0.95) !important;
+}
+
+.logo span {
+    color: #ffffff !important;
+}
+
+.nav-link {
+    color: #cbd5e1 !important;
+}
+
+.nav-link:hover {
+    color: var(--neon-cyan) !important;
+}
+
+.product-info-panel,
+.info-panel,
+.related-products-section {
+    background: #09090b !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.product-info-panel h1,
+.related-products-section h3,
+.spec-value {
+    color: #ffffff !important;
+}
+
+.spec-row {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+.carousel-arrow {
+    background: #18181b !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5) !important;
+}
+
+.carousel-arrow:hover {
+    background: #27272a !important;
+    color: #ffffff !important;
+}
+
+.gallery-hero,
+.filter-controls-area,
+.gallery-grid-section,
+.gallery-card-info {
+    background: #030303 !important;
+}
+
+.gallery-hero h1,
+.gallery-hero p,
+.gallery-card-title,
+.filter-btn {
+    color: #ffffff !important;
+}
+
+.filter-btn {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.filter-btn.active {
+    background: var(--neon-cyan) !important;
+    color: #ffffff !important;
+    border-color: var(--neon-cyan) !important;
+}
+
+.gallery-card {
+    background: rgba(20, 20, 25, 0.6) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+}
+
+.quote-card {
+    background: rgba(15, 15, 20, 0.75) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6) !important;
+}
+
+.quote-header h1,
+.quote-header p,
+.form-group label,
+.quote-form input,
+.quote-form select,
+.quote-form textarea {
+    color: #ffffff !important;
+}
+
+.quote-form input,
+.quote-form select,
+.quote-form textarea {
+    background: rgba(0, 0, 0, 0.4) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.quote-form input:focus,
+.quote-form select:focus,
+.quote-form textarea:focus {
+    border-color: var(--neon-cyan) !important;
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.2) !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+}
+
+.auth-container {
+    background: rgba(15, 15, 20, 0.75) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6) !important;
+}
+
+.auth-container h1,
+.auth-container h2,
+.auth-container label,
+.auth-container p {
+    color: #ffffff !important;
+}
+
+.auth-container input {
+    background: rgba(0, 0, 0, 0.4) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+}
+
+.auth-container input:focus {
+    border-color: var(--neon-cyan) !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+}
+
+.tab-btn {
+    color: var(--text-muted) !important;
+}
+
+.tab-btn.active {
+    color: #ffffff !important;
 }
 
 

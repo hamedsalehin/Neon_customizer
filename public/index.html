@@ -1306,14 +1306,19 @@
                     card.className = 'product-card world-cup-card';
                     const savings = product.originalPrice - product.price;
                     const pct = Math.round((savings / product.originalPrice) * 100);
+                    const countryId = product.id.replace('wc_', '');
                     card.innerHTML = `
                         <div class="product-img-wrapper">
                             <span class="product-badge wc-badge">SAVE ${pct}%</span>
-                            <img src="${product.imgUrl}" alt="${product.title}" loading="lazy">
+                            <a href="/world-cup/${countryId}" style="display: block; width: 100%; height: 100%;">
+                                <img src="${product.imgUrl}" alt="${product.title}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;">
+                            </a>
                         </div>
                         <div class="product-info">
                             <span class="product-category wc-cat-badge">🏆 World Cup Edition</span>
-                            <h3 class="product-title wc-product-title">${product.title}</h3>
+                            <h3 class="product-title wc-product-title">
+                                <a href="/world-cup/${countryId}" style="color: inherit; text-decoration: none;">${product.title}</a>
+                            </h3>
                             <div class="wc-size-label" style="color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; font-weight: 500; margin-top: 8px; margin-bottom: 12px;">
                                 📏 Size: <strong style="color: #ffffff;">${product.sizeText}</strong>
                             </div>
